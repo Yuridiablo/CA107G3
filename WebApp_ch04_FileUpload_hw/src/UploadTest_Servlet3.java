@@ -26,7 +26,7 @@ public class UploadTest_Servlet3 extends HttpServlet {
 		String realPath = getServletContext().getRealPath(saveDirectory);
 		System.out.println("realPath="+realPath); // 測試用
 		File fsaveDirectory = new File(realPath);
-		if (!fsaveDirectory.exists()) 
+		if (!fsaveDirectory.exists())
 			 fsaveDirectory.mkdirs(); // 於 ContextPath 之下,自動建立目地目錄
 
 		Collection<Part> parts = req.getParts(); // Servlet3.0新增了Part介面，讓我們方便的進行檔案上傳處理
