@@ -25,7 +25,7 @@ public class UploadTest_Servlet3_Simple extends HttpServlet {
 			
 			String[] box = req.getParameterValues("pic");				
 			
-			int i = 0;
+			int i = 0; 
 			while (box != null && i < box.length) {
 				String loc = (String)(req.getServletContext().getRealPath("/images_uploaded/") + box[i]);
 				File p1 = new File(loc);
