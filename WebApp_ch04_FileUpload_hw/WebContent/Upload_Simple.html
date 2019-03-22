@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=Big5">
+<TITLE>Upload_Simple.html</TITLE>
+
+<script type="text/javascript">
+	function changePic(event,i) {		
+		
+  		document.getElementsByTagName("img")[i].src = URL.createObjectURL(event.target.files[0]);
+  		
+	}
+	
+</script>
+
+
+</HEAD>
+<BODY>
+
+  <FORM action="uploadServlet3_simple.do" method=post enctype="multipart/form-data">
+         
+        <input type="file" name="upfile1" onchange="changePic(event,0)">
+        <br>       
+        
+        <input type="file" name="upfile2" onchange="changePic(event,1)">
+        <br>
+
+        <input type="file" name="upfile3" onchange="changePic(event,2)">
+        <br>
+
+		<input type="file" name="upfile4" onchange="changePic(event,3)">
+        <br>
+
+  		
+        <input type="submit" value="上傳">
+        
+  </FORM>
+		<img src="" alt="">
+        <img src="" alt="">
+        <img src="" alt="">
+        <img src="" alt="">              
+
+</BODY>
+</HTML>
