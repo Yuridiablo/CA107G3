@@ -33,7 +33,7 @@ public class UploadTest_Servlet3_Simple extends HttpServlet {
 //				System.out.println("§R°£¤F" + loc);
 				i++;
 			}										
-			
+			 
 			File ff = new File(req.getServletContext().getRealPath("/images_uploaded/"));
 			String[] locFile = ff.list();
 			if (locFile.length > 0) {
