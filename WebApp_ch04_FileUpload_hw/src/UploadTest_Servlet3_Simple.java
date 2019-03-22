@@ -22,7 +22,7 @@ public class UploadTest_Servlet3_Simple extends HttpServlet {
 		System.out.println(del);
 		
 		if (del!=null && del.equals("§R°£")) {
-			
+			 
 			String[] box = req.getParameterValues("pic");				
 			
 			int i = 0; 
