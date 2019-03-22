@@ -21,7 +21,7 @@ public class UploadTest_Servlet3_Simple extends HttpServlet {
 		PrintWriter out = res.getWriter();
 		System.out.println(del);
 		
-		if (del!=null && del.equals("§R°£")) { 
+		if (del!=null && del.equals("§R°£")) {
 			
 			String[] box = req.getParameterValues("pic");				
 			
