@@ -49,7 +49,8 @@ public class TryInsert extends HttpServlet {
 //				int numcols = rsmd.getColumnCount();
 				while(rs.next()) {
 					System.out.println(rs);
-//					out.println(rs.toString());
+//					out.println(rs.toString());+
+					out.print(rs);
 				}
 				
 			}
