@@ -1,7 +1,7 @@
 package com.comment_reported.model;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -85,14 +85,15 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 		
 		//新增
 		Comment_ReportedVO comRepVO01 = new Comment_ReportedVO();
+		
 		comRepVO01.setCmnt_no("C000001");
 		comRepVO01.setMem_no("M000001");
 		comRepVO01.setRep_for("消費10元也算一篇？這店家派來的工讀生吧，啊我去吃怎麼沒有送龍蝦、送鮑魚，超唬爛");
-		comRepVO01.setRep_time(new Timestamp(new java.util.Date().getTime()));
+		comRepVO01.setRep_time(new Timestamp(new Date().getTime()));
 		comRepVO01.setRep_stat(1);
 		
 		dao.insert(comRepVO01);
-		
+		 
 	}
 
 }
