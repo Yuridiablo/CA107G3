@@ -67,7 +67,7 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 			}
 		}
 	}
-
+ 
 	@Override
 	public void update(Member_Wallet_listVO Member_Wallet_listVO) {
 		// TODO Auto-generated method stub

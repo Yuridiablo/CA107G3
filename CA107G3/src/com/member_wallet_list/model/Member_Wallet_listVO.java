@@ -21,6 +21,7 @@ public class Member_Wallet_listVO implements Serializable{
 	private String list_dep;
 	private String pay_for;
 	
+	
 	public Member_Wallet_listVO() {
 		super();
 		// TODO Auto-generated constructor stub
