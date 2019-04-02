@@ -8,7 +8,7 @@ public interface Member_Wallet_listDAO_interface {
 	
 	public void insert(Member_Wallet_listVO Member_Wallet_listVO);
 	public void update(Member_Wallet_listVO Member_Wallet_listVO);
-	public void delete(Member_Wallet_listVO Member_Wallet_listVO);
+	public void delete(String list_no);
 	public List<Member_Wallet_listVO> getAll();
 
 }
