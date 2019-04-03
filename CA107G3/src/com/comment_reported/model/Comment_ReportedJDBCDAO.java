@@ -46,7 +46,6 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 			pstmt.executeUpdate();
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException se) {
 			
@@ -70,7 +69,6 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 
 	@Override
 	public void update(Comment_ReportedVO Comment_ReportedVO) {
-		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -86,7 +84,6 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 			pstmt.executeUpdate();
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException se) {
 			
@@ -111,7 +108,6 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 	@Override
 	public void delete(String rep_no) {
 	
-		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -125,7 +121,6 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 			pstmt.executeUpdate();
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException se) {
 			
@@ -149,7 +144,6 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 
 	@Override
 	public List<Comment_ReportedVO> getAll() {
-		// TODO Auto-generated method stub
 		List<Comment_ReportedVO> list = new ArrayList<Comment_ReportedVO>();
 		Comment_ReportedVO comRepVO03 = null;
 		
@@ -175,7 +169,6 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 				
 			}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException se) {
 			

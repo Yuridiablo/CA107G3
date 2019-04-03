@@ -27,7 +27,6 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 
 	@Override
 	public void insert(Member_Wallet_listVO Member_Wallet_listVO) {
-		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -46,7 +45,6 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 			pstmt.executeUpdate();
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException se) {
 			
@@ -70,7 +68,6 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
  
 	@Override
 	public void update(Member_Wallet_listVO Member_Wallet_listVO) {
-		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -86,7 +83,6 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 			pstmt.executeUpdate();
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException se) {
 			
@@ -111,7 +107,6 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 
 	@Override
 	public void delete(String list_no) {
-		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -125,7 +120,6 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 			pstmt.executeUpdate();
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException se) {
 			
@@ -176,7 +170,6 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 				
 			}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException se) {
 			
@@ -201,7 +194,6 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Member_Wallet_listJDBCDAO dao = new Member_Wallet_listJDBCDAO();	
 		
 		//新增

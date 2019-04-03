@@ -8,7 +8,7 @@ public interface Restaurant_MenuDAO_interface {
 	
 	public void insert(Restaurant_MenuVO Restaurant_MenuVO);
 	public void update(Restaurant_MenuVO Restaurant_MenuVO);
-	public void delete(Restaurant_MenuVO Restaurant_MenuVO);
+	public void delete(String menu_no);
 	public List<Restaurant_MenuVO> getAll();
 
 }
