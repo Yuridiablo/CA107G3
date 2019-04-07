@@ -3,7 +3,7 @@
    ============================================================== */
 body {
   font-family: '微軟正黑體', sans-serif; 
-  background-color: rgba(255, 249, 196, 0.3);
+  background-color: rgba(179, 229, 252, 0.5);
   /*background-color: #fff;*/
 }
 
@@ -13,10 +13,10 @@ body {
 }
 
 
-.navbar{
+/*.navbar{
   box-shadow: 10px 6px 10px #ddd;
   width: 100.5%;
-}
+}*/
 
 h1 {
   font-size: 96px;
@@ -133,7 +133,7 @@ p {
   height: 70px; }
 
 .is-sticky {
-  background: #FFA000;
+  background: #0288D1;
   opacity: 1; }
 
 .transition {
@@ -143,7 +143,7 @@ p {
   transition: all 1s ease-in-out; }
 
 .fixed {
-  border-bottom: 1px solid #FFF9C4;
+  border-bottom: 1px solid #448AFF;
   position: fixed;
   top: 0;
   left: 0;
