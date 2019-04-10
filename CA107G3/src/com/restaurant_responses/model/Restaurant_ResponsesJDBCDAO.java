@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.comment_reported.model.Comment_ReportedVO;
+import com.member_wallet_list.model.Member_Wallet_ListVO;
+
 public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_interface {
 	
 	String driver = "oracle.jdbc.driver.OracleDriver";
@@ -22,6 +25,8 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 			"UPDATE Restaurant_Responses set res_text=? where res_no = ?";
 	private static final String DELETE = 
 			"DELETE FROM Restaurant_Responses where res_no = ?";
+	private static final String GET_ONE_STMT = 
+			"SELECT * FROM Restaurant_Responses where res_no = ?";
 	private static final String GET_ALL_STMT = 
 			"SELECT * FROM Restaurant_Responses order by res_no";
 	
@@ -140,6 +145,59 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 	}
 
 	@Override
+	public Restaurant_ResponsesVO findByPK(String res_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Restaurant_ResponsesVO rr = null;
+		
+		try {
+
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+			pstmt.setString(1, res_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rr = new Restaurant_ResponsesVO();
+				rr.setRes_no(rs.getString("res_no"));
+				rr.setCmnt_no(rs.getString("cmnt_no"));
+				rr.setRes_text(rs.getString("res_text"));
+				rr.setRes_time(rs.getDate("res_time"));
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return rr;
+	}
+
+	@Override
 	public List<Restaurant_ResponsesVO> getAll() {
 		// TODO Auto-generated method stub
 		List<Restaurant_ResponsesVO> list = new ArrayList<Restaurant_ResponsesVO>();
@@ -208,6 +266,14 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 		
 		//刪除
 //		dao.delete("RR00000002");
+		
+		//查單筆
+		Restaurant_ResponsesVO rr1 = dao.findByPK("RR00000003");
+		System.out.println(rr1.getRes_no());
+		System.out.println(rr1.getCmnt_no());
+		System.out.println(rr1.getRes_text());
+		System.out.println(rr1.getRes_time());		
+		
 		
 		//查全部
 		List<Restaurant_ResponsesVO> list = dao.getAll();

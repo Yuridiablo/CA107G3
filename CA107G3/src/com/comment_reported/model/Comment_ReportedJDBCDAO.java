@@ -23,6 +23,8 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 			"UPDATE COMMENT_REPORTED set rep_stat=? where rep_no = ?";
 	private static final String DELETE = 
 			"DELETE FROM COMMENT_REPORTED where rep_no = ?";
+	private static final String GET_ONE_STMT = 
+			"SELECT rep_no,cmnt_no,mem_no,rep_for,rep_time,rep_stat FROM COMMENT_REPORTED where rep_no = ?";
 	private static final String GET_ALL_STMT = 
 			"SELECT rep_no,cmnt_no,mem_no,rep_for,rep_time,rep_stat FROM COMMENT_REPORTED order by rep_no";
 
@@ -143,6 +145,65 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 	}
 
 	@Override
+	public Comment_ReportedVO findByPK(String rep_no) {
+		Comment_ReportedVO crVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+
+			pstmt.setString(1, rep_no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// empVo 也稱為 Domain objects
+				crVO = new Comment_ReportedVO();
+				crVO.setRep_no(rs.getString("rep_no"));
+				crVO.setCmnt_no(rs.getString("cmnt_no"));
+				crVO.setMem_no(rs.getString("mem_no"));
+				crVO.setRep_for(rs.getString("rep_for"));
+				crVO.setRep_time(rs.getTimestamp("rep_time"));
+				crVO.setRep_stat(rs.getInt("rep_stat"));
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return crVO;
+	}
+	
+
+	@Override
 	public List<Comment_ReportedVO> getAll() {
 		List<Comment_ReportedVO> list = new ArrayList<Comment_ReportedVO>();
 		Comment_ReportedVO comRepVO03 = null;
@@ -213,6 +274,17 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 		
 		//刪除
 //		dao.delete("CR00000004");
+		
+		//查單筆
+		Comment_ReportedVO crVO = dao.findByPK("CR00000001");
+		System.out.println(crVO.getRep_no() + ",");
+		System.out.println(crVO.getCmnt_no() + ",");
+		System.out.println(crVO.getMem_no() + ",");
+		System.out.println(crVO.getRep_for() + ",");
+		System.out.println(crVO.getCmnt_no() + ",");
+		System.out.println(crVO.getRep_stat() + ",");
+		System.out.println("---------------------");
+		
 		
 		//查全部
 		List<Comment_ReportedVO> list = dao.getAll();

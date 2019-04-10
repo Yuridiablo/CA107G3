@@ -11,7 +11,7 @@ import java.sql.Date;
 //LIST_DEP          VARCHAR2(10 BYTE) 
 //PAY_FOR           VARCHAR2(15 BYTE)
 
-public class Member_Wallet_listVO implements Serializable{
+public class Member_Wallet_ListVO implements Serializable{
 	
 	private String list_no;
 	private String mem_no;
@@ -22,7 +22,7 @@ public class Member_Wallet_listVO implements Serializable{
 	private String pay_for;
 	
 	
-	public Member_Wallet_listVO() {
+	public Member_Wallet_ListVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

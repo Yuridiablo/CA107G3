@@ -8,7 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.member_wallet_list.model.Member_Wallet_listVO;
+import com.comment_reported.model.Comment_ReportedVO;
+import com.member_wallet_list.model.Member_Wallet_ListVO;
 
 public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 	
@@ -23,6 +24,8 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 			"UPDATE RESTAURANT_MENU set menu_stat=? where menu_no = ?";
 	private static final String DELETE = 
 			"DELETE FROM RESTAURANT_MENU where menu_no = ?";
+	private static final String GET_ONE_STMT = 
+			"SELECT * FROM RESTAURANT_MENU where menu_no = ?";
 	private static final String GET_ALL_STMT = 
 			"SELECT * FROM RESTAURANT_MENU order by menu_no";
 	
@@ -146,6 +149,65 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 	}
 
 	@Override
+	public Restaurant_MenuVO findByPK(String menu_no) {
+		Comment_ReportedVO crVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Restaurant_MenuVO rm = null;
+		
+		try {
+
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+
+			pstmt.setString(1, menu_no);
+
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				rm = new Restaurant_MenuVO();
+				rm.setMenu_no(rs.getString("menu_no"));
+				rm.setVendor_no(rs.getString("vendor_no"));
+				rm.setMenu_name(rs.getString("menu_name"));
+				rm.setMenu_price(rs.getString("menu_price"));
+				rm.setMenu_pic(rs.getBytes("menu_pic"));
+				rm.setMenu_stat(rs.getInt("menu_stat"));
+				rm.setMenu_text(rs.getString("menu_text"));
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return rm;
+	}
+
+	@Override
 	public List<Restaurant_MenuVO> getAll() {
 		// TODO Auto-generated method stub
 		List<Restaurant_MenuVO> list = new ArrayList<Restaurant_MenuVO>();
@@ -221,6 +283,17 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 		
 		//刪除
 //		dao.delete("RM00000011");
+		
+		//查單筆
+		Restaurant_MenuVO rmVO1 = dao.findByPK("RM00000001");
+		System.out.println(rmVO1.getMenu_no());
+		System.out.println(rmVO1.getVendor_no());
+		System.out.println(rmVO1.getMenu_name());
+		System.out.println(rmVO1.getMenu_price());			
+		System.out.println(rmVO1.getMenu_pic());
+		System.out.println(rmVO1.getMenu_stat());
+		System.out.println(rmVO1.getMenu_text());
+		System.out.println("---------------------");
 		
 		//查全部
 		List<Restaurant_MenuVO> list = dao.getAll();

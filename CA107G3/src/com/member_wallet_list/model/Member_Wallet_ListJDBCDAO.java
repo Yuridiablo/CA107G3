@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interface {
+import com.comment_reported.model.Comment_ReportedVO;
+
+public class Member_Wallet_ListJDBCDAO implements Member_Wallet_ListDAO_interface {
 	
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -22,11 +24,13 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 			"UPDATE Member_Wallet_list set list_wit=? where list_no = ?";
 	private static final String DELETE = 
 			"DELETE FROM Member_Wallet_list where list_no = ?";
+	private static final String GET_ONE_STMT = 
+			"SELECT * FROM Member_Wallet_list where mem_no = ?";
 	private static final String GET_ALL_STMT = 
 			"SELECT * FROM Member_Wallet_list order by list_no";
 
 	@Override
-	public void insert(Member_Wallet_listVO Member_Wallet_listVO) {
+	public void insert(Member_Wallet_ListVO Member_Wallet_ListVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -35,11 +39,11 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-			pstmt.setString(1, Member_Wallet_listVO.getMem_no());
-			pstmt.setString(2, Member_Wallet_listVO.getList_wit());
-			pstmt.setInt(3, Member_Wallet_listVO.getList_stat());
-			pstmt.setString(4, Member_Wallet_listVO.getList_dep());
-			pstmt.setString(5, Member_Wallet_listVO.getPay_for());
+			pstmt.setString(1, Member_Wallet_ListVO.getMem_no());
+			pstmt.setString(2, Member_Wallet_ListVO.getList_wit());
+			pstmt.setInt(3, Member_Wallet_ListVO.getList_stat());
+			pstmt.setString(4, Member_Wallet_ListVO.getList_dep());
+			pstmt.setString(5, Member_Wallet_ListVO.getPay_for());
 //			pstmt.setInt(4, Comment_ReportedVO.getRep_stat());
 			
 			pstmt.executeUpdate();
@@ -67,7 +71,7 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 	}
  
 	@Override
-	public void update(Member_Wallet_listVO Member_Wallet_listVO) {
+	public void update(Member_Wallet_ListVO Member_Wallet_ListVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -77,8 +81,8 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
 
-			pstmt.setString(1, Member_Wallet_listVO.getList_wit());
-			pstmt.setString(2,Member_Wallet_listVO.getList_no());
+			pstmt.setString(1, Member_Wallet_ListVO.getList_wit());
+			pstmt.setString(2,Member_Wallet_ListVO.getList_no());
 			
 			pstmt.executeUpdate();
 			
@@ -141,11 +145,13 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 		}
 	}
 
+	
+
 	@Override
-	public List<Member_Wallet_listVO> getAll() {
+	public List<Member_Wallet_ListVO> findByMem(String mem_no) {
 		// TODO Auto-generated method stub
-		List<Member_Wallet_listVO> list = new ArrayList<Member_Wallet_listVO>();
-		Member_Wallet_listVO mwl = null;
+		List<Member_Wallet_ListVO> list = new ArrayList<Member_Wallet_ListVO>();
+		Member_Wallet_ListVO mwl = null;
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -158,7 +164,59 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				mwl = new Member_Wallet_listVO();
+				mwl = new Member_Wallet_ListVO();
+				mwl.setList_no(rs.getString("list_no"));
+				mwl.setMem_no(rs.getString("mem_no"));
+				mwl.setList_time(rs.getDate("list_time"));
+				mwl.setList_wit(rs.getString("list_wit"));
+				mwl.setList_stat(rs.getInt("list_stat"));
+				mwl.setList_dep(rs.getString("list_dep"));
+				mwl.setPay_for(rs.getString("pay_for"));
+				list.add(mwl);
+				
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException se) {
+			
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<Member_Wallet_ListVO> getAll() {
+		// TODO Auto-generated method stub
+		List<Member_Wallet_ListVO> list = new ArrayList<Member_Wallet_ListVO>();
+		Member_Wallet_ListVO mwl = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALL_STMT);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				mwl = new Member_Wallet_ListVO();
 				mwl.setList_no(rs.getString("list_no"));
 				mwl.setMem_no(rs.getString("mem_no"));
 				mwl.setList_time(rs.getDate("list_time"));
@@ -194,10 +252,10 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 	}
 
 	public static void main(String[] args) {
-		Member_Wallet_listJDBCDAO dao = new Member_Wallet_listJDBCDAO();	
+		Member_Wallet_ListJDBCDAO dao = new Member_Wallet_ListJDBCDAO();	
 		
 		//新增
-		Member_Wallet_listVO mwl = new Member_Wallet_listVO();
+		Member_Wallet_ListVO mwl = new Member_Wallet_ListVO();
 		
 		mwl.setMem_no("M000001");
 		mwl.setList_wit("7788");
@@ -207,17 +265,31 @@ public class Member_Wallet_listJDBCDAO implements Member_Wallet_listDAO_interfac
 		dao.insert(mwl);		
 		
 		//修改
-		Member_Wallet_listVO mwl2 = new Member_Wallet_listVO();
-		mwl2.setList_wit("8000");
-		mwl2.setList_no("MWL0000002");
+		Member_Wallet_ListVO mwl2 = new Member_Wallet_ListVO();
+		mwl.setList_wit("8000");
+		mwl.setList_no("MWL0000002");
 		dao.update(mwl2);
 		
 		//刪除
 //		dao.delete("MWL0000004");
 		
+		//查某個會員的錢包明細
+		List<Member_Wallet_ListVO> list1 = dao.findByMem("M000001");
+		for (Member_Wallet_ListVO mwlVO : list1) {
+			System.out.println(mwlVO.getList_no());
+			System.out.println(mwlVO.getMem_no());
+			System.out.println(mwlVO.getList_time());
+			System.out.println(mwlVO.getList_wit());			
+			System.out.println(mwlVO.getList_stat());
+			System.out.println(mwlVO.getList_dep());
+			System.out.println(mwlVO.getPay_for());
+			System.out.println("--------");
+		}
+		
+		
 		//查全部
-		List<Member_Wallet_listVO> list = dao.getAll();
-		for (Member_Wallet_listVO mwlVO : list) {
+		List<Member_Wallet_ListVO> list = dao.getAll();
+		for (Member_Wallet_ListVO mwlVO : list) {
 			System.out.println(mwlVO.getList_no());
 			System.out.println(mwlVO.getMem_no());
 			System.out.println(mwlVO.getList_time());
