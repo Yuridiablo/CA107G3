@@ -954,8 +954,17 @@ footer {
 
 .follow-img {
   text-align: center;
+ 
+
   padding: 20px 16px;
   color: #3e434b; }
+
+.follow-img .img-fluid{
+  
+   object-fit: cover;
+  width: 200px;
+  height: 200px;
+}
   .follow-img img {
     border-radius: 50%; }
   .follow-img h6 {
