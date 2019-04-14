@@ -12,6 +12,10 @@ body {
   margin-right: 20px;
 }
 
+.hello{
+    margin-top:100px;
+    margin-bottom: 400px;
+}
 
 .navbar{
   box-shadow: 10px 6px 10px #ddd;
@@ -1001,3 +1005,4 @@ footer {
   width: 100%; }
 
 /*# sourceMappingURL=style.css.map 
+

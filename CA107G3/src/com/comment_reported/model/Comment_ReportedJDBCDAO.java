@@ -25,6 +25,8 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 			"DELETE FROM COMMENT_REPORTED where rep_no = ?";
 	private static final String GET_ONE_STMT = 
 			"SELECT rep_no,cmnt_no,mem_no,rep_for,rep_time,rep_stat FROM COMMENT_REPORTED where rep_no = ?";
+	private static final String GET_ONE_STATE = 
+			"SELECT rep_no,cmnt_no,mem_no,rep_for,rep_time,rep_stat FROM COMMENT_REPORTED where rep_stat = ?";
 	private static final String GET_ALL_STMT = 
 			"SELECT rep_no,cmnt_no,mem_no,rep_for,rep_time,rep_stat FROM COMMENT_REPORTED order by rep_no";
 
@@ -145,6 +147,57 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 	}
 
 	@Override
+	public List<Comment_ReportedVO> findByStat(Integer rep_stat) {
+		List<Comment_ReportedVO> list = new ArrayList<Comment_ReportedVO>();
+		Comment_ReportedVO crVO = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_STATE);
+			pstmt.setInt(1, rep_stat);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				crVO = new Comment_ReportedVO();
+				crVO.setRep_no(rs.getString("rep_no"));
+				crVO.setCmnt_no(rs.getString("cmnt_no"));
+				crVO.setMem_no(rs.getString("mem_no"));
+				crVO.setRep_for(rs.getString("rep_for"));
+				crVO.setRep_time(rs.getTimestamp("rep_time"));
+				crVO.setRep_stat(rs.getInt("rep_stat"));
+				list.add(crVO);
+				
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException se) {
+			
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+
+	@Override
 	public Comment_ReportedVO findByPK(String rep_no) {
 		Comment_ReportedVO crVO = null;
 		Connection con = null;
@@ -206,7 +259,7 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 	@Override
 	public List<Comment_ReportedVO> getAll() {
 		List<Comment_ReportedVO> list = new ArrayList<Comment_ReportedVO>();
-		Comment_ReportedVO comRepVO03 = null;
+		Comment_ReportedVO crVO = null;
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -219,14 +272,14 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				comRepVO03 = new Comment_ReportedVO();
-				comRepVO03.setRep_no(rs.getString("rep_no"));
-				comRepVO03.setCmnt_no(rs.getString("cmnt_no"));
-				comRepVO03.setMem_no(rs.getString("mem_no"));
-				comRepVO03.setRep_for(rs.getString("rep_for"));
-				comRepVO03.setRep_time(rs.getTimestamp("rep_time"));
-				comRepVO03.setRep_stat(rs.getInt("rep_stat"));
-				list.add(comRepVO03);
+				crVO = new Comment_ReportedVO();
+				crVO.setRep_no(rs.getString("rep_no"));
+				crVO.setCmnt_no(rs.getString("cmnt_no"));
+				crVO.setMem_no(rs.getString("mem_no"));
+				crVO.setRep_for(rs.getString("rep_for"));
+				crVO.setRep_time(rs.getTimestamp("rep_time"));
+				crVO.setRep_stat(rs.getInt("rep_stat"));
+				list.add(crVO);
 				
 			}
 		} catch (ClassNotFoundException e) {
@@ -285,10 +338,9 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 		System.out.println(crVO.getRep_stat() + ",");
 		System.out.println("---------------------");
 		
-		
-		//查全部
-		List<Comment_ReportedVO> list = dao.getAll();
-		for (Comment_ReportedVO comRep : list) {
+		//查某種狀態的檢舉
+		List<Comment_ReportedVO> list_stat = dao.findByStat(1);
+		for (Comment_ReportedVO comRep : list_stat) {
 			System.out.println(comRep.getRep_no());
 			System.out.println(comRep.getCmnt_no());
 			System.out.println(comRep.getMem_no());
@@ -297,6 +349,18 @@ public class Comment_ReportedJDBCDAO implements Comment_ReportedDAO_interface {
 			System.out.println(comRep.getRep_stat());
 			System.out.println("--------");
 		}
+		
+		//查全部
+//		List<Comment_ReportedVO> list = dao.getAll();
+//		for (Comment_ReportedVO comRep : list) {
+//			System.out.println(comRep.getRep_no());
+//			System.out.println(comRep.getCmnt_no());
+//			System.out.println(comRep.getMem_no());
+//			System.out.println(comRep.getRep_for());
+//			System.out.println(comRep.getCmnt_no());
+//			System.out.println(comRep.getRep_stat());
+//			System.out.println("--------");
+//		}
 	}
 
 }
