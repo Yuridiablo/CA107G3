@@ -7,6 +7,8 @@
 <%
 	List<Restaurant_MenuVO> vlist = (List<Restaurant_MenuVO>)request.getAttribute("vlist"); //EmpServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 	out.print(vlist);
+	Restaurant_MenuVO rmVO = (Restaurant_MenuVO)request.getAttribute("rmVO"); //EmpServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
+	out.print(rmVO);
 %>
 
 <!DOCTYPE html>
@@ -16,6 +18,9 @@
 <title>廠商後台-菜單管理</title>
 </head>
 <body>
+<br><br>
+ <h4><a href="chooseVendor.jsp">回選擇頁</a></h4>
+<input type="button" value="新增" onclick="location.href='addMenu.jsp'">
 
 <table>
 	<tr>

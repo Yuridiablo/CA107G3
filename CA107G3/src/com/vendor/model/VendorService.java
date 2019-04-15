@@ -16,6 +16,10 @@ public class VendorService {
 //		return vVO;
 //	}
 	
+	public VendorVO findByPK(String vendor_no) {
+		return dao.findByPrimaryKey(vendor_no);
+	}
+	
 	public List<VendorVO> getAll() {
 		return dao.getAll();
 	}
