@@ -10,6 +10,7 @@ public interface Restaurant_MenuDAO_interface {
 	public void update(Restaurant_MenuVO Restaurant_MenuVO);
 	public void delete(String menu_no);
 	public Restaurant_MenuVO findByPK(String menu_no);
+	public List<Restaurant_MenuVO> getVendor(String vendor_no);
 	public List<Restaurant_MenuVO> getAll();
 
 }

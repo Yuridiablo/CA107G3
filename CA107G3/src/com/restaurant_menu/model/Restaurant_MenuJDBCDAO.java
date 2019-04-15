@@ -21,11 +21,13 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 	private static final String INSERT_STMT = 		
 			"INSERT INTO RESTAURANT_MENU (MENU_NO,VENDOR_NO,MENU_NAME,MENU_PRICE,MENU_PIC,MENU_STAT,MENU_TEXT) VALUES ('RM'||LPAD(to_char(RESTAURANT_MENU_SEQ.NEXTVAL), 8, '0'),?,?,?,?,?,?)";	
 	private static final String UPDATE_STMT =
-			"UPDATE RESTAURANT_MENU set menu_stat=? where menu_no = ?";
+			"UPDATE RESTAURANT_MENU set MENU_NAME = ?, MENU_PRICE = ?, MENU_PIC = ?, MENU_STAT = ?, MENU_TEXT=? where menu_no = ?";
 	private static final String DELETE = 
 			"DELETE FROM RESTAURANT_MENU where menu_no = ?";
 	private static final String GET_ONE_STMT = 
 			"SELECT * FROM RESTAURANT_MENU where menu_no = ?";
+	private static final String GET_ONE_VENDOR = 
+			"SELECT * FROM RESTAURANT_MENU where vendor_no = ?";
 	private static final String GET_ALL_STMT = 
 			"SELECT * FROM RESTAURANT_MENU order by menu_no";
 	
@@ -83,8 +85,12 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
 
-			pstmt.setInt(1, Restaurant_MenuVO.getMenu_stat());
-			pstmt.setString(2,Restaurant_MenuVO.getMenu_no());
+			pstmt.setString(1, Restaurant_MenuVO.getMenu_name());
+			pstmt.setString(2, Restaurant_MenuVO.getMenu_price());
+			pstmt.setBytes(3, Restaurant_MenuVO.getMenu_pic());
+			pstmt.setInt(4, Restaurant_MenuVO.getMenu_stat());
+			pstmt.setString(5, Restaurant_MenuVO.getMenu_text());
+			pstmt.setString(6,Restaurant_MenuVO.getMenu_no());
 			
 			pstmt.executeUpdate();
 			
@@ -208,6 +214,60 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 	}
 
 	@Override
+	public List<Restaurant_MenuVO> getVendor(String vendor_no) {
+		// TODO Auto-generated method stub
+				List<Restaurant_MenuVO> list = new ArrayList<Restaurant_MenuVO>();
+				Restaurant_MenuVO rm = null;
+				
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				
+				try {
+					Class.forName(driver);
+					con = DriverManager.getConnection(url, userid, passwd);
+					pstmt = con.prepareStatement(GET_ONE_VENDOR);
+					pstmt.setString(1, vendor_no);
+					rs = pstmt.executeQuery();
+					
+					while(rs.next()) {
+						rm = new Restaurant_MenuVO();
+						
+						rm.setVendor_no(rs.getString("vendor_no"));
+						rm.setMenu_name(rs.getString("menu_name"));
+						rm.setMenu_price(rs.getString("menu_price"));
+						rm.setMenu_pic(rs.getBytes("menu_pic"));
+						rm.setMenu_stat(rs.getInt("menu_stat"));
+						rm.setMenu_text(rs.getString("menu_text"));
+						rm.setMenu_no(rs.getString("menu_no"));
+						list.add(rm);
+						
+					}
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (SQLException se) {
+					
+				} finally {
+					if (pstmt != null) {
+						try {
+							pstmt.close();
+						} catch (SQLException se) {
+							se.printStackTrace();
+						}
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				return list;
+	}
+
+	@Override
 	public List<Restaurant_MenuVO> getAll() {
 		// TODO Auto-generated method stub
 		List<Restaurant_MenuVO> list = new ArrayList<Restaurant_MenuVO>();
@@ -225,13 +285,14 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 			
 			while(rs.next()) {
 				rm = new Restaurant_MenuVO();
-				rm.setMenu_no(rs.getString("menu_no"));
+				
 				rm.setVendor_no(rs.getString("vendor_no"));
 				rm.setMenu_name(rs.getString("menu_name"));
 				rm.setMenu_price(rs.getString("menu_price"));
 				rm.setMenu_pic(rs.getBytes("menu_pic"));
 				rm.setMenu_stat(rs.getInt("menu_stat"));
 				rm.setMenu_text(rs.getString("menu_text"));
+				rm.setMenu_no(rs.getString("menu_no"));
 				list.add(rm);
 				
 			}
@@ -277,7 +338,12 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 		
 		//修改
 		Restaurant_MenuVO rm2 = new Restaurant_MenuVO();
-		rm2.setMenu_stat(2);
+		
+		rm2.setMenu_name("宇宙大燒賣");
+		rm2.setMenu_price("2050");
+ 		rm2.setMenu_pic(null);
+		rm2.setMenu_stat(2);	
+ 		rm2.setMenu_text("居然包了一整頭豬在裡面啊");		
 		rm2.setMenu_no("RM00000004");
 		dao.update(rm2);
 		

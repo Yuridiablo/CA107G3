@@ -19,7 +19,7 @@ public class Member_Wallet_ListJDBCDAO implements Member_Wallet_ListDAO_interfac
 	
 	private static final String INSERT_STMT = 
 //			('MWL'||LPAD(to_char(MEMBER_WALLET_LIST_SEQ.NEXTVAL), 7, '0'),'M000001',sysdate,'5566',1,null,'20190330-000001'
-			"INSERT INTO Member_Wallet_list (list_no,mem_no,list_time,list_wit,list_stat,list_dep,pay_for) VALUES ('MWL'||LPAD(to_char(MEMBER_WALLET_LIST_SEQ.NEXTVAL), 7, '0'),?,sysdate,?,?,?,?)";	
+			"INSERT INTO Member_Wallet_list (list_no,mem_no,list_time,list_wit,list_stat,list_dep,pay_for) VALUES ('MWL'||LPAD(to_char(MEMBER_WALLET_LIST_SEQ.NEXTVAL), 7, '0'),?,sysdate,?,1,null,?)";	
 	private static final String UPDATE_STMT =
 			"UPDATE Member_Wallet_list set list_wit=? where list_no = ?";
 	private static final String DELETE = 
@@ -30,6 +30,7 @@ public class Member_Wallet_ListJDBCDAO implements Member_Wallet_ListDAO_interfac
 			"SELECT * FROM Member_Wallet_list order by list_no";
 
 	@Override
+	//支付紀錄的insert
 	public void insert(Member_Wallet_ListVO Member_Wallet_ListVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -41,10 +42,9 @@ public class Member_Wallet_ListJDBCDAO implements Member_Wallet_ListDAO_interfac
 			
 			pstmt.setString(1, Member_Wallet_ListVO.getMem_no());
 			pstmt.setString(2, Member_Wallet_ListVO.getList_wit());
-			pstmt.setInt(3, Member_Wallet_ListVO.getList_stat());
-			pstmt.setString(4, Member_Wallet_ListVO.getList_dep());
-			pstmt.setString(5, Member_Wallet_ListVO.getPay_for());
-//			pstmt.setInt(4, Comment_ReportedVO.getRep_stat());
+//			pstmt.setInt(3, Member_Wallet_ListVO.getList_stat());
+//			pstmt.setString(3, Member_Wallet_ListVO.getList_dep());
+			pstmt.setString(3, Member_Wallet_ListVO.getPay_for());
 			
 			pstmt.executeUpdate();
 			
@@ -258,10 +258,10 @@ public class Member_Wallet_ListJDBCDAO implements Member_Wallet_ListDAO_interfac
 		Member_Wallet_ListVO mwl = new Member_Wallet_ListVO();
 		
 		mwl.setMem_no("M000001");
-		mwl.setList_wit("7788");
-		mwl.setList_stat(1);
- 		mwl.setList_dep(null);
-		mwl.setPay_for("20190330-000003");		
+		mwl.setList_wit("689");
+//		mwl.setList_stat(1);
+// 		mwl.setList_dep(null);
+		mwl.setPay_for("20190330-000005");		
 		dao.insert(mwl);		
 		
 		//修改
