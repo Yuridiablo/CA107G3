@@ -1,19 +1,24 @@
 package com.restaurant_menu.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import com.restaurant_menu.model.*;
 
 @WebServlet("/Restaurant_Menu/Restaurant_Menu.do")
+@MultipartConfig
 
 public class Restaurant_MenuServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -107,11 +112,29 @@ public class Restaurant_MenuServlet extends HttpServlet {
 //					comm = 0.0;
 //					errorMsgs.add("獎金請填數字.");
 //				}
-				byte[] menu_pic = null;
-				Integer menu_stat = new Integer(req.getParameter("menu_stat").trim());
-				String menu_text = req.getParameter("menu_text").trim();
-
+				
+				
 				Restaurant_MenuVO rmVO = new Restaurant_MenuVO();
+				
+				//上傳圖片
+				byte[] menu_pic = null;
+				Collection<Part> pps = req.getParts();
+				for (Part part : pps) {
+					if (part.getName().equals("menu_pic")) {
+										
+						InputStream in = part.getInputStream();
+						ByteArrayOutputStream output = new ByteArrayOutputStream();
+						menu_pic = new byte[in.available()];
+						for (int length = 0; (length = in.read(menu_pic)) > 0;) output.write(menu_pic, 0, length);
+						rmVO.setMenu_pic(output.toByteArray());
+						
+					}						
+				}			
+				
+//				rmVO.setMenu_pic(menu_pic);
+			
+				Integer menu_stat = new Integer(req.getParameter("menu_stat").trim());
+				String menu_text = req.getParameter("menu_text").trim();	
 				
 				rmVO.setVendor_no(vendor_no);
 				rmVO.setMenu_name(menu_name);
