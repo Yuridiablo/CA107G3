@@ -11,6 +11,8 @@
 	pageContext.setAttribute("list", list);
 %>
 
+<jsp:useBean id="vSvc" scope="session" class="com.vendor.model.VendorService" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +40,7 @@
 
 		<td>${Restaurant_MenuVO.menu_no}</td>
         <td>${Restaurant_MenuVO.vendor_no}</td>
+        <td>${vSvc.findByPK(Restaurant_MenuVO.getVendor_no()).v_name}</td>
         <td>${Restaurant_MenuVO.menu_name}</td>
         <td>${Restaurant_MenuVO.menu_price}</td>
         <td>${Restaurant_MenuVO.menu_pic}</td>

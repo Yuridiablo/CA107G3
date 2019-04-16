@@ -17,7 +17,7 @@ class PhotoWrite {
               Connection con = null;
               PreparedStatement pstmt = null;
               String url = "jdbc:oracle:thin:@localhost:1521:XE";
-              String userid = "hr";
+              String userid = "CA107";
               String passwd = "123456";
               String picName = "2835-2.gif";
 	        

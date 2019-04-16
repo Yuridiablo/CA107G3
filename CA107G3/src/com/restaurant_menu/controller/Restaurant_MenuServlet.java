@@ -17,7 +17,7 @@ import javax.servlet.http.Part;
 
 import com.restaurant_menu.model.*;
 
-@WebServlet("/Restaurant_Menu/Restaurant_Menu.do")
+//@WebServlet("/Restaurant_Menu/Restaurant_Menu.do")
 @MultipartConfig
 
 public class Restaurant_MenuServlet extends HttpServlet {
@@ -125,8 +125,9 @@ public class Restaurant_MenuServlet extends HttpServlet {
 						InputStream in = part.getInputStream();
 						ByteArrayOutputStream output = new ByteArrayOutputStream();
 						menu_pic = new byte[in.available()];
-						for (int length = 0; (length = in.read(menu_pic)) > 0;) output.write(menu_pic, 0, length);
-						rmVO.setMenu_pic(output.toByteArray());
+						for (int length = 0; (length = in.read(menu_pic)) > 0;) 
+						output.write(menu_pic, 0, length);
+//						rmVO.setMenu_pic(output.toByteArray());
 						
 					}						
 				}			
@@ -136,6 +137,7 @@ public class Restaurant_MenuServlet extends HttpServlet {
 				Integer menu_stat = new Integer(req.getParameter("menu_stat").trim());
 				String menu_text = req.getParameter("menu_text").trim();	
 				
+				rmVO.setMenu_pic(menu_pic);
 				rmVO.setVendor_no(vendor_no);
 				rmVO.setMenu_name(menu_name);
 				rmVO.setMenu_price(menu_price);
@@ -225,11 +227,30 @@ public class Restaurant_MenuServlet extends HttpServlet {
 //					comm = 0.0;
 //					errorMsgs.add("獎金請填數字.");
 //				}
-				byte[] menu_pic = null;
+				
 				Integer menu_stat = new Integer(req.getParameter("menu_stat").trim());
 				String menu_text = req.getParameter("menu_text").trim();
 
 				Restaurant_MenuVO rmVO = new Restaurant_MenuVO();
+				
+				//上傳圖片
+				byte[] menu_pic = null;
+				Collection<Part> pps = req.getParts();
+				for (Part part : pps) {
+					if (part.getName().equals("menu_pic")) {
+										
+						InputStream in = part.getInputStream();
+						ByteArrayOutputStream output = new ByteArrayOutputStream();
+						menu_pic = new byte[in.available()];
+						for (int length = 0; (length = in.read(menu_pic)) > 0;) 
+						output.write(menu_pic, 0, length);
+//						rmVO.setMenu_pic(output.toByteArray());
+						
+					}						
+				}	
+				
+				
+				
 				rmVO.setMenu_no(menu_no);
 				rmVO.setVendor_no(vendor_no);
 				rmVO.setMenu_name(menu_name);

@@ -15,6 +15,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	function changePic(e) {		
+		
+  		document.getElementsByTagName("img")[0].src = URL.createObjectURL(event.target.files[0]); 		
+	}
+</script>
+<style>
+img{
+max-width:300px;
+}
+
+</style>
+
 </head>
 <body>
 <table id="table-1">
@@ -27,7 +40,7 @@
 <h3>資料修改:</h3>
 
 <%-- 錯誤表列 --%>
-<FORM METHOD="post" ACTION="Restaurant_Menu.do" name="form1">
+<FORM METHOD="post" ACTION="Restaurant_Menu.do" name="form1"  enctype="multipart/form-data">
 <table>
 	<tr>
 		<td>品項編號:<font color=red><b>*</b></font></td>
@@ -47,7 +60,7 @@
 	</tr>
 	<tr>
 		<td>圖片:</td>
-		<td><input name="menu_pic" id="f_date1" type="text" ></td>
+		<td><input name="menu_pic" id="f_date1" type="file" onchange="changePic(event)" ></td>
 	</tr>
 	<tr>
 		<td>價格:</td>
@@ -67,6 +80,6 @@
 <input type="hidden" name="vendor_no" value="${rmVO.vendor_no}">
 <input type="hidden" name="menu_no" value="${rmVO.menu_no}">
 <input type="submit" value="送出修改"></FORM>
-
+<img src="" alt="">
 </body>
 </html>

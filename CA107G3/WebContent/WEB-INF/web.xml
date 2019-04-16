@@ -9,4 +9,12 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <servlet-name>Restaurant_MenuServlet</servlet-name>
+    <servlet-class>com.restaurant_menu.controller.Restaurant_MenuServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Restaurant_MenuServlet</servlet-name>
+    <url-pattern>/Restaurant_Menu/Restaurant_Menu.do</url-pattern>
+  </servlet-mapping>
 </web-app>

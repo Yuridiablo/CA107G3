@@ -18,7 +18,9 @@
        <b>廠商編號:</b>
        <select size="1" name="vendor_no">
          <c:forEach var="vVO" items="${vSvc.all}" > 
-          <option value="${vVO.vendor_no}">${vVO.vendor_no}
+<%--           <option value="${vVO.vendor_no}">${vVO.vendor_no} --%>
+<!-- EL傳參數取值  -->
+          <option value="${vVO.vendor_no}">${vSvc.findByPK(vVO.vendor_no).v_name}
          </c:forEach>   
        </select>
        <input type="hidden" name="action" value="getOne_List">

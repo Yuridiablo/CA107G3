@@ -18,7 +18,7 @@ class PhotoRead {
                 Statement stmt = null;
                 ResultSet rs = null;
                 String url = "jdbc:oracle:thin:@localhost:1521:XE";
-                String userid = "hr";
+                String userid = "CA107";
                 String passwd = "123456";
                 
                 try {

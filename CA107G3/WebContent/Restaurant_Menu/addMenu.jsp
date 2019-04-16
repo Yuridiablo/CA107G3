@@ -2,10 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.restaurant_menu.model.*"%>
 <%@ page import="com.vendor.model.*" %>
+<%@page import="java.util.List"%>
 
 <%
 	Restaurant_MenuVO rmVO = (Restaurant_MenuVO)request.getAttribute("rmVO"); //EmpServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
-	out.print(rmVO); 
+	out.print(rmVO);
+	List<Restaurant_MenuVO> vlist = (List<Restaurant_MenuVO>)request.getAttribute("vlist"); 
+	out.print(vlist);
 %>
 <!DOCTYPE html>
 <html>

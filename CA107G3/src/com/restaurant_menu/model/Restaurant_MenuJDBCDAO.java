@@ -1,5 +1,8 @@
 package com.restaurant_menu.model;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -236,7 +239,14 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 						rm.setVendor_no(rs.getString("vendor_no"));
 						rm.setMenu_name(rs.getString("menu_name"));
 						rm.setMenu_price(rs.getString("menu_price"));
+						
+						
+						
+						
+						
 						rm.setMenu_pic(rs.getBytes("menu_pic"));
+						
+						
 						rm.setMenu_stat(rs.getInt("menu_stat"));
 						rm.setMenu_text(rs.getString("menu_text"));
 						rm.setMenu_no(rs.getString("menu_no"));
@@ -288,6 +298,10 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 				
 				rm.setVendor_no(rs.getString("vendor_no"));
 				rm.setMenu_name(rs.getString("menu_name"));
+				
+				
+	
+				
 				rm.setMenu_price(rs.getString("menu_price"));
 				rm.setMenu_pic(rs.getBytes("menu_pic"));
 				rm.setMenu_stat(rs.getInt("menu_stat"));
