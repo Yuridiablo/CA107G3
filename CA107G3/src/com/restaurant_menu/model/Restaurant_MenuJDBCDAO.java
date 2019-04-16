@@ -336,59 +336,59 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Restaurant_MenuJDBCDAO dao = new Restaurant_MenuJDBCDAO();	
+//		Restaurant_MenuJDBCDAO dao = new Restaurant_MenuJDBCDAO();	
 		
 		//新增
-		Restaurant_MenuVO rm = new Restaurant_MenuVO();
-		
-		rm.setVendor_no("V000003");
-		rm.setMenu_name("宇宙大燒賣");
-		rm.setMenu_price("2050");
- 		rm.setMenu_pic(null);
- 		rm.setMenu_stat(1);		
- 		rm.setMenu_text("居然包了一整頭豬在裡面啊");		
- 		
-		dao.insert(rm);		
-		
-		//修改
-		Restaurant_MenuVO rm2 = new Restaurant_MenuVO();
-		
-		rm2.setMenu_name("宇宙大燒賣");
-		rm2.setMenu_price("2050");
- 		rm2.setMenu_pic(null);
-		rm2.setMenu_stat(2);	
- 		rm2.setMenu_text("居然包了一整頭豬在裡面啊");		
-		rm2.setMenu_no("RM00000004");
-		dao.update(rm2);
+//		Restaurant_MenuVO rm = new Restaurant_MenuVO();
+//		
+//		rm.setVendor_no("V000003");
+//		rm.setMenu_name("宇宙大燒賣");
+//		rm.setMenu_price("2050");
+// 		rm.setMenu_pic(null);
+// 		rm.setMenu_stat(1);		
+// 		rm.setMenu_text("居然包了一整頭豬在裡面啊");		
+// 		
+//		dao.insert(rm);		
+//		
+//		//修改
+//		Restaurant_MenuVO rm2 = new Restaurant_MenuVO();
+//		
+//		rm2.setMenu_name("宇宙大燒賣");
+//		rm2.setMenu_price("2050");
+// 		rm2.setMenu_pic(null);
+//		rm2.setMenu_stat(2);	
+// 		rm2.setMenu_text("居然包了一整頭豬在裡面啊");		
+//		rm2.setMenu_no("RM00000004");
+//		dao.update(rm2);
 		
 		//刪除
-//		dao.delete("RM00000011");
+//		dao.delete("RM00000005");
 		
-		//查單筆
-		Restaurant_MenuVO rmVO1 = dao.findByPK("RM00000001");
-		System.out.println(rmVO1.getMenu_no());
-		System.out.println(rmVO1.getVendor_no());
-		System.out.println(rmVO1.getMenu_name());
-		System.out.println(rmVO1.getMenu_price());			
-		System.out.println(rmVO1.getMenu_pic());
-		System.out.println(rmVO1.getMenu_stat());
-		System.out.println(rmVO1.getMenu_text());
-		System.out.println("---------------------");
-		
-		//查全部
-		List<Restaurant_MenuVO> list = dao.getAll();
-		for (Restaurant_MenuVO rmVO : list) {
-			System.out.println(rmVO.getMenu_no());
-			System.out.println(rmVO.getVendor_no());
-			System.out.println(rmVO.getMenu_name());
-			System.out.println(rmVO.getMenu_price());			
-			System.out.println(rmVO.getMenu_pic());
-			System.out.println(rmVO.getMenu_stat());
-			System.out.println(rmVO.getMenu_text());
-			System.out.println("--------");
-		}
+//		//查單筆
+//		Restaurant_MenuVO rmVO1 = dao.findByPK("RM00000001");
+//		System.out.println(rmVO1.getMenu_no());
+//		System.out.println(rmVO1.getVendor_no());
+//		System.out.println(rmVO1.getMenu_name());
+//		System.out.println(rmVO1.getMenu_price());			
+//		System.out.println(rmVO1.getMenu_pic());
+//		System.out.println(rmVO1.getMenu_stat());
+//		System.out.println(rmVO1.getMenu_text());
+//		System.out.println("---------------------");
+//		
+//		//查全部
+//		List<Restaurant_MenuVO> list = dao.getAll();
+//		for (Restaurant_MenuVO rmVO : list) {
+//			System.out.println(rmVO.getMenu_no());
+//			System.out.println(rmVO.getVendor_no());
+//			System.out.println(rmVO.getMenu_name());
+//			System.out.println(rmVO.getMenu_price());			
+//			System.out.println(rmVO.getMenu_pic());
+//			System.out.println(rmVO.getMenu_stat());
+//			System.out.println(rmVO.getMenu_text());
+//			System.out.println("--------");
+//		}
+//	}
+	
+	
 	}
-	
-	
-
 }

@@ -13,6 +13,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
@@ -36,7 +38,14 @@ max-width:300px;
 		 <h4><a href="chooseVendor.jsp">回列表</a></h4>
 	</td></tr>
 </table>
-
+<c:if test="${not empty errorMsgs}">
+	<font style="color:red">請修正以下錯誤:</font>
+	<ul>
+		<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+		</c:forEach>
+	</ul>
+</c:if>
 <h3>資料修改:</h3>
 
 <%-- 錯誤表列 --%>
@@ -68,7 +77,15 @@ max-width:300px;
 	</tr>
 	<tr>
 		<td>狀態:</td>
-		<td><input type="TEXT" name="menu_stat" size="45"	value="${rmVO.menu_stat}" /></td>
+<%-- 		<td><input type="TEXT" name="menu_stat" size="45"	value="${rmVO.menu_stat}" /></td> --%>
+	<td>
+		<select name="menu_stat">
+		　<option value="1">上架</option>
+		　<option value="2">下架</option>
+		　<option value="3">審核中</option>
+		　<option value="4">黑名單</option>
+		</select>
+		</td>
 	</tr>
 	<tr>
 		<td>說明:</td>

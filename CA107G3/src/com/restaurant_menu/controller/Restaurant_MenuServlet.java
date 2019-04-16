@@ -85,9 +85,9 @@ public class Restaurant_MenuServlet extends HttpServlet {
 //	            }
 				
 				String menu_name = req.getParameter("menu_name").trim();
-//				if (menu_name == null || menu_name.trim().length() == 0) {
-//					errorMsgs.add("職位請勿空白");
-//				}	
+				if (menu_name == null || menu_name.trim().length() == 0) {
+					errorMsgs.add("菜名請勿空白");
+				}	
 				
 //				java.sql.Date hiredate = null;
 //				try {
@@ -98,12 +98,14 @@ public class Restaurant_MenuServlet extends HttpServlet {
 //				}
 
 				String menu_price = req.getParameter("menu_price").trim();
-//				try {
-//					sal = new Double(req.getParameter("sal").trim());
-//				} catch (NumberFormatException e) {
-//					sal = 0.0;
-//					errorMsgs.add("薪水請填數字.");
-//				}
+				
+				try {
+					if ( Integer.valueOf(menu_price) <= 0 )
+					errorMsgs.add("價格請大於0");
+				} catch (NumberFormatException e) {
+					menu_price = "0";
+					errorMsgs.add("價格請填數字.");
+				}
 
 //				Double comm = null;
 //				try {
@@ -134,7 +136,16 @@ public class Restaurant_MenuServlet extends HttpServlet {
 				
 //				rmVO.setMenu_pic(menu_pic);
 			
-				Integer menu_stat = new Integer(req.getParameter("menu_stat").trim());
+				Integer menu_stat = null;
+				try {
+					menu_stat = Integer.valueOf(req.getParameter("menu_stat"));
+				}
+				catch(NumberFormatException ne) {
+					menu_stat = 2;
+					errorMsgs.add("請填上架狀態，預設為下架(2)");
+				}
+				
+				
 				String menu_text = req.getParameter("menu_text").trim();	
 				
 				rmVO.setMenu_pic(menu_pic);
@@ -146,13 +157,13 @@ public class Restaurant_MenuServlet extends HttpServlet {
 				rmVO.setMenu_text(menu_text);
 
 				// Send the use back to the form, if there were errors
-//				if (!errorMsgs.isEmpty()) {
-//					req.setAttribute("Restaurant_MenuVO", Restaurant_MenuVO); // 含有輸入格式錯誤的empVO物件,也存入req
-//					RequestDispatcher failureView = req
-//							.getRequestDispatcher("/emp/update_emp_input.jsp");
-//					failureView.forward(req, res);
-//					return; //程式中斷
-//				}
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("rmVO", rmVO); // 含有輸入格式錯誤的empVO物件,也存入req
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/Restaurant_Menu/addMenu.jsp");
+					failureView.forward(req, res);
+					return; //程式中斷
+				}
 				
 				/***************************2.開始修改資料*****************************************/
 			
@@ -200,9 +211,9 @@ public class Restaurant_MenuServlet extends HttpServlet {
 //	            }
 				
 				String menu_name = req.getParameter("menu_name").trim();
-//				if (menu_name == null || menu_name.trim().length() == 0) {
-//					errorMsgs.add("職位請勿空白");
-//				}	
+				if (menu_name == null || menu_name.trim().length() == 0) {
+					errorMsgs.add("菜名請勿空白");
+				}	
 				
 //				java.sql.Date hiredate = null;
 //				try {
@@ -213,12 +224,14 @@ public class Restaurant_MenuServlet extends HttpServlet {
 //				}
 
 				String menu_price = req.getParameter("menu_price").trim();
-//				try {
-//					sal = new Double(req.getParameter("sal").trim());
-//				} catch (NumberFormatException e) {
-//					sal = 0.0;
-//					errorMsgs.add("薪水請填數字.");
-//				}
+				
+				try {
+					if ( Integer.valueOf(menu_price) <= 0 )
+					errorMsgs.add("價格請大於0");
+				} catch (NumberFormatException e) {
+					menu_price = "0";
+					errorMsgs.add("價格請填數字.");
+				}
 
 //				Double comm = null;
 //				try {
@@ -228,7 +241,16 @@ public class Restaurant_MenuServlet extends HttpServlet {
 //					errorMsgs.add("獎金請填數字.");
 //				}
 				
-				Integer menu_stat = new Integer(req.getParameter("menu_stat").trim());
+				Integer menu_stat = null;
+				try {
+					menu_stat = Integer.valueOf(req.getParameter("menu_stat"));
+				}
+				catch(NumberFormatException ne) {
+					menu_stat = 2;
+					errorMsgs.add("請填上架狀態，預設為下架(2)");
+				}
+				
+				
 				String menu_text = req.getParameter("menu_text").trim();
 
 				Restaurant_MenuVO rmVO = new Restaurant_MenuVO();
@@ -322,7 +344,36 @@ public class Restaurant_MenuServlet extends HttpServlet {
 						.getRequestDispatcher("/Restaurant_Menu/listAllMenus.jsp");
 				failureView.forward(req, res);
 			}
-		}	
+		}
+		
+		if ("delete".equals(action)) { // 來自listAllEmp.jsp
+
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+	
+			try {
+				/***************************1.接收請求參數***************************************/
+				String menu_no = req.getParameter("menu_no");
+				
+				/***************************2.開始刪除資料***************************************/
+				Restaurant_MenuService rmSvc = new Restaurant_MenuService();
+				rmSvc.deleteMenu(menu_no);
+				
+				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
+				String url = "/Restaurant_Menu/listAllMenus.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理**********************************/
+			} catch (Exception e) {
+				errorMsgs.add("刪除資料失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/Restaurant_Menu/listAllMenus.jsp");
+				failureView.forward(req, res);
+			}
+		}
 		
 	}
 

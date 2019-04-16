@@ -14,6 +14,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 <meta charset="UTF-8">
 <title>廠商後台-菜單管理</title>
 </head>
@@ -45,7 +47,7 @@
         <td>${Restaurant_MenuVO.menu_price}</td>
         <td>${Restaurant_MenuVO.menu_pic}</td>
         <td>${Restaurant_MenuVO.menu_stat}</td>
-        <td>${Restaurant_MenuVO.menu_text}</td>
+        <td><textarea cols="50" rows="5">${Restaurant_MenuVO.menu_text}</textarea></td>
 
 		<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Restaurant_Menu/Restaurant_Menu.do" style="margin-bottom: 0px;">

@@ -181,9 +181,24 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 			System.out.println("查詢完畢");
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (pstm != null) {
+				try {
+					pstm.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return vendor;
-	}
+	} 
 
 	@Override
 	public List<VendorVO> getAll() {

@@ -41,6 +41,11 @@ public class Restaurant_MenuService {
 		return rmVO;
 	}
 	
+	public void deleteMenu(String menu_no) {
+		dao.delete(menu_no);
+
+	}
+	
 	public Restaurant_MenuVO findByPK(String menu_no) {
 		return dao.findByPK(menu_no);
 	}
