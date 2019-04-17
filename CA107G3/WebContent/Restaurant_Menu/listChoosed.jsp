@@ -18,13 +18,20 @@
 
 <meta charset="UTF-8">
 <title>廠商後台-菜單管理</title>
+
+<style>
+img{
+max-width:300px;
+}
+</style>
+
 </head>
 <body>
 <br><br>
  <h4><a href="chooseVendor.jsp">回選擇頁</a></h4>
 <input type="button" value="新增" onclick="location.href='addMenu.jsp'">
 
-<table>
+<table border=1>
 	<tr>
 
 		<th>品項編號</th>
@@ -45,16 +52,30 @@
         <td>${Restaurant_MenuVO.vendor_no}</td>
         <td>${Restaurant_MenuVO.menu_name}</td>
         <td>${Restaurant_MenuVO.menu_price}</td>
-        <td>${Restaurant_MenuVO.menu_pic}</td>
+<%--         <td>${Restaurant_MenuVO.menu_pic}</td> --%>
+        <td><img src="<%= request.getContextPath()%>/Restaurant_Menu/ShowImg.do?menu_no='${Restaurant_MenuVO.menu_no}'"></td>
         <td>${Restaurant_MenuVO.menu_stat}</td>
         <td><textarea cols="50" rows="5">${Restaurant_MenuVO.menu_text}</textarea></td>
 
-		<td>
+			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Restaurant_Menu/Restaurant_Menu.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">
 			     <input type="hidden" name="menu_no" value="${Restaurant_MenuVO.menu_no}">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
+			<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Restaurant_Menu/Restaurant_Menu.do" style="margin-bottom: 0px;">
+			     <input type="submit" value="上架">
+			     <br>
+			     <input type="hidden" name="action"	value="changeStatUp">
+			   </FORM>
+			    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Restaurant_Menu/Restaurant_Menu.do" style="margin-bottom: 0px;">
+			     <input type="submit" value="下架">
+			     <br>
+			     <input type="hidden" name="action"	value="changeStatDown">
+			   </FORM>
+			</td>
+			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Restaurant_Menu/Restaurant_Menu.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="刪除">

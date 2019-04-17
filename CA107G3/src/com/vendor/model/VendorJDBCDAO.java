@@ -198,7 +198,7 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 			}
 		}
 		return vendor;
-	} 
+	}
 
 	@Override
 	public List<VendorVO> getAll() {
@@ -246,6 +246,21 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (pstm != null) {
+				try {
+					pstm.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return vlist;
 	}

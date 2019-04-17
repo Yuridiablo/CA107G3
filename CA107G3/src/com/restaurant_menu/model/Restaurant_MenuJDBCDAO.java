@@ -240,12 +240,7 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 						rm.setMenu_name(rs.getString("menu_name"));
 						rm.setMenu_price(rs.getString("menu_price"));
 						
-						
-						
-						
-						
 						rm.setMenu_pic(rs.getBytes("menu_pic"));
-						
 						
 						rm.setMenu_stat(rs.getInt("menu_stat"));
 						rm.setMenu_text(rs.getString("menu_text"));

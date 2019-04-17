@@ -19,15 +19,22 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <meta charset="UTF-8">
-<title>廠商後台-菜單管理</title>
+<title>管理員後台-全站菜單管理</title>
+
+<style>
+img{
+max-width:300px;
+}
+</style>
 </head>
 <body>
  <h4><a href="chooseVendor.jsp">回選擇頁</a></h4>
-<table>
+<table border=1>
 	<tr>
 
 		<th>品項編號</th>
 		<th>廠商編號</th>
+		<th>廠商名稱</th>
 		<th>品名</th>
 		<th>價格</th>
 		<th>圖片</th>
@@ -45,7 +52,9 @@
         <td>${vSvc.findByPK(Restaurant_MenuVO.getVendor_no()).v_name}</td>
         <td>${Restaurant_MenuVO.menu_name}</td>
         <td>${Restaurant_MenuVO.menu_price}</td>
-        <td>${Restaurant_MenuVO.menu_pic}</td>
+        
+        <td><img src="<%= request.getContextPath()%>/Restaurant_Menu/ShowImg.do?menu_no='${Restaurant_MenuVO.menu_no}'"></td>
+		
         <td>${Restaurant_MenuVO.menu_stat}</td>
         <td><textarea cols="50" rows="5">${Restaurant_MenuVO.menu_text}</textarea></td>
 

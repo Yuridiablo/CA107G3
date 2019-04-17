@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>菜單更改畫面</title>
 <script type="text/javascript">
 	function changePic(e) {		
 		
@@ -70,6 +70,7 @@ max-width:300px;
 	<tr>
 		<td>圖片:</td>
 		<td><input name="menu_pic" id="f_date1" type="file" onchange="changePic(event)" ></td>
+		<td><img src="<%= request.getContextPath()%>/Restaurant_Menu/ShowImg.do?menu_no='${rmVO.menu_no}'"></td>
 	</tr>
 	<tr>
 		<td>價格:</td>
@@ -97,6 +98,6 @@ max-width:300px;
 <input type="hidden" name="vendor_no" value="${rmVO.vendor_no}">
 <input type="hidden" name="menu_no" value="${rmVO.menu_no}">
 <input type="submit" value="送出修改"></FORM>
-<img src="" alt="">
+
 </body>
 </html>
