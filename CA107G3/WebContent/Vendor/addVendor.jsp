@@ -6,6 +6,8 @@
 <html lang="en">
 
 <head>
+
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -15,6 +17,14 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
+
+<script src="../front-end/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="../front-end/js/address.js" type="text/javascript" language="javascript" src="output.js" charset="UTF-8"></script>
+    <script type="text/javascript"> 
+        $(function () {
+            $('.address-zone').ajaddress({ city: "桃園市", county: "中壢區" });
+        });
+    </script>
 <title>店家會員註冊</title>
 <style type="text/css">
 .col-form-label {
@@ -56,6 +66,10 @@
 	top: 1px;
 	cursor: pointer;
 	text-decoration: none;
+}
+
+.form-control-plaintext{
+	margin-left: 3%;
 }
 </style>
 </head>
@@ -136,29 +150,54 @@
 							<div class="invalid-tooltip">請輸入正確格式</div>
 						</div>
 					</div>
+
+
+
+					 <div class="address-zone form-row align-items-center">
+				<div class="col-2 col-form-label">
+							<label>地址 :</label>
+						</div>	 	
+        <div class="col-1 zipcode form-control-plaintext"></div>
+
+        <select class="col-4 city custom-select  mr-sm-2">
+			<option value="">請選擇</option>
+		</select>
+
+        <select class="col-4 county custom-select  mr-sm-2">
+			<option value="">請選擇</option>
+		</select>
+
+    </div>
+
+
+
+    
+<!-- 
+
+
 					<div class="form-row">
 						<div class="col-2 col-form-label">
 							<label>地址 :</label>
 						</div>
-						<div class="col-2">
-							<input type="text" name="MEM_ACCOUNT" class="form-control"
+						<div class="col-2" "address-zone">
+							<input type="text" name="MEM_ACCOUNT" class="form-control" "zipcode"
 								maxlength="10" placeholder="區號" required
 								pattern="^(?=.*\d)(?=.*[A-za-z]).{6,10}$">
 							<div class="invalid-tooltip">郵遞區號</div>
 						</div>
 						<div class="col-3">
-							<input type="text" name="MEM_ACCOUNT" class="form-control"
+							<input type="text" name="MEM_ACCOUNT" class="form-control" "city"
 								placeholder="縣市" maxlength="10" required
 								pattern="^(?=.*\d)(?=.*[A-za-z]).{6,10}$">
 							<div class="invalid-tooltip">縣市</div>
 						</div>
 						<div class="col-3">
-							<input type="text" name="MEM_ACCOUNT" class="form-control"
+							<input type="text" name="MEM_ACCOUNT" class="form-control" "county"
 								placeholder="行政區" maxlength="10" required
 								pattern="^(?=.*\d)(?=.*[A-za-z]).{6,10}$">
 							<div class="invalid-tooltip">區</div>
 						</div>
-					</div>
+					</div> -->
 					<div class="form-row">
 						<div class="col-2">
 							<label></label>
@@ -204,9 +243,7 @@
 	</form>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -249,6 +286,7 @@
 			}
 
 		});
+				
 	</script>
 </body>
 
