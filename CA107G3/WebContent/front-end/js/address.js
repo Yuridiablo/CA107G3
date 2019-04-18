@@ -48,6 +48,8 @@
                         $.each(obj, function(countyName, code) {
                             if(countyName == selectCounty){
                                 zipcode.text(code);
+                                zipcode.val(code);
+                                zipcode.text(code).val();
                             }
                         });
                     }

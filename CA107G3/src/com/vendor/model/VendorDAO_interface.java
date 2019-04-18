@@ -5,6 +5,8 @@ import java.util.List;
 public interface VendorDAO_interface {
 	
 	public int insert(VendorVO vendorVO);
+	
+	public int create(VendorVO vendorVO);
 
 	public int update(VendorVO vendor);
 

@@ -17,6 +17,7 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 
 	// SQL
 	private static final String INSERT_STMT = "INSERT INTO VENDOR VALUES ('V'||LPAD(to_char(VENDOR_SEQ.NEXTVAL), 6, '0'),?,?,?,?,?,?,?,?,?,?,?,0,0,0,?,?,?,?,NULL,NULL,?)";
+	private static final String CREAT_STMT = "INSERT INTO VENDOR VALUES ('V'||LPAD(to_char(VENDOR_SEQ.NEXTVAL), 6, '0'),?,?,?,?,?,?,?,?,?,0,?,0,0,0,0,0,0,0,?,NULL,0)";
 	private static final String UPDATE = "UPDATE VENDOR SET V_PWD = ?, V_TEL = ?, V_N_CODE = ?, V_AD_CODE = ?, V_ADDRESS1 = ?, V_ADDRESS2 = ?, V_ADDRESS3 = ?, V_WALLET = ?, V_NAME = ?, V_START_TIME = ?, V_END_TIME = ?, V_DAY = ?, V_TURN_TIME = ?, V_STATUS = ? WHERE V_ACCOUNT=?";
 	private static final String DELETE = "DELETE FROM Vendor WHERE vendor_no =?";
 	private static final String GET_ONE_STMT = "SELECT * FROM Vendor WHERE Vendor_NO = ?";
@@ -56,6 +57,47 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 			pstm.setString(14, vendorVO.getV_day());
 			pstm.setString(15, vendorVO.getV_turn_time());
 			pstm.setString(16, vendorVO.getV_status());
+
+			rs = pstm.executeUpdate();
+			System.out.println("成功筆數 : " + rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return rs;
+	}
+
+	@Override
+	public int create(VendorVO vendorVO) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		int rs = 0;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			System.out.println("連線成功!");
+			pstm = con.prepareStatement(CREAT_STMT);
+			pstm.setString(1, vendorVO.getV_account());
+			pstm.setString(2, vendorVO.getV_pwd());
+			pstm.setString(3, vendorVO.getV_mail());
+			pstm.setString(4, vendorVO.getV_tel());
+			pstm.setString(5, vendorVO.getV_n_code());
+			pstm.setString(6, vendorVO.getV_ad_code());
+			pstm.setString(7, vendorVO.getV_address1());
+			pstm.setString(8, vendorVO.getV_address2());
+			pstm.setString(9, vendorVO.getV_address3());
+//			pstm.setString(10, vendorVO.getV_wallet());
+			pstm.setString(10, vendorVO.getV_name());
+			pstm.setBytes(11, vendorVO.getV_pic());
+//			pstm.setString(13, vendorVO.getV_end_time());
+//			pstm.setString(14, vendorVO.getV_day());
+//			pstm.setString(15, vendorVO.getV_turn_time());
+//			pstm.setString(16, vendorVO.getV_status());
 
 			rs = pstm.executeUpdate();
 			System.out.println("成功筆數 : " + rs);
@@ -266,7 +308,31 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 	}
 
 	public static void main(String[] args) {
-//		VendorDAO_interface vDAO = new VendorJDBCDAO();
+		VendorDAO_interface vDAO = new VendorJDBCDAO();
+		
+		//新增
+		VendorVO vVO = new VendorVO();
+		
+		vVO.setV_account("xxxzzzcc");
+		vVO.setV_pwd("000000");
+		vVO.setV_mail("yourmom@gmail.com");
+		vVO.setV_tel("11223344");
+		vVO.setV_n_code("02");
+		vVO.setV_ad_code("300");
+		vVO.setV_address1("台北市");
+		vVO.setV_address2("信義區");
+		vVO.setV_address3("中正路10號");
+		vVO.setV_name("墨賞鐵板燒");
+		vVO.setV_pic(null);
+		
+//		vVO.setVendor_no("V000003");
+//		rm.setMenu_name("宇宙大燒賣");
+//		rm.setMenu_price("2050");
+// 		rm.setMenu_pic(null);
+// 		rm.setMenu_stat(1);		
+// 		rm.setMenu_text("居然包了一整頭豬在裡面啊");		
+ 		
+		vDAO.create(vVO);	
 
 		// 單筆查詢
 		// System.out.println(vDAO.findByPrimaryKey("V000005"));
