@@ -23,59 +23,17 @@ public class VendorVO implements Serializable {
 	private String v_start_time;
 	private String v_end_time;
 	private String v_day;
-	private String v_turn_time;
+	private String v_tables;
 	private byte[] v_pic;
 	private byte[] v_ad;
 	private String v_status;
+	private String v_wait_status;
+	private String v_type;
+	private String v_text;
 
 	public VendorVO() {
 
 	}
-
-	// INSERT
-//	public VendorVO(String v_account, String v_pwd, String v_mail, String v_tel, String v_n_code, String v_ad_code,
-//			String v_address1, String v_address2, String v_address3, String v_wallet, String v_name,
-//			String v_start_time, String v_end_time, String v_day, String v_turn_time, String v_status) {
-//		super();
-//		this.v_account = v_account;
-//		this.v_pwd = v_pwd;
-//		this.v_mail = v_mail;
-//		this.v_tel = v_tel;
-//		this.v_n_code = v_n_code;
-//		this.v_ad_code = v_ad_code;
-//		this.v_address1 = v_address1;
-//		this.v_address2 = v_address2;
-//		this.v_address3 = v_address3;
-//		this.v_wallet = v_wallet;
-//		this.v_name = v_name;
-//		this.v_start_time = v_start_time;
-//		this.v_end_time = v_end_time;
-//		this.v_day = v_day;
-//		this.v_turn_time = v_turn_time;
-//		this.v_status = v_status;
-//	}
-
-	// 更新
-//	public VendorVO(String v_account, String v_pwd, String v_tel, String v_n_code, String v_ad_code, String v_address1,
-//			String v_address2, String v_address3, String v_wallet, String v_name, String v_start_time,
-//			String v_end_time, String v_day, String v_turn_time, String v_status) {
-//		super();
-//		this.v_account = v_account;
-//		this.v_pwd = v_pwd;
-//		this.v_tel = v_tel;
-//		this.v_n_code = v_n_code;
-//		this.v_ad_code = v_ad_code;
-//		this.v_address1 = v_address1;
-//		this.v_address2 = v_address2;
-//		this.v_address3 = v_address3;
-//		this.v_wallet = v_wallet;
-//		this.v_name = v_name;
-//		this.v_start_time = v_start_time;
-//		this.v_end_time = v_end_time;
-//		this.v_day = v_day;
-//		this.v_turn_time = v_turn_time;
-//		this.v_status = v_status;
-//	}
 
 	public String getVendor_no() {
 		return vendor_no;
@@ -221,12 +179,12 @@ public class VendorVO implements Serializable {
 		this.v_day = v_day;
 	}
 
-	public String getV_turn_time() {
-		return v_turn_time;
+	public String getV_tables() {
+		return v_tables;
 	}
 
-	public void setV_turn_time(String v_turn_time) {
-		this.v_turn_time = v_turn_time;
+	public void setV_tables(String v_tables) {
+		this.v_tables = v_tables;
 	}
 
 	public byte[] getV_pic() {
@@ -253,15 +211,32 @@ public class VendorVO implements Serializable {
 		this.v_status = v_status;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "VendorVo [vendor_no=" + vendor_no + ", v_account=" + v_account + ", v_pwd=" + v_pwd + ", v_mail="
-//				+ v_mail + ", v_tel=" + v_tel + ", v_n_code=" + v_n_code + ", v_ad_code=" + v_ad_code + ", v_address1="
-//				+ v_address1 + ", v_address2=" + v_address2 + ", v_address3=" + v_address3 + ", v_wallet=" + v_wallet
-//				+ ", v_name=" + v_name + ", v_w_no=" + v_w_no + ", v_n_no=" + v_n_no + ", v_alt_no=" + v_alt_no
-//				+ ", v_start_time=" + v_start_time + ", v_end_time=" + v_end_time + ", v_day=" + v_day
-//				+ ", v_turn_time=" + v_turn_time + ", v_pic=" + Arrays.toString(v_pic) + ", v_ad="
-//				+ Arrays.toString(v_ad) + ", v_status=" + v_status + "]";
-//	}
+	public String getV_wait_status() {
+		return v_wait_status;
+	}
+
+	public void setV_wait_status(String v_wait_status) {
+		this.v_wait_status = v_wait_status;
+	}
+
+	public String getV_type() {
+		return v_type;
+	}
+
+	public void setV_type(String v_type) {
+		this.v_type = v_type;
+	}
+
+	public String getV_text() {
+		return v_text;
+	}
+
+	public void setV_text(String v_text) {
+		this.v_text = v_text;
+	}
+
+
+	
+	
 
 }

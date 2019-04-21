@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.restaurant_menu.model.Restaurant_MenuService;
@@ -38,10 +39,76 @@ public class VendorServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		HttpSession se = req.getSession();
 
 		// 登入
 		if ("login".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			try {
+				String v_account = req.getParameter("v_account");
+				String v_accountReg = "^[0-9a-zA-z]{6,10}$";
+				if (v_account == null || (v_account.trim()).length() == 0) {
+					errorMsgs.add("請輸入帳號");
+				} else if (!v_account.trim().matches(v_accountReg)) {
+					errorMsgs.add("帳號只能輸入數字及大小寫英文");
+				}
 
+				String v_pwd = req.getParameter("v_pwd");
+				String v_pwdReg = "^[0-9a-zA-z]{6,10}$";
+				if (v_pwd == null || (v_pwd.trim()).length() == 0) {
+					errorMsgs.add("請輸入密碼");
+				} else if (!v_pwd.trim().matches(v_pwdReg)) {
+					errorMsgs.add("密碼只能輸入數字及大小寫英文");
+				}
+
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/vendor/loginVendor.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				VendorService vendorSvc = new VendorService();
+				System.out.println(v_account);
+				VendorVO vVO = vendorSvc.findByAcc(v_account);
+
+				if (vVO == null) {
+					errorMsgs.add("無此帳號");
+				}
+
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/vendor/loginVendor.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				String v_pwdConfirm = vVO.getV_pwd();
+
+				System.out.println(v_pwdConfirm);
+
+				if (!v_pwd.equals(v_pwdConfirm)) {
+					errorMsgs.add("密碼錯誤");
+				}
+
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/vendor/loginVendor.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				HttpSession session = req.getSession();
+				session.setAttribute("v_account", req.getParameter("v_account"));
+				session.setAttribute("vVO", vVO);
+
+				String url = "/Vendor/upVendor.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/vendor/loginvendor.jsp");
+				failureView.forward(req, res);
+
+			}
 		}
 		System.out.println("----WW!---");
 		//註冊
@@ -157,6 +224,150 @@ public class VendorServlet extends HttpServlet {
 			}
 		}
 		
+		//修改餐廳資訊
+//		if ("getOne_For_Update".equals(action)) {
+//			System.out.println("到了");
+//			List<String> errorMsgs = new LinkedList<String>();
+//			// Store this set in the request scope, in case we need to
+//			// send the ErrorPage view.
+//			req.setAttribute("errorMsgs", errorMsgs);
+//
+//			try {
+//				/*************************** 1.接收請求參數 ****************************************/
+//				String vendor_no = "V000001";
+////				String vendor_no = req.getParameter("vendor_no");
+//				System.out.println(vendor_no);
+//
+//				/*************************** 2.開始查詢資料 ****************************************/
+//				VendorService vSvc = new VendorService();
+//				VendorVO vVO = vSvc.findByPK(vendor_no);
+//				System.out.println(vVO.getV_name());
+//				
+//
+//				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+//				req.setAttribute("vVO", vVO); // 資料庫取出的empVO物件,存入req
+//				String url = "/Vendor/upVendor.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+//				successView.forward(req, res);
+//
+//				/*************************** 其他可能的錯誤處理 **********************************/
+//			} catch (Exception e) {
+//				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/Restaurant_Menu/listAllMenus.jsp");
+//				failureView.forward(req, res);
+//			}
+//		}
+		
+		//更改店家資料
+		if ("Update".equals(action)) {
+			System.out.println("更新的頭");
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			String requestURL = req.getParameter("requestURL");
+
+			try {
+				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+				
+				VendorVO vVO = (VendorVO) se.getAttribute("vVO");
+				String vendor_no = vVO.getVendor_no();
+				String v_type = req.getParameter("v_type");
+//				String enameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
+//				if (ename == null || ename.trim().length() == 0) {
+//					errorMsgs.add("員工姓名: 請勿空白");
+//				} else if(!ename.trim().matches(enameReg)) { //以下練習正則(規)表示式(regular-expression)
+//					errorMsgs.add("員工姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
+//	            }
+
+				String v_start_time = req.getParameter("v_start_time").trim();
+//				if (v_account == null || v_account.trim().length() == 0) {
+//					errorMsgs.add("帳號請勿空白");
+//				}
+
+//				java.sql.Date hiredate = null;
+//				try {
+//					hiredate = java.sql.Date.valueOf(req.getParameter("hiredate").trim());
+//				} catch (IllegalArgumentException e) {
+//					hiredate=new java.sql.Date(System.currentTimeMillis());
+//					errorMsgs.add("請輸入日期!");
+//				}
+
+				String v_end_time = req.getParameter("v_end_time").trim();
+				String v_day = req.getParameter("v_day").trim();
+				String v_tables = req.getParameter("v_tables").trim();
+
+				String v_text = req.getParameter("v_text").trim();
+				
+
+			
+
+//				Double comm = null;
+//				try {
+//					comm = new Double(req.getParameter("comm").trim());
+//				} catch (NumberFormatException e) {
+//					comm = 0.0;
+//					errorMsgs.add("獎金請填數字.");
+//				}
+
+
+				// 上傳圖片
+//				byte[] v_pic = null;
+//				Collection<Part> pps = req.getParts();
+//				for (Part part : pps) {
+//					if (part.getName().equals("v_pic")) {
+//						if (part.getSize() != 0) {
+//
+//							InputStream in = part.getInputStream();
+//							ByteArrayOutputStream output = new ByteArrayOutputStream();
+//							v_pic = new byte[in.available()];
+//							for (int length = 0; (length = in.read(v_pic)) > 0;)
+//								output.write(v_pic, 0, length);
+//						} else {
+//							errorMsgs.add("圖片請勿空白");
+//
+//						}
+//					}
+//				}
+
+				vVO.setV_type(v_type);
+				vVO.setV_start_time(v_start_time);
+				vVO.setV_end_time(v_end_time);
+				vVO.setV_day(v_day);
+				vVO.setV_tables(v_tables);
+				vVO.setV_text(v_text);
+				vVO.setVendor_no(vendor_no);
+
+				// Send the use back to the form, if there were errors
+//				if (!errorMsgs.isEmpty()) {
+//					req.setAttribute("vVO", vVO); // 含有輸入格式錯誤的VO物件,也存入req
+//					RequestDispatcher failureView = req.getRequestDispatcher("/Restaurant_Menu/addMenu.jsp");
+//					failureView.forward(req, res);
+//					return; // 程式中斷
+//				}
+
+				/*************************** 2.開始修改資料 *****************************************/
+
+				VendorService vSvc = new VendorService();
+				vVO = vSvc.update(v_type, v_start_time, v_end_time, v_day, v_tables, v_text, vendor_no);
+//				List<Restaurant_MenuVO> vlist = rmSvc.getVendor(vendor_no);
+
+				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
+//				req.setAttribute("vVO", vVO); // 資料庫update成功後,正確的的VO物件,存入req
+//				req.setAttribute("vlist", vlist);
+				String url = requestURL;
+//				String url = "/Vendor/listAll.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listChoosed.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+				errorMsgs.add("修改資料失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/Vendor/listAll.jsp");
+				failureView.forward(req, res);
+			}
+		}
 		
 		
 	}

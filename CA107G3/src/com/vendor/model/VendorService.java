@@ -31,8 +31,27 @@ public class VendorService {
 		return vVO;
 	}
 	
+	public VendorVO update(String v_type,String v_start_time,String v_end_time,String v_day,String v_tables,String v_text,String vendor_no) {
+		VendorVO vVO = new VendorVO();
+		
+		vVO.setV_type(v_type);
+		vVO.setV_start_time(v_start_time);
+		vVO.setV_end_time(v_end_time);
+		vVO.setV_day(v_day);
+		vVO.setV_tables(v_tables);
+		vVO.setV_text(v_text);
+		vVO.setVendor_no(vendor_no);
+		
+		dao.update(vVO);
+		return vVO;
+	}
+	
+	public VendorVO findByAcc(String v_account) {
+		return dao.findByAcc(v_account);
+	}
+	
 	public VendorVO findByPK(String vendor_no) {
-		return dao.findByPrimaryKey(vendor_no);
+		return dao.findByPK(vendor_no);
 	}
 	
 	public List<VendorVO> getAll() {
