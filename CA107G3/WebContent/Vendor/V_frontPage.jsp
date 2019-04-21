@@ -139,22 +139,9 @@ img {
 	height: 500px;
 }
 
-@keyframes full {from { left:-280px;
-	
-}
-
-to {
-	left: 0px;
-}
-
-}
-@keyframes invi {from { left:0px;
-	
-}
-
-to {
-	left: -280px;
-}
+.errmsg{
+margin-top:3%;
+font-size:30px;
 }
 
 /*.side-nav__section-title {
@@ -197,12 +184,21 @@ to {
 					<div class="col-2">
 			<span><a href="#" class="btn btn btn-primary top-btn btn-lg" data-toggle="modal" data-target="#exampleModalCenter">登入</a></span>
 			</div>
-                                    <span><a href="#" class="btn btn btn-primary top-btn btn-lg">註冊</a></span>
+                                    <span><a href="<%= request.getContextPath() %>/Vendor/addVendor.jsp" class="btn btn btn-primary top-btn btn-lg">註冊</a></span>
                                 
 
 				</div>
-
-
+				
+				<div class="row justify-content-center errmsg">
+            	 <c:if test="${not empty errorMsgs}">
+					<font style="color:red">登入失敗</font>
+					<ul>
+						<c:forEach var="message" items="${errorMsgs}">
+							<li style="color:red">${message}</li>
+						</c:forEach>
+					</ul>
+				</c:if>
+				</div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -213,7 +209,7 @@ to {
             </div>
 			
 			<div class="modal-body">
-<!-- =========================================以下為原listOneEmp.jsp的內容========================================== -->
+<!-- ========================================BODY開始========================================== -->
               
 <%--               <c:if test="${not empty errorMsgs}"> --%>
 <!-- 	<font style="color:red">請修正以下錯誤:</font> -->
@@ -247,7 +243,7 @@ to {
               
               
               
-<!-- =========================================以上為原listOneEmp.jsp的內容========================================== -->
+<!-- =========================================BODY結束========================================== -->
 			</div>
 			
 			<div class="modal-footer">
@@ -309,7 +305,16 @@ to {
 
 
     </script>
-	
+    
+    <c:if test="${newAcc == true}">
+    <script>
+    Swal.fire(
+    		  '申請成功!',
+    		  '我們將會盡快審核您的帳戶',
+    		  'success'
+    		)
+    </script>
+	</c:if>
 </body>
 
 </html>

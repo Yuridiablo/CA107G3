@@ -35,25 +35,26 @@ public class ShowImg extends HttpServlet {
 
 		res.setContentType("image/gif");
 		ServletOutputStream out = res.getOutputStream();
+		
+		
+		
 
 		try {
 			Statement stmt = con.createStatement();
-			String SQL ="SELECT MENU_PIC FROM RESTAURANT_MENU WHERE MENU_NO = " + req.getParameter("menu_no");
+			String SQL = "SELECT MENU_PIC FROM RESTAURANT_MENU WHERE MENU_NO = " + req.getParameter("menu_no");
 //			String SQL ="SELECT MENU_PIC FROM RESTAURANT_MENU WHERE MENU_NO = 'RM00000008'";
 			System.out.println(SQL);
 			ResultSet rs = stmt.executeQuery(SQL);
-			
-			
-			
+
 			if (rs.next()) {
-			
+
 				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("MENU_PIC"));
 				byte[] buf = new byte[4 * 1024]; // 4K buffer
 				int len;
 				while ((len = in.read(buf)) != -1) {
 					out.write(buf, 0, len);
 				}
-				
+
 				in.close();
 			} else {
 				res.sendError(HttpServletResponse.SC_NOT_FOUND);

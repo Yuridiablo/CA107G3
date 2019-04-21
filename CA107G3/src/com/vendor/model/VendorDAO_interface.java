@@ -7,7 +7,7 @@ public interface VendorDAO_interface {
 	public int insert(VendorVO vendorVO);
 	
 
-
+	//修改廠商資訊(OK)
 	public int update(VendorVO vendor);
 
 	public int delete(String vendor_no);
@@ -28,14 +28,14 @@ public interface VendorDAO_interface {
 	public void waitOnOff(VendorVO vendorVO);
 	
 	//修改餐廳圖片
+	public int updatePic(VendorVO vendorVO);
 	
 	//修改廣告圖片
-		
-	//修改廠商資訊
+	public int updateAd(VendorVO vendorVO);
 	
-	//以帳號查一間餐廳
+	
+	//以帳號查一間餐廳(登入用)(OK)
 	public VendorVO findByAcc(String v_account);
-	
 	
 
 	public List<VendorVO> getAll();

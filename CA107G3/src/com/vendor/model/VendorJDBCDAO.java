@@ -20,6 +20,8 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 	private static final String CREAT_STMT = "INSERT INTO VENDOR VALUES ('V'||LPAD(to_char(VENDOR_SEQ.NEXTVAL), 6, '0'),?,?,?,?,?,?,?,?,?,0,?,0,0,0,0,0,0,0,?,NULL,0,0,'','')";
 //	private static final String UPDATE = "UPDATE VENDOR SET V_PWD = ?, V_TEL = ?, V_N_CODE = ?, V_AD_CODE = ?, V_ADDRESS1 = ?, V_ADDRESS2 = ?, V_ADDRESS3 = ?, V_WALLET = ?, V_NAME = ?, V_START_TIME = ?, V_END_TIME = ?, V_DAY = ?, V_TURN_TIME = ?, V_STATUS = ? WHERE V_ACCOUNT=?";
 	private static final String UPDATE = "UPDATE VENDOR SET v_type = ?, v_start_time = ?, v_end_time = ?, v_day = ?, v_tables = ?, v_text = ? WHERE vendor_no=?";
+	private static final String UPDATE_PIC = "UPDATE VENDOR SET v_pic = ? WHERE vendor_no=?";
+	private static final String UPDATE_AD = "UPDATE VENDOR SET v_ad = ? WHERE vendor_no=?";
 	private static final String DELETE = "DELETE FROM Vendor WHERE vendor_no =?";
 	private static final String GET_ONE_STMT = "SELECT * FROM Vendor WHERE Vendor_NO = ?";
 	private static final String GET_ACC_STMT = "SELECT * FROM Vendor WHERE v_account = ?";
@@ -309,6 +311,68 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 			}
 		}
 		return vendor;
+	}
+
+	@Override
+	public int updatePic(VendorVO vendorVO) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		int rs = 0;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			System.out.println("連線成功!更新一張圖");
+			pstm = con.prepareStatement(UPDATE_PIC);
+			
+			
+			
+			pstm.setBytes(1, vendorVO.getV_pic());
+			pstm.setString(2, vendorVO.getVendor_no());
+	
+			
+			System.out.println(vendorVO.getVendor_no());
+
+			rs = pstm.executeUpdate();
+			System.out.println("成功筆數 : " + rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return rs;
+	}
+
+	@Override
+	public int updateAd(VendorVO vendorVO) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		
+		int rs = 0;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			System.out.println("連線成功!");
+			pstm = con.prepareStatement(UPDATE_AD);
+
+			pstm.setBytes(1, vendorVO.getV_ad());
+			pstm.setString(2, vendorVO.getVendor_no());
+
+			rs = pstm.executeUpdate();
+			System.out.println("成功筆數 : " + rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return rs;
 	}
 
 	@Override

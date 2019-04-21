@@ -77,6 +77,7 @@ body {
 .btn-primary {
 	background-color: orange;
 	border-color: orange;
+	margin-top: 10%;
 }
 
 #topicBar {
@@ -116,6 +117,14 @@ body {
 .resTitle {
 	font-size: 30px;
 	margin-left: 5%;
+}
+
+.nav .btn{
+	margin-top:80%;
+ padding-left: 123px;
+ padding-right: 123px;
+ box-sizing: border-box;
+
 }
 
 img {
@@ -176,6 +185,11 @@ to {
 			class="nav-link text-white p-3" href="#">回應管理</a> <a
 			class="nav-link text-white p-3" href="#">訂位者驗證</a> <a
 			class="nav-link text-white p-3" href="#">候位者驗證</a>
+			<form class="needs-validation" novalidate METHOD="post" ACTION="Vendor.do" name="form1">
+			<input type="hidden" name="action"	value="logout">
+			<button type="submit" class="btn btn-primary">
+			登出
+			</button></form>
 	</nav>
 
 	<div class="container">
@@ -274,7 +288,7 @@ to {
 						<button id="V_PIC">更換形象</button>
 					</div>
 				</div>
-				<img src="https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder">
+				<img id="pic1" src="https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder">
 				<div class="form-row">
 					<div class="col-3 col-form-label">
 						<label>目前宣傳</label>
@@ -283,7 +297,7 @@ to {
 						<button id="V_AD">更換宣傳</button>
 					</div>
 				</div>
-				<img src="https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder">
+				<img id="ad1" src="https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder">
 			</div>
 
 
@@ -316,9 +330,7 @@ to {
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
+	<script src="../front-end/js/jquery-3.3.1.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -372,19 +384,32 @@ const {value: file} = await Swal.fire({
 if (file) {
   const reader = new FileReader
   reader.onload = (e) => {
+
+
     Swal.fire({
-      title: '您即將上傳',
+      title: '圖片已變更為',
       imageUrl: e.target.result,
       imageAlt: 'The uploaded picture'
       
+   
+    }).then(function(file){
+    	$.ajax({
+    		url: "Vendor.do",
+            type : 'post',
+			data: { action: 'upPic', file: e.target.result},
+			dataType: 'json',
+			async : false,//同步請求
+			cache : false,//不快取頁面
+			
+    	})
     })
+    $('#pic1').attr('src', e.target.result);
   }
+  
 
   reader.readAsDataURL(file)
 
 }
-
-
 
 
 })

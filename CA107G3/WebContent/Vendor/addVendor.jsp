@@ -52,6 +52,10 @@
 	font: 18px 微軟正黑體;
 }
 
+.addv{
+	margin-top: 1%;
+}
+
 #refreshconfirm {
 	text-align: right;
 	margin-bottom: 5px;
@@ -102,7 +106,31 @@ img {
 </head>
 
 <body>
-	<form class="needs-validation" novalidate METHOD="post"
+
+
+
+<!-- Navbar -->
+	<nav class="navbar  bg-dark navbar-dark">
+		
+		
+		
+		<spqn class="navbar-brand resTitle">歡迎使用餐廳管理畫面</spqn>
+		<span class="navbar-brand">Seek Food Table</span>
+	</nav>
+	<!-- Side Nav -->
+	<div id="sidenavOverlay"></div>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<!-- ===============================編輯區 開始====================================== -->
+
+
+
+
+
+	<form class="needs-validation addv" novalidate METHOD="post"
 		ACTION="Vendor.do" name="form1" enctype="multipart/form-data">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -134,7 +162,7 @@ img {
 						</div>
 						<div class="col-10">
 							<input type="password" name="v_pwd" value="${vVO.v_pwd}"
-								id="v_pwd" class="form-control" id="pwd"
+								 class="form-control" id="pwd"
 								placeholder="請填寫6-10位混和英數字,英文需區分大小寫" maxlength="10" required
 								pattern="^(?=.*\d)(?=.*[A-za-z]).{6,10}$">
 							<div class="invalid-tooltip  ">請設定密碼</div>
@@ -145,7 +173,7 @@ img {
 							<label>密碼確認 :</label>
 						</div>
 						<div class="col-10">
-							<input type="password" name="v_pwd_confirm" id="v_pwd_confirm"
+							<input type="password" name="v_pwd_confirm" 
 								class="form-control" placeholder="請再輸入一次密碼" maxlength="10"
 								id="pwdconfirm" required
 								pattern="^(?=.*\d)(?=.*[A-za-z]).{6,10}$">
@@ -291,7 +319,11 @@ img {
 
 		</div>
 	</form>
+<!-- =================================編輯區 結束==================================== -->
+		</div>
+	</div>
 
+	</div>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 

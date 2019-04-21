@@ -3,6 +3,7 @@ package com.vendor.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
+import org.json.JSONObject;
 
 import com.restaurant_menu.model.Restaurant_MenuService;
 import com.restaurant_menu.model.Restaurant_MenuVO;
@@ -40,6 +43,8 @@ public class VendorServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		HttpSession se = req.getSession();
+		JSONObject obj = new JSONObject();
+		System.out.println(req.getParameter("file"));
 
 		// 登入
 		if ("login".equals(action)) {
@@ -47,7 +52,7 @@ public class VendorServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
 				String v_account = req.getParameter("v_account");
-				String v_accountReg = "^[0-9a-zA-z]{6,10}$";
+				String v_accountReg = "^[0-9a-zA-z]{1,10}$";
 				if (v_account == null || (v_account.trim()).length() == 0) {
 					errorMsgs.add("請輸入帳號");
 				} else if (!v_account.trim().matches(v_accountReg)) {
@@ -55,7 +60,7 @@ public class VendorServlet extends HttpServlet {
 				}
 
 				String v_pwd = req.getParameter("v_pwd");
-				String v_pwdReg = "^[0-9a-zA-z]{6,10}$";
+				String v_pwdReg = "^[0-9a-zA-z]{1,10}$";
 				if (v_pwd == null || (v_pwd.trim()).length() == 0) {
 					errorMsgs.add("請輸入密碼");
 				} else if (!v_pwd.trim().matches(v_pwdReg)) {
@@ -63,7 +68,7 @@ public class VendorServlet extends HttpServlet {
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/vendor/loginVendor.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/Vendor/V_frontPage.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -77,7 +82,7 @@ public class VendorServlet extends HttpServlet {
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/vendor/loginVendor.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/Vendor/V_frontPage.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -91,7 +96,7 @@ public class VendorServlet extends HttpServlet {
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/vendor/loginVendor.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/Vendor/V_frontPage.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -103,9 +108,10 @@ public class VendorServlet extends HttpServlet {
 				String url = "/Vendor/upVendor.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
+				System.out.println(se.toString());
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/vendor/loginvendor.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/Vendor/V_frontPage.jsp");
 				failureView.forward(req, res);
 
 			}
@@ -114,6 +120,7 @@ public class VendorServlet extends HttpServlet {
 		//註冊
 		if ("insert".equals(action)) {
 			
+			boolean newAcc = false;
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -211,8 +218,10 @@ public class VendorServlet extends HttpServlet {
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("vVO", vVO); // 資料庫update成功後,正確的的VO物件,存入req
+				newAcc = true;
+				req.setAttribute("newAcc", newAcc);
 //				req.setAttribute("vlist", vlist);
-				String url = "/Vendor/listAll.jsp";
+				String url = "/Vendor/V_frontPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listChoosed.jsp
 				successView.forward(req, res);
 
@@ -369,7 +378,69 @@ public class VendorServlet extends HttpServlet {
 			}
 		}
 		
+			if ("logout".equals(action)) {
+			System.out.println("成功登出");
+			
+				
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				
+				se.invalidate();
+				System.out.println(se.toString());
+	
+				/*************************** 2.開始查詢資料 ****************************************/
 		
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				String url = "/Vendor/V_frontPage.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+				successView.forward(req, res);
+	
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+			
+			if ("upPic".equals(action)) {
+				System.out.println("進入了UP");
+				
+					
+				try {
+					/*************************** 1.接收請求參數 ****************************************/
+					VendorVO vVO = (VendorVO) se.getAttribute("vVO");
+					String vendor_no = vVO.getVendor_no();
+
+			
+					// 上傳圖片
+					byte[] v_pic = null;
+//					v_pic = ByteConvert.Base64Decode(req.getParameter("file"));
+					String base64 = req.getParameter("file");
+					
+					v_pic = Base64.getMimeDecoder().decode(base64.split(",")[1]);
+					
+					vVO.setV_pic(v_pic);
+					System.out.println(vendor_no);
+					vVO.setVendor_no(vendor_no);
+					
+					System.out.println(v_pic);
+					
+					VendorService vSvc = new VendorService();
+					vVO = vSvc.updatePic(v_pic, vendor_no);
+
+					
+
+					/*************************** 2.開始查詢資料 ****************************************/
+			
+					/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+					String url = "/Vendor/V_frontPage.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+					successView.forward(req, res);
+		
+					/*************************** 其他可能的錯誤處理 **********************************/
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 	}
 
 }

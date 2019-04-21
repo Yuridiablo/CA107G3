@@ -46,6 +46,26 @@ public class VendorService {
 		return vVO;
 	}
 	
+	
+	public VendorVO updatePic(byte[] v_pic,String vendor_no) {
+		VendorVO vVO = new VendorVO();
+		vVO.setV_pic(v_pic);
+		vVO.setVendor_no(vendor_no);
+		
+		dao.updatePic(vVO);
+		return vVO;
+	}
+	
+	public VendorVO updateAd(byte[] v_ad,String vendor_no) {
+		VendorVO vVO = new VendorVO();
+		vVO.setV_ad(v_ad);
+		vVO.setVendor_no(vendor_no);
+		
+		dao.updateAd(vVO);
+		return vVO;
+	}
+	
+	
 	public VendorVO findByAcc(String v_account) {
 		return dao.findByAcc(v_account);
 	}
