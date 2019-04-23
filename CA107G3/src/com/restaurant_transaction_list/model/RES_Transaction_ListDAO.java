@@ -14,69 +14,73 @@ import java.util.Map;
 
 
 public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "WEST";
-	String passwd = "800627";
+	final String DRIVER = "oracle.jdbc.driver.OracleDriver";
+	final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
+	final String USER = "CA107G3";
+	final String PASSWORD = "123456";
 	
 	
 	
-	private static final String INSERT_STMT = "INSERT INTO RES_TRANSACTION_LIST VALUES('RTL'||LPAD(to_char(RES_T_L_SEQ.NEXTVAL), 7, '0'),?,?,sysdate,'20190402-000005',?)";
+	private static final String INSERT_STMT = "INSERT INTO RES_TRANSACTION_LIST VALUES('RTL'||LPAD(to_char(RES_T_L_SEQ.NEXTVAL), 7, '0'),?,?,sysdate,?,?)";
 			
 	private static final String GET_ALL_STMT = 
 			"SELECT TRST_NO, VENDOR_NO, AMOUNT,PAY_DATE, ORD_NO,v_wallet FROM RES_TRANSACTION_LIST order by trst_no";
 	
 	private static final String GET_ONE_STMT = 
 			"SELECT TRST_NO, VENDOR_NO, AMOUNT,PAY_DATE, ORD_NO, V_WALLET FROM RES_TRANSACTION_LIST WHERE TRST_NO =?";
-	
+	private static final String GET_ONE_VENDOR = 
+			"SELECT * FROM res_transaction_list WHERE VENDOR_NO =?";
+	private static final String STATUS = 
+			"UPDATE res_transaction_list set V_WALLET=? where vendor_no = ?";
 	private static final String DELETE = 
 			"DELETE FROM res_transaction_list where trst_no = ?";
 	private static final String UPDATE = 
 			"UPDATE res_transaction_list set vendor_no=?, amount=?,	pay_date=?,	ord_no=?, v_wallet=? where trst_no=?";
 	@Override
 	public void insert(RES_Transaction_ListVO res_transaction_listVO) {
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		
-//		try {
-//
-//			Class.forName(driver);
-//			con = DriverManager.getConnection(url, userid, passwd);
-//			pstmt = con.prepareStatement(INSERT_STMT);
-//
-//			pstmt.setString(1, res_transaction_listVO.getVendor_no());
-//			pstmt.setDouble(2, res_transaction_listVO.getAmount());
-//			pstmt.setDouble(3, res_transaction_listVO.getV_wallet());
-//
-//			pstmt.executeUpdate();
-//				System.out.println("OK1");
-//			// Handle any driver errors
-//		} catch (ClassNotFoundException e) {
-//			throw new RuntimeException("Couldn't load database driver. "
-//					+ e.getMessage());
-//			// Handle any SQL errors
-//		} catch (SQLException se) {
-//			throw new RuntimeException("A database error occured. "
-//					+ se.getMessage());
-//			// Clean up JDBC resources
-//		} finally {
-//			if (pstmt != null) {
-//				try {
-//					pstmt.close();
-//				} catch (SQLException se) {
-//					se.printStackTrace(System.err);
-//				}
-//			}
-//			if (con != null) {
-//				try {
-//					con.close();
-//				} catch (Exception e) {
-//					e.printStackTrace(System.err);
-//				}
-//			}
-//		}
-//
-//
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(INSERT_STMT);
+
+			pstmt.setString(1, res_transaction_listVO.getVendor_no());
+			pstmt.setDouble(2, res_transaction_listVO.getAmount());
+			pstmt.setString(3, res_transaction_listVO.getOrd_no());
+			pstmt.setInt(4, res_transaction_listVO.getV_wallet());
+
+			pstmt.executeUpdate();
+				System.out.println("新增了一筆資料");
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+
 	}
 
 	@Override
@@ -86,8 +90,8 @@ public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interfa
 //
 //		try {
 //
-//			Class.forName(driver);
-//			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(DRIVER);
+//			con = DriverManager.getConnection(URL, USER, PASSWORD);
 //			pstmt = con.prepareStatement(UPDATE);
 //
 //			pstmt.setString(1, res_transaction_listVO.getVendor_no() );
@@ -136,8 +140,8 @@ public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interfa
 //
 //		try {
 //
-//			Class.forName(driver);
-//			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(DRIVER);
+//			con = DriverManager.getConnection(URL, USER, PASSWORD);
 //			pstmt = con.prepareStatement(DELETE);
 //
 //			pstmt.setString(1, trst_no);
@@ -174,6 +178,119 @@ public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interfa
 	}
 
 	@Override
+	public void status(RES_Transaction_ListVO res_transaction_listVO) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			
+			
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(STATUS);
+	
+			pstmt.setInt(1, res_transaction_listVO.getV_wallet() );
+			pstmt.setString(2, res_transaction_listVO.getVendor_no() );
+		
+	
+			pstmt.executeUpdate();
+			System.out.println("更新了交易明細狀態");
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+		
+	}
+
+	@Override
+	public List<RES_Transaction_ListVO> getOneVendor(String vendor_no) {
+		List<RES_Transaction_ListVO> list = new ArrayList<RES_Transaction_ListVO>();
+		RES_Transaction_ListVO rtlVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(GET_ONE_VENDOR);
+			
+			pstmt.setString(1, vendor_no);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				
+				rtlVO = new RES_Transaction_ListVO();
+				rtlVO.setTrst_no(rs.getString("trst_no"));
+				rtlVO.setVendor_no(rs.getString("vendor_no"));
+				rtlVO.setAmount(rs. getDouble("amount"));
+				rtlVO.setPay_date(rs.getTimestamp("pay_date"));
+				rtlVO.setOrd_no(rs.getString("ord_no"));
+				rtlVO.setV_wallet(rs.getInt("v_wallet"));
+				
+				list.add(rtlVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
 	public RES_Transaction_ListVO findByPrimaryKey(String trst_no) {
 		
 
@@ -184,8 +301,8 @@ public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interfa
 
 			try {
 
-				Class.forName(driver);
-				con = DriverManager.getConnection(url, userid, passwd);
+				Class.forName(DRIVER);
+				con = DriverManager.getConnection(URL, USER, PASSWORD);
 				pstmt = con.prepareStatement(GET_ONE_STMT);
 
 				pstmt.setString(1, trst_no);
@@ -200,7 +317,7 @@ public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interfa
 					res_transaction_listVO.setAmount(rs. getDouble("amount"));
 					res_transaction_listVO.setPay_date(rs.getTimestamp("pay_date"));
 					res_transaction_listVO.setOrd_no(rs.getString("ord_no"));
-					res_transaction_listVO.setV_wallet(rs.getDouble("v_wallet"));
+					res_transaction_listVO.setV_wallet(rs.getInt("v_wallet"));
 					
 				}
 
@@ -251,8 +368,8 @@ public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interfa
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -265,7 +382,7 @@ public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interfa
 				resVO.setAmount(rs. getDouble("amount"));
 				resVO.setPay_date(rs.getTimestamp("pay_date"));
 				resVO.setOrd_no(rs.getString("ord_no"));
-				resVO.setV_wallet(rs.getDouble("v_wallet"));
+				resVO.setV_wallet(rs.getInt("v_wallet"));
 				
 				list.add(resVO); // Store the row in the list
 			}
@@ -303,12 +420,6 @@ public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interfa
 			}
 		}
 		return list;
-	}
-
-	@Override
-	public List<RES_Transaction_ListVO> getAll(Map<String, String[]> map) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public static void main(String[] args) {
@@ -366,8 +477,6 @@ public  class RES_Transaction_ListDAO implements RES_Transaction_ListDAO_Interfa
 		
 		}
 		
-
-
 	}
 
 }

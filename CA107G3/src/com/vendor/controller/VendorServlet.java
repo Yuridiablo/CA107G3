@@ -105,7 +105,7 @@ public class VendorServlet extends HttpServlet {
 				session.setAttribute("v_account", req.getParameter("v_account"));
 				session.setAttribute("vVO", vVO);
 
-				String url = "/Vendor/upVendor.jsp";
+				String url = "/Vendor/mainVendor.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
 				System.out.println(se.toString());
@@ -426,6 +426,47 @@ public class VendorServlet extends HttpServlet {
 					
 					VendorService vSvc = new VendorService();
 					vVO = vSvc.updatePic(v_pic, vendor_no);
+
+					
+
+					/*************************** 2.開始查詢資料 ****************************************/
+			
+					/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+					String url = "/Vendor/V_frontPage.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+					successView.forward(req, res);
+		
+					/*************************** 其他可能的錯誤處理 **********************************/
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if ("upAd".equals(action)) {
+				System.out.println("進入了Ad");
+				
+					
+				try {
+					/*************************** 1.接收請求參數 ****************************************/
+					VendorVO vVO = (VendorVO) se.getAttribute("vVO");
+					String vendor_no = vVO.getVendor_no();
+
+			
+					// 上傳圖片
+					byte[] v_ad = null;
+//					v_pic = ByteConvert.Base64Decode(req.getParameter("file"));
+					String base64 = req.getParameter("file");
+					
+					v_ad = Base64.getMimeDecoder().decode(base64.split(",")[1]);
+					
+					vVO.setV_ad(v_ad);
+					System.out.println(vendor_no);
+					vVO.setVendor_no(vendor_no);
+					
+					System.out.println(v_ad);
+					
+					VendorService vSvc = new VendorService();
+					vVO = vSvc.updateAd(v_ad, vendor_no);
 
 					
 

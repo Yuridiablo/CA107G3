@@ -27,10 +27,10 @@ public interface VendorDAO_interface {
 	//修改開放訂位狀態
 	public void waitOnOff(VendorVO vendorVO);
 	
-	//修改餐廳圖片
+	//修改餐廳圖片(OK)
 	public int updatePic(VendorVO vendorVO);
 	
-	//修改廣告圖片
+	//修改廣告圖片(OK)
 	public int updateAd(VendorVO vendorVO);
 	
 	

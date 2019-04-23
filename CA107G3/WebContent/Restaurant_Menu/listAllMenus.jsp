@@ -53,7 +53,7 @@ max-width:300px;
         <td>${Restaurant_MenuVO.menu_name}</td>
         <td>${Restaurant_MenuVO.menu_price}</td>
         
-        <td><img src="<%= request.getContextPath()%>/Restaurant_Menu/ShowImg.do?menu_no='${Restaurant_MenuVO.menu_no}'"></td>
+        <td><img src="<%= request.getContextPath()%>/ShowImg.do?menu_no='${Restaurant_MenuVO.menu_no}'"></td>
 		
         <td>${Restaurant_MenuVO.menu_stat}</td>
         <td><textarea cols="50" rows="5">${Restaurant_MenuVO.menu_text}</textarea></td>

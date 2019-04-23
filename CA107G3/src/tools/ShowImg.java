@@ -35,20 +35,37 @@ public class ShowImg extends HttpServlet {
 
 		res.setContentType("image/gif");
 		ServletOutputStream out = res.getOutputStream();
+		String picName = null;
+		String SQL = null;
 		
+		//抓菜單的圖
+		if (req.getParameter("menu_no") != null) {
+			picName = "MENU_PIC";
+			SQL = "SELECT MENU_PIC FROM RESTAURANT_MENU WHERE MENU_NO = " + req.getParameter("menu_no");
+		}
 		
+		// 抓餐廳形象圖
+		if (req.getParameter("pic") != null) {
+			picName = "V_PIC";
+			SQL = "SELECT V_PIC FROM VENDOR WHERE VENDOR_NO = " + req.getParameter("vendor_no");
+		}
 		
+		// 抓餐廳廣告圖
+		if (req.getParameter("ad") != null) {
+			picName = "V_AD";
+			SQL = "SELECT V_AD FROM VENDOR WHERE VENDOR_NO = " + req.getParameter("vendor_no");
+		}
 
 		try {
 			Statement stmt = con.createStatement();
-			String SQL = "SELECT MENU_PIC FROM RESTAURANT_MENU WHERE MENU_NO = " + req.getParameter("menu_no");
+			
 //			String SQL ="SELECT MENU_PIC FROM RESTAURANT_MENU WHERE MENU_NO = 'RM00000008'";
 			System.out.println(SQL);
 			ResultSet rs = stmt.executeQuery(SQL);
 
 			if (rs.next()) {
 
-				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("MENU_PIC"));
+				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream(picName));
 				byte[] buf = new byte[4 * 1024]; // 4K buffer
 				int len;
 				while ((len = in.read(buf)) != -1) {
