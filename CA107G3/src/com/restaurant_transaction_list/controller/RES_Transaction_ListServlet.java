@@ -29,7 +29,10 @@ public class RES_Transaction_ListServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		HttpSession se = req.getSession();
 		
-		System.out.println(req.getParameter("file"));
+		
+		
+		
+
 		
 		if ("logout".equals(action)) {
 							
@@ -42,9 +45,10 @@ public class RES_Transaction_ListServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 ****************************************/
 		
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
-				String url = "/Vendor/V_frontPage.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
-				successView.forward(req, res);
+				String url = req.getContextPath() + "/Vendor/V_frontPage.jsp";
+				res.sendRedirect(url);
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+//				successView.forward(req, res);
 	
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {

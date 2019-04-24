@@ -9,7 +9,6 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
   <servlet>
     <servlet-name>Restaurant_MenuServlet</servlet-name>
     <servlet-class>com.restaurant_menu.controller.Restaurant_MenuServlet</servlet-class>
@@ -18,7 +17,6 @@
     <servlet-name>Restaurant_MenuServlet</servlet-name>
     <url-pattern>/Restaurant_Menu/Restaurant_Menu.do</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>VendorServlet</servlet-name>
     <servlet-class>com.vendor.controller.VendorServlet</servlet-class>
@@ -27,8 +25,7 @@
     <servlet-name>VendorServlet</servlet-name>
     <url-pattern>/Vendor/Vendor.do</url-pattern>
   </servlet-mapping>
-  
-    <servlet>
+  <servlet>
     <servlet-name>RES_Transaction_ListServlet</servlet-name>
     <servlet-class>com.restaurant_transaction_list.controller.RES_Transaction_ListServlet</servlet-class>
   </servlet>
@@ -36,6 +33,17 @@
     <servlet-name>RES_Transaction_ListServlet</servlet-name>
     <url-pattern>/RES_Transaction_List/RES_Transaction_List.do</url-pattern>
   </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>Restaurant_ResponsesServlet</servlet-name>
+    <servlet-class>com.restaurant_responses.controller.Restaurant_ResponsesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Restaurant_ResponsesServlet</servlet-name>
+    <url-pattern>/Restaurant_Responses/Restaurant_Responses.do</url-pattern>
+  </servlet-mapping>
+  
   
   <servlet>
     <servlet-name>ShowImg</servlet-name>

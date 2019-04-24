@@ -15,7 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import org.json.JSONObject;
+
 import com.restaurant_menu.model.*;
+import com.vendor.model.VendorService;
+import com.vendor.model.VendorVO;
 
 //@WebServlet("/Restaurant_Menu/Restaurant_Menu.do")
 @MultipartConfig
@@ -34,7 +38,10 @@ public class Restaurant_MenuServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		HttpSession hs = req.getSession();
+		JSONObject obj = new JSONObject();
+		HttpSession se = req.getSession();
+
+		System.out.println("觸發");
 
 		// 取得一筆資料，可在此填寫更新
 		if ("getOne_For_Update".equals(action)) {
@@ -263,9 +270,9 @@ public class Restaurant_MenuServlet extends HttpServlet {
 							menu_pic = new byte[in.available()];
 							for (int length = 0; (length = in.read(menu_pic)) > 0;)
 								output.write(menu_pic, 0, length);
-							
+
 						} else {
-							
+
 							errorMsgs.add("圖片請勿空白");
 
 						}
@@ -328,7 +335,7 @@ public class Restaurant_MenuServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("vlist", vlist); // 資料庫取出的empVO物件,存入req
-				hs.setAttribute("vendor_no", vendor_no);
+				se.setAttribute("vendor_no", vendor_no);
 				String url = "/Restaurant_Menu/listChoosed.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
 				successView.forward(req, res);
@@ -369,8 +376,48 @@ public class Restaurant_MenuServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
-		
-		
+
+		if ("upMenu".equals(action)) {
+			System.out.println("控制器觸發上傳圖片");
+
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				
+				
+				String menu_no = req.getParameter("menu_no");
+				System.out.println(menu_no);
+				
+				Restaurant_MenuVO rmVO = new Restaurant_MenuVO();
+
+				
+				System.out.println(rmVO);
+				// 上傳圖片
+				byte[] menu_pic = null;
+//				v_pic = ByteConvert.Base64Decode(req.getParameter("file"));
+				String base64 = req.getParameter("file");
+
+				menu_pic = Base64.getMimeDecoder().decode(base64.split(",")[1]);
+
+				rmVO.setMenu_pic(menu_pic);
+				System.out.println(menu_no);
+				rmVO.setMenu_no(menu_no);
+
+				
+				Restaurant_MenuService rmSvc = new Restaurant_MenuService();
+				rmVO = rmSvc.upPic(menu_pic, menu_no);
+
+//				/*************************** 2.開始查詢資料 ****************************************/
+
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+//				String url = "/Restaurant_Menu/listAllMenus.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+//				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

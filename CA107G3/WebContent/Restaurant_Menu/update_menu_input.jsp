@@ -32,72 +32,232 @@ max-width:300px;
 
 </head>
 <body>
-<table id="table-1">
-	<tr><td>
-		 <h3>菜單資料修改 - update_menu_input.jsp</h3>
-		 <h4><a href="chooseVendor.jsp">回列表</a></h4>
-	</td></tr>
-</table>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
-<h3>資料修改:</h3>
+    <div class="container">
+        <div class="row">
+            <form class="needs-validation" novalidate METHOD="post" ACTION="Vendor.do" name="form1">
+                <div class="container">
+                    <div class="col-6">
+                        <label id="topicBar" class="col-12">餐廳營業資訊設定</label>
+                        <div class="form-row">
+                            <div class="col-4 col-form-label">
+                                <label for="validationTooltip01">餐廳類型 :</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" name="v_type" value="${vVO.v_type}" class="form-control" placeholder="請輸入餐廳類型" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-4 col-form-label">
+                                <label>開始營業時間 :</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" name="v_start_time" value="${vVO.v_start_time}" class="form-control" placeholder="開店時間" required>
+                                <div class="invalid-tooltip">請輸入正確格式</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-4 col-form-label">
+                                <label>結束營業時間 :</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" name="v_end_time" value="${vVO.v_end_time}" class="form-control" id="pwd" placeholder="打烊時間" maxlength="10" required pattern="^(?=.*\d)(?=.*[A-za-z]).{6,10}$">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-4 col-form-label">
+                                <label>定期休假 :</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" name="v_day" value="${vVO.v_day}" class="form-control" placeholder="選擇星期" maxlength="10" id="pwdconfirm" required pattern="^(?=.*\d)(?=.*[A-za-z]).{6,10}$">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-4 col-form-label">
+                                <label>店內總桌數 :</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" name="v_tables" value="${vVO.v_tables}" class="form-control" placeholder="數字" required>
+                                <div class="invalid-tooltip">請輸入有效信箱</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-4 col-form-label">
+                                <label>餐廳說明 :</label>
+                            </div>
+                            <div class="col-8">
+                                <textarea rows="6" cols="50" name="v_text" class="form-control" aria-label="With textarea">${vVO.v_text}</textarea>
+                            </div>
+                        </div>
+                        <input type="hidden" name="action" value="Update">
+                        <input type="hidden" name="requestURL" value="<%=request.getServletPath()%>">
+                        <div>
+                            <button type="submit" class="btn btn-primary col-12">修改</button>
+                        </div>
 
-<%-- 錯誤表列 --%>
-<FORM METHOD="post" ACTION="Restaurant_Menu.do" name="form1"  enctype="multipart/form-data">
-<table>
-	<tr>
-		<td>品項編號:<font color=red><b>*</b></font></td>
-		<td>${rmVO.menu_no}</td>
-	</tr>
-	<tr>
-		<td>廠商編號:<font color=red><b>*</b></font></td>
-		<td>${rmVO.vendor_no}</td>
-	</tr>
-<!-- 	<tr> -->
-<!-- 		<td>廠商編號:</td> -->
-<%-- 		<td><input type="TEXT" name="vendor_no" size="45" value="${rmVO.vendor_no}" /></td> --%>
-<!-- 	</tr> -->
-	<tr>
-		<td>品名:</td>
-		<td><input type="TEXT" name="menu_name" size="45"	value="${rmVO.menu_name}" /></td>
-	</tr>
-	<tr>
-		<td>圖片:</td>
-		<td><input name="menu_pic" id="f_date1" type="file" onchange="changePic(event)" ></td>
-		<td><img src="<%= request.getContextPath()%>/Restaurant_Menu/ShowImg.do?menu_no='${rmVO.menu_no}'"></td>
-	</tr>
-	<tr>
-		<td>價格:</td>
-		<td><input type="TEXT" name="menu_price" size="45"	value="${rmVO.menu_price}" /></td>
-	</tr>
-	<tr>
-		<td>狀態:</td>
-<%-- 		<td><input type="TEXT" name="menu_stat" size="45"	value="${rmVO.menu_stat}" /></td> --%>
-	<td>
-		<select name="menu_stat">
-		　<option value="1">上架</option>
-		　<option value="2">下架</option>
-		　<option value="3">審核中</option>
-		　<option value="4">黑名單</option>
-		</select>
-		</td>
-	</tr>
-	<tr>
-		<td>說明:</td>
-		<td><input type="TEXT" name="menu_text" size="45"	value="${rmVO.menu_text}" /></td>
-	</tr>
-	
-</table>
-<input type="hidden" name="action" value="update">
-<input type="hidden" name="vendor_no" value="${rmVO.vendor_no}">
-<input type="hidden" name="menu_no" value="${rmVO.menu_no}">
-<input type="submit" value="送出修改"></FORM>
+            </form> <!-- ===============================編輯區 開始====================================== -->
+            <div class="col-6">
+                <div class="form-row">
+                    <div class="col-3 col-form-label">
+                        <label>店家形象</label>
+                    </div>
+                    <div class="col-9">
+                        <button id="V_PIC">更換形象</button>
+                    </div>
+                </div>
+                <img id="pic1" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${vVO.vendor_no}'&pic=1">
+                <!-- 				<img id="pic1" src="https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder"> -->
+                <div class="form-row">
+                    <div class="col-3 col-form-label">
+                        <label>目前宣傳</label>
+                    </div>
+                    <div class="col-9">
+                        <button id="V_AD">更換宣傳</button>
+                    </div>
+                </div>
+                <img id="ad1" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${vVO.vendor_no}'&ad=1">
+                <!-- 				<img id="ad1" src="https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder"> -->
+            </div>
 
+            <!-- =================================編輯區 結束==================================== -->
+
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../front-end/js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Input type=number -->
+    <script src="bootstrap-input-spinner.js"></script>
+    <!--     sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script>
+        $("input[type='number']").inputSpinner()
+    </script>
+    <!-- Side Nav -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#btnSidenav').on('click', function(e) {
+                $('#sidenav').removeClass('invibar');
+                $('#sidenavOverlay').addClass('active');
+                $('#sidenav').addClass('fullbar');
+            });
+
+            jQuery('#sidenavOverlay').on('click', function() {
+                $('#sidenavOverlay').removeClass('active');
+                $('#sidenav').removeClass('fullbar');
+                $('#sidenav').addClass('invibar');
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $("#V_PIC").click(async function(event) {
+
+
+
+
+            const {
+                value: file
+            } = await Swal.fire({
+                title: '請選擇圖片',
+                input: 'file',
+                inputAttributes: {
+                    'accept': 'image/*',
+                    'aria-label': 'Upload your profile picture'
+                }
+
+            })
+
+            if (file) {
+                const reader = new FileReader
+                reader.onload = (e) => {
+
+
+                    Swal.fire({
+                        title: '圖片已變更為',
+                        imageUrl: e.target.result,
+                        imageAlt: 'The uploaded picture'
+
+
+                    }).then(function(file) {
+                        $.ajax({
+                            url: "Vendor.do",
+                            type: 'post',
+                            data: {
+                                action: 'upPic',
+                                file: e.target.result
+                            },
+                            dataType: 'json',
+                            async: false, //同步請求
+                            cache: false, //不快取頁面
+
+                        })
+                    })
+                    $('#pic1').attr('src', e.target.result);
+                }
+
+
+                reader.readAsDataURL(file)
+
+            }
+
+
+        })
+
+
+        $("#V_AD").click(async function(event) {
+
+
+
+
+            const {
+                value: file
+            } = await Swal.fire({
+                title: '請選擇圖片',
+                input: 'file',
+                inputAttributes: {
+                    'accept': 'image/*',
+                    'aria-label': 'Upload your profile picture'
+                }
+
+            })
+
+            if (file) {
+                const reader = new FileReader
+                reader.onload = (e) => {
+
+
+                    Swal.fire({
+                        title: '圖片已變更為',
+                        imageUrl: e.target.result,
+                        imageAlt: 'The uploaded picture'
+
+
+                    }).then(function(file) {
+                        $.ajax({
+                            url: "Vendor.do",
+                            type: 'post',
+                            data: {
+                                action: 'upAd',
+                                file: e.target.result
+                            },
+                            dataType: 'json',
+                            async: false, //同步請求
+                            cache: false, //不快取頁面
+
+                        })
+                    })
+                    $('#ad1').attr('src', e.target.result);
+                }
+
+
+                reader.readAsDataURL(file)
+
+            }
+
+
+        })
+    </script>
 </body>
 </html>

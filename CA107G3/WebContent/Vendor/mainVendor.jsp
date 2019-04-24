@@ -18,6 +18,23 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
+	
+	
+	
+	<script src="../front-end/js/jquery-3.3.1.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<!-- Input type=number -->
+	<script src="bootstrap-input-spinner.js"></script>
+	<!--     sweetalert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+	
 <title>餐廳管理後台</title>
 <!-- Side Nav -->
 <style type="text/css">
@@ -167,6 +184,7 @@ to {
 <!-- ============================================================================= -->
 
 <body>
+
 	<!-- Navbar -->
 	<nav class="navbar  bg-dark navbar-dark">
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -180,13 +198,13 @@ to {
 	<div id="sidenavOverlay"></div>
 	<nav class="nav navbar-nav bg-dark" id="sidenav">
 		<a class="nav-link text-white p-3" href="#">概況一覽</a> 
-		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/upVendor.jsp">資訊管理</a>
+		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=upVendor">資訊管理</a>
 		<a class="nav-link text-white p-3" href="#">訂單狀態</a>
 		<a class="nav-link text-white p-3" href="#">桌況設定</a>
 		<a class="nav-link text-white p-3" href="#">桌況管理</a>
-		<a class="nav-link text-white p-3" href="#">菜單管理</a>
-		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/RES_Transaction_List/listVendor.jsp">帳戶管理</a>
-		<a class="nav-link text-white p-3" href="#">回應管理</a>
+		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=listMenu">菜單管理</a>
+		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=listVendor">帳戶管理</a>
+		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=listComment">回應管理</a>
 		<a class="nav-link text-white p-3" href="#">訂位者驗證</a>
 		<a class="nav-link text-white p-3" href="#">候位者驗證</a>
 			<form class="needs-validation" novalidate METHOD="post" ACTION="Vendor.do" name="form1">
@@ -195,45 +213,45 @@ to {
 			登出
 			</button></form>
 	</nav>
-
+<h1>我沒不見才正確-沒品經理</h1>
 	<div class="container">
 		<div class="row">
-			<div class="col-6">
+		
 				<!-- ===============================編輯區 開始====================================== -->
 
 
-<h1>完全沒有畫面-主頁</h1>
 
+<c:if test="${not empty rtllist}">
+<jsp:include page="/RES_Transaction_List/listVendor.jsp" />
+</c:if>
 
+<c:if test="${not empty rrlist}">
+<jsp:include page="/Restaurant_Responses/listComment.jsp" />
+</c:if>
 
+<c:if test="${not empty vlist}">
+<jsp:include page="/Vendor/upVendor.jsp" />
+</c:if>
 
+<c:if test="${not empty rmlist}">
+<jsp:include page="/Restaurant_Menu/listMenu.jsp" />
+</c:if>
+</div>
 
 
 
 
 
 			<!-- =================================編輯區 結束==================================== -->
-		</div>
-	</div>
+		
+	
 
 	</div>
 
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="../front-end/js/jquery-3.3.1.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
-	<!-- Input type=number -->
-	<script src="bootstrap-input-spinner.js"></script>
-	<!--     sweetalert -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+	
 	<script>
     $("input[type='number']").inputSpinner()
     </script>
@@ -255,106 +273,8 @@ to {
 
 
     </script>
-	<script type="text/javascript">
-
-$("#V_PIC").click(async function(event) {
-
-
-
     
-const {value: file} = await Swal.fire({
-  title: '請選擇圖片',
-  input: 'file',
-  inputAttributes: {
-    'accept': 'image/*',
-    'aria-label': 'Upload your profile picture'
-  }
 
-})
-
-if (file) {
-  const reader = new FileReader
-  reader.onload = (e) => {
-
-
-    Swal.fire({
-      title: '圖片已變更為',
-      imageUrl: e.target.result,
-      imageAlt: 'The uploaded picture'
-      
-   
-    }).then(function(file){
-    	$.ajax({
-    		url: "Vendor.do",
-            type : 'post',
-			data: { action: 'upPic', file: e.target.result},
-			dataType: 'json',
-			async : false,//同步請求
-			cache : false,//不快取頁面
-			
-    	})
-    })
-    $('#pic1').attr('src', e.target.result);
-  }
-  
-
-  reader.readAsDataURL(file)
-
-}
-
-
-})
-
-
-$("#V_AD").click(async function(event) {
-
-
-
-    
-const {value: file} = await Swal.fire({
-  title: '請選擇圖片',
-  input: 'file',
-  inputAttributes: {
-    'accept': 'image/*',
-    'aria-label': 'Upload your profile picture'
-  }
-
-})
-
-if (file) {
-  const reader = new FileReader
-  reader.onload = (e) => {
-
-
-    Swal.fire({
-      title: '圖片已變更為',
-      imageUrl: e.target.result,
-      imageAlt: 'The uploaded picture'
-      
-   
-    }).then(function(file){
-    	$.ajax({
-    		url: "Vendor.do",
-            type : 'post',
-			data: { action: 'upAd', file: e.target.result},
-			dataType: 'json',
-			async : false,//同步請求
-			cache : false,//不快取頁面
-			
-    	})
-    })
-    $('#ad1').attr('src', e.target.result);
-  }
-  
-
-  reader.readAsDataURL(file)
-
-}
-
-
-})
-
-    </script>
 </body>
 
 </html>

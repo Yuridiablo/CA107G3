@@ -4,10 +4,11 @@
 <%@page import="java.util.*"%>
 <%@page import="com.restaurant_transaction_list.model.*"%>
 
-<jsp:useBean id="rtlSvc" class="com.restaurant_transaction_list.model.RES_Transaction_ListService" />
-
+<jsp:useBean id="cSvc" class="com.comments.model.CommentsService" />
+<jsp:useBean id="rrSvc" class="com.restaurant_responses.model.Restaurant_ResponsesService" />
 <jsp:useBean id="vVO" scope="session" class="com.vendor.model.VendorVO" />
-<jsp:useBean id="rtlVO" class="com.restaurant_transaction_list.model.RES_Transaction_ListVO" />
+<jsp:useBean id="rrVO" class="com.restaurant_responses.model.Restaurant_ResponsesVO" />
+<jsp:useBean id="cVO" class="com.comments.model.CommentsVO" />
 
 <!doctype html>
 <html lang="en">
@@ -178,29 +179,36 @@ to {
 	<!-- Navbar -->
 	
 <div class="container">
-<h1>帳戶餘額</h1>
 		<div class="row">
 		
 				<!-- ===============================編輯區 開始====================================== -->
 	
 
-	
+	<h1>餐廳評論!!</h1>
 	<div class="list-group">
-	  <a href="#" class="list-group-item list-group-item-action active money">
-	    $${vVO.v_wallet}
-	    <button type="button" class="btn btn-success">提款</button>
-	  </a>
+<!-- 	  <a href="#" class="list-group-item list-group-item-action active"> -->
+<!-- 	    $${vVO.v_wallet} -->
+<!-- 	    <button type="button" class="btn btn-success">提款</button> -->
+<!-- 	  </a> -->
 	  
-	<c:forEach var="rtlVO" items="${rtlSvc.getOneVendor(vVO.vendor_no)}">
+	<c:forEach var="rrVO" items="${rrSvc.all}">
+	<c:forEach var="cVO" items="${cSvc.getOneVendor(vVO.vendor_no)}">
 	
+	<c:if test="${rrVO.cmnt_no == cVO.cmnt_no}">
+	<h1>${rrVO.res_no}</h1>${rrVO.cmnt_no}
+
+<%-- 	<h3>${cVO.cmnt_no}</h3> --%>
+<%-- 	${rrSvc.findPk(cVO.cmnt_no)} --%>
+<%-- 	${rrSvc.findByPk(cVO.vendor_no).getCmnt_no} --%>
 	  
 	  
 	  
-	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a>
+<%-- 	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a> --%>
+<%-- 	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a> --%>
 	
-	  
+	  </c:if>
+	  </c:forEach>
 	</c:forEach>
-  
   <!-- <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a> -->
 </div>
 
@@ -215,7 +223,7 @@ to {
 
 
 <div class="col-6">
-	<h1>交易明細</h1>
+	<h1>餐廳回應!!</h1>
 </div>
 
 

@@ -2,6 +2,8 @@ package com.restaurant_menu.model;
 
 import java.util.List;
 
+import com.vendor.model.VendorVO;
+
 public class Restaurant_MenuService {
 	
 	private Restaurant_MenuDAO_interface dao;
@@ -44,6 +46,15 @@ public class Restaurant_MenuService {
 	public void deleteMenu(String menu_no) {
 		dao.delete(menu_no);
 
+	}
+	
+	public Restaurant_MenuVO upPic(byte[] menu_pic,String menu_no) {
+		Restaurant_MenuVO rmVO = new Restaurant_MenuVO();
+		rmVO.setMenu_pic(menu_pic);
+		rmVO.setMenu_no(menu_no);
+		
+		dao.upPic(rmVO);
+		return rmVO;
 	}
 	
 	public Restaurant_MenuVO findByPK(String menu_no) {

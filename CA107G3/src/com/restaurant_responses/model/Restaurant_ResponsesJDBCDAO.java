@@ -23,7 +23,7 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 			"INSERT INTO Restaurant_Responses (res_no,cmnt_no,res_text,res_time) VALUES ('RR'||LPAD(to_char(RESTAURANT_RESPONSES_SEQ.NEXTVAL), 8, '0'),?,?,CURRENT_TIMESTAMP)";
 	private static final String UPDATE_STMT = "UPDATE Restaurant_Responses set res_text=? where res_no = ?";
 	private static final String DELETE = "DELETE FROM Restaurant_Responses where res_no = ?";
-	private static final String GET_ONE_STMT = "SELECT * FROM Restaurant_Responses where res_no = ?";
+	private static final String GET_ONE_STMT = "SELECT * FROM Restaurant_Responses where cmnt_no = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM Restaurant_Responses order by res_no";
 
 	@Override
@@ -140,7 +140,7 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 	}
 
 	@Override
-	public Restaurant_ResponsesVO findByPK(String res_no) {
+	public Restaurant_ResponsesVO findPK(String cmnt_no) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -150,7 +150,7 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
-			pstmt.setString(1, res_no);
+			pstmt.setString(1, cmnt_no);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -262,11 +262,11 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 //		dao.delete("RR00000002");
 
 		// 查單筆
-		Restaurant_ResponsesVO rr1 = dao.findByPK("RR00000003");
-		System.out.println(rr1.getRes_no());
-		System.out.println(rr1.getCmnt_no());
-		System.out.println(rr1.getRes_text());
-		System.out.println(rr1.getRes_time());
+//		Restaurant_ResponsesVO rr1 = dao.findByPK("RR00000003");
+//		System.out.println(rr1.getRes_no());
+//		System.out.println(rr1.getCmnt_no());
+//		System.out.println(rr1.getRes_text());
+//		System.out.println(rr1.getRes_time());
 
 		// 查全部
 		List<Restaurant_ResponsesVO> list = dao.getAll();

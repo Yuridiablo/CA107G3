@@ -101,9 +101,9 @@ public class VendorServlet extends HttpServlet {
 					return;// 程式中斷
 				}
 
-				HttpSession session = req.getSession();
-				session.setAttribute("v_account", req.getParameter("v_account"));
-				session.setAttribute("vVO", vVO);
+				
+				se.setAttribute("v_account", req.getParameter("v_account"));
+				se.setAttribute("vVO", vVO);
 
 				String url = "/Vendor/mainVendor.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
@@ -482,6 +482,106 @@ public class VendorServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+			
+			if ("listVendor".equals(action)) {
+				
+				String xxx = "good";
+				try {
+					/*************************** 1.接收請求參數 ****************************************/
+					
+					req.setAttribute("rtllist", xxx);
+					System.out.println("有跑listVendor");
+		
+					/*************************** 2.開始查詢資料 ****************************************/
+			
+					/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+					String url = "/Vendor/mainVendor.jsp";
+//					res.sendRedirect(url);
+					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+					successView.forward(req, res);
+		
+					/*************************** 其他可能的錯誤處理 **********************************/
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
+			}
+			
+		if ("listComment".equals(action)) {
+				
+				String xxx = "good2";
+				try {
+					/*************************** 1.接收請求參數 ****************************************/
+					
+					req.setAttribute("rrlist", xxx);
+					System.out.println("有跑listComment");
+		
+					/*************************** 2.開始查詢資料 ****************************************/
+			
+					/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+					String url = "/Vendor/mainVendor.jsp";
+//					res.sendRedirect(url);
+					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+					successView.forward(req, res);
+		
+					/*************************** 其他可能的錯誤處理 **********************************/
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
+			}
+		
+		
+		if ("upVendor".equals(action)) {
+			
+			String xxx = "good3";
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				
+				req.setAttribute("vlist", xxx);
+				System.out.println("有跑upVendor");
+	
+				/*************************** 2.開始查詢資料 ****************************************/
+		
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				String url = "/Vendor/mainVendor.jsp";
+//				res.sendRedirect(url);
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+				successView.forward(req, res);
+	
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		}
+		
+		if ("listMenu".equals(action)) {
+			
+			
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				VendorVO vVO = (VendorVO) se.getAttribute("vVO");
+				String vendor_no = vVO.getVendor_no();
+				Restaurant_MenuService rmSvc = new Restaurant_MenuService();
+				List<Restaurant_MenuVO> rmlist = rmSvc.getVendor(vendor_no);
+				req.setAttribute("rmlist", rmlist);
+				System.out.println("有跑rmList");
+	
+				/*************************** 2.開始查詢資料 ****************************************/
+		
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				String url = "/Vendor/mainVendor.jsp";
+//				res.sendRedirect(url);
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+				successView.forward(req, res);
+	
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		}
 	}
 
 }

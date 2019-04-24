@@ -182,7 +182,7 @@ font-size:30px;
 				</div>	
 				<div class="row  justify-content-center">
 					<div class="col-2">
-			<span><a href="#" class="btn btn btn-primary top-btn btn-lg" data-toggle="modal" data-target="#exampleModalCenter">登入</a></span>
+			<span><a href="#" class="btn btn btn-primary top-btn btn-lg" data-toggle="modal" data-target="#modalCenter">登入</a></span>
 			</div>
                                     <span><a href="<%= request.getContextPath() %>/Vendor/addVendor.jsp" class="btn btn btn-primary top-btn btn-lg">註冊</a></span>
                                 
@@ -200,7 +200,7 @@ font-size:30px;
 				</c:if>
 				</div>
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="modalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
      <div class="modal-header">

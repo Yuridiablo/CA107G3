@@ -167,35 +167,6 @@ to {
 <!-- ============================================================================= -->
 
 <body>
-	<!-- Navbar -->
-	<nav class="navbar  bg-dark navbar-dark">
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#collapsibleNavbar" id="btnSidenav">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<spqn class="navbar-brand resTitle">${vVO.v_name}，您好！</spqn>
-		<span class="navbar-brand">Seek Food Table</span>
-	</nav>
-	<!-- Side Nav -->
-	<div id="sidenavOverlay"></div>
-	<nav class="nav navbar-nav bg-dark" id="sidenav">
-		<a class="nav-link text-white p-3" href="#">概況一覽</a> 
-		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/upVendor.jsp">資訊管理</a>
-		<a class="nav-link text-white p-3" href="#">訂單狀態</a>
-		<a class="nav-link text-white p-3" href="#">桌況設定</a>
-		<a class="nav-link text-white p-3" href="#">桌況管理</a>
-		<a class="nav-link text-white p-3" href="#">菜單管理</a>
-		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/RES_Transaction_List/listVendor.jsp">帳戶管理</a>
-		<a class="nav-link text-white p-3" href="#">回應管理</a>
-		<a class="nav-link text-white p-3" href="#">訂位者驗證</a>
-		<a class="nav-link text-white p-3" href="#">候位者驗證</a>
-			<form class="needs-validation" novalidate METHOD="post" ACTION="Vendor.do" name="form1">
-			<input type="hidden" name="action"	value="logout">
-			<button type="submit" class="btn btn-primary">
-			登出
-			</button></form>
-	</nav>
-
 	<div class="container">
 		<div class="row">
 			<div class="col-6">
@@ -360,22 +331,15 @@ to {
             $('#sidenavOverlay').addClass('active');
             $('#sidenav').addClass('fullbar');
         });
-
         jQuery('#sidenavOverlay').on('click', function() {
             $('#sidenavOverlay').removeClass('active');
             $('#sidenav').removeClass('fullbar');
             $('#sidenav').addClass('invibar');
         });
     });
-
-
     </script>
 	<script type="text/javascript">
-
 $("#V_PIC").click(async function(event) {
-
-
-
     
 const {value: file} = await Swal.fire({
   title: '請選擇圖片',
@@ -384,14 +348,10 @@ const {value: file} = await Swal.fire({
     'accept': 'image/*',
     'aria-label': 'Upload your profile picture'
   }
-
 })
-
 if (file) {
   const reader = new FileReader
   reader.onload = (e) => {
-
-
     Swal.fire({
       title: '圖片已變更為',
       imageUrl: e.target.result,
@@ -412,19 +372,10 @@ if (file) {
     $('#pic1').attr('src', e.target.result);
   }
   
-
   reader.readAsDataURL(file)
-
 }
-
-
 })
-
-
 $("#V_AD").click(async function(event) {
-
-
-
     
 const {value: file} = await Swal.fire({
   title: '請選擇圖片',
@@ -433,14 +384,10 @@ const {value: file} = await Swal.fire({
     'accept': 'image/*',
     'aria-label': 'Upload your profile picture'
   }
-
 })
-
 if (file) {
   const reader = new FileReader
   reader.onload = (e) => {
-
-
     Swal.fire({
       title: '圖片已變更為',
       imageUrl: e.target.result,
@@ -461,14 +408,9 @@ if (file) {
     $('#ad1').attr('src', e.target.result);
   }
   
-
   reader.readAsDataURL(file)
-
 }
-
-
 })
-
     </script>
 </body>
 

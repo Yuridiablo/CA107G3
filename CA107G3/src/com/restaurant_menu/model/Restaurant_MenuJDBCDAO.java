@@ -25,6 +25,8 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 			"INSERT INTO RESTAURANT_MENU (MENU_NO,VENDOR_NO,MENU_NAME,MENU_PRICE,MENU_PIC,MENU_STAT,MENU_TEXT) VALUES ('RM'||LPAD(to_char(RESTAURANT_MENU_SEQ.NEXTVAL), 8, '0'),?,?,?,?,?,?)";	
 	private static final String UPDATE_STMT =
 			"UPDATE RESTAURANT_MENU set MENU_NAME = ?, MENU_PRICE = ?, MENU_PIC = ?, MENU_STAT = ?, MENU_TEXT=? where menu_no = ?";
+	private static final String UPDATE_PIC = 
+			"UPDATE RESTAURANT_MENU SET MENU_PIC = ? WHERE menu_no=?";
 	private static final String DELETE = 
 			"DELETE FROM RESTAURANT_MENU where menu_no = ?";
 	private static final String GET_ONE_STMT = 
@@ -33,6 +35,7 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 			"SELECT * FROM RESTAURANT_MENU where vendor_no = ?";
 	private static final String GET_ALL_STMT = 
 			"SELECT * FROM RESTAURANT_MENU order by menu_no";
+	
 	
 	@Override
 	public void insert(Restaurant_MenuVO Restaurant_MenuVO) {
@@ -118,6 +121,37 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 			}
 		}
 
+	}
+
+	@Override
+	public int upPic(Restaurant_MenuVO Restaurant_MenuVO) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		int rs = 0;
+
+		try {
+			con = DriverManager.getConnection(url, userid, passwd);
+			System.out.println("連線成功!更新一張餐點圖");
+			pstm = con.prepareStatement(UPDATE_PIC);
+			
+			
+			
+			pstm.setBytes(1, Restaurant_MenuVO.getMenu_pic());
+			pstm.setString(2, Restaurant_MenuVO.getMenu_no());
+
+
+			rs = pstm.executeUpdate();
+			System.out.println("成功筆數 : " + rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return rs;
 	}
 
 	@Override
