@@ -219,11 +219,14 @@ public class VendorServlet extends HttpServlet {
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("vVO", vVO); // 資料庫update成功後,正確的的VO物件,存入req
 				newAcc = true;
-				req.setAttribute("newAcc", newAcc);
+				se.setAttribute("newAcc", newAcc);
 //				req.setAttribute("vlist", vlist);
 				String url = "/Vendor/V_frontPage.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listChoosed.jsp
+//				res.sendRedirect(url);
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
 				successView.forward(req, res);
+				se.invalidate();
+				
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
@@ -391,9 +394,10 @@ public class VendorServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 ****************************************/
 		
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
-				String url = "/Vendor/V_frontPage.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
-				successView.forward(req, res);
+				String url = req.getContextPath()+"/Vendor/V_frontPage.jsp";
+				res.sendRedirect(url);
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+//				successView.forward(req, res);
 	
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
@@ -567,6 +571,11 @@ public class VendorServlet extends HttpServlet {
 				List<Restaurant_MenuVO> rmlist = rmSvc.getVendor(vendor_no);
 				req.setAttribute("rmlist", rmlist);
 				System.out.println("有跑rmList");
+				
+				if (rmlist.size() == 0) {
+					String newStore = "新開張";
+					req.setAttribute("newStore", newStore);
+				}
 	
 				/*************************** 2.開始查詢資料 ****************************************/
 		

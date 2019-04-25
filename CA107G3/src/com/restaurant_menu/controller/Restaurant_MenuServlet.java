@@ -85,7 +85,8 @@ public class Restaurant_MenuServlet extends HttpServlet {
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 
-				String vendor_no = req.getParameter("vendor_no");
+				VendorVO vVO = (VendorVO) se.getAttribute("vVO");
+				String vendor_no = vVO.getVendor_no();
 //				String enameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 //				if (ename == null || ename.trim().length() == 0) {
 //					errorMsgs.add("員工姓名: 請勿空白");
@@ -180,9 +181,10 @@ public class Restaurant_MenuServlet extends HttpServlet {
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("rmVO", rmVO); // 資料庫update成功後,正確的的VO物件,存入req
 				req.setAttribute("vlist", vlist);
-				String url = "/Restaurant_Menu/listChoosed.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listChoosed.jsp
-				successView.forward(req, res);
+				String url = req.getContextPath()+"/Vendor/Vendor.do?action=listMenu";
+				res.sendRedirect(url);
+//				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listChoosed.jsp
+//				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {

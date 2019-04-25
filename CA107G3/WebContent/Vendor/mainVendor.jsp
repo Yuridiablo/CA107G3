@@ -180,6 +180,16 @@ to {
             padding-top: 40px;
         }       */
 </style>
+
+<!-- 秀圖的JS裝置 -->
+<script type="text/javascript">
+	function changePic(e) {		
+		
+  		document.getElementById("#upimg").src = URL.createObjectURL(event.target.files[0]); 		
+	}
+</script>
+
+
 </head>
 <!-- ============================================================================= -->
 
@@ -233,7 +243,7 @@ to {
 <jsp:include page="/Vendor/upVendor.jsp" />
 </c:if>
 
-<c:if test="${not empty rmlist}">
+<c:if test="${not empty rmlist || not empty newStore}">
 <jsp:include page="/Restaurant_Menu/listMenu.jsp" />
 </c:if>
 </div>

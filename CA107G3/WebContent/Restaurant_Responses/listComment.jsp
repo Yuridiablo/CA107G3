@@ -184,7 +184,6 @@ to {
 				<!-- ===============================編輯區 開始====================================== -->
 	
 
-	<h1>餐廳評論!!</h1>
 	<div class="list-group">
 <!-- 	  <a href="#" class="list-group-item list-group-item-action active"> -->
 <!-- 	    $${vVO.v_wallet} -->
@@ -195,8 +194,34 @@ to {
 	<c:forEach var="cVO" items="${cSvc.getOneVendor(vVO.vendor_no)}">
 	
 	<c:if test="${rrVO.cmnt_no == cVO.cmnt_no}">
-	<h1>${rrVO.res_no}</h1>${rrVO.cmnt_no}
+	
+<div class="card">
+  <div class="card-header">
+    回應編號${rrVO.cmnt_no}
+    <c:if test="${not empty rrVO.res_text}">
+    <a href="#" class="btn btn-primary disabled" role="button" <%= "aria-disabled='true'" %>>發表回應</a>
+ </c:if>  
+    
+  </div>
+  
+  <div class="card-body">
+    <h5 class="card-title">評分：${cVO.score}</h5>
+    <p class="card-text">${cVO.cmnt}</p>
+    
+    
+    
+    <div class="media">
+  
+  <div class="media-body">
+    <h5 class="mt-0">我的回應</h5>
+   <c:out value="${rrVO.res_text}" default="尚無回應" />
+  </div>
+</div>
 
+ 
+    
+  </div>
+</div>
 <%-- 	<h3>${cVO.cmnt_no}</h3> --%>
 <%-- 	${rrSvc.findPk(cVO.cmnt_no)} --%>
 <%-- 	${rrSvc.findByPk(cVO.vendor_no).getCmnt_no} --%>
@@ -223,7 +248,7 @@ to {
 
 
 <div class="col-6">
-	<h1>餐廳回應!!</h1>
+
 </div>
 
 
