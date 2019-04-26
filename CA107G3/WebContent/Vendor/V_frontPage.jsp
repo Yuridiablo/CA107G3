@@ -9,6 +9,11 @@
 <html lang="en">
 
 <head>
+<!-- 防止快取 -->
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT"> 
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -224,9 +229,9 @@ font-size:30px;
          
                    
                     <div class="form-group">
-                        <input type="text" name="v_account" id="v_account" class="form-control" placeholder="請輸入帳號" required>
+                        <input type="text" name="v_account" id="v_account" class="form-control" placeholder="請輸入帳號" required value="aaaaaa">
                   
-                        <input type="password" name="v_pwd" id="v_pwd" class="form-control" id="exampleInputPassword1" placeholder="請輸入密碼" required>
+                        <input type="password" name="v_pwd" id="v_pwd" class="form-control" id="exampleInputPassword1" placeholder="請輸入密碼" required value="111111">
                         <small id="passwordHelp" class="form-text text-muted">英文字母需區分大小寫</small>
                     </div>
              
@@ -312,7 +317,17 @@ font-size:30px;
     		  '申請成功!',
     		  '我們將會盡快審核您的帳戶',
     		  'success'
-    		)
+    		).then(function(){
+    	    	$.ajax({
+    	    		url: "Vendor.do",
+    	            type : 'post',
+    				data: { action: 'logout'},
+    				dataType: 'json',
+    				async : false,//同步請求
+    				cache : false,//不快取頁面
+    				
+    	    	})
+    	    })
     </script>
 	</c:if>
 </body>

@@ -390,6 +390,8 @@ public class VendorServlet extends HttpServlet {
 				
 				se.invalidate();
 				System.out.println(se.toString());
+				
+			
 	
 				/*************************** 2.開始查詢資料 ****************************************/
 		

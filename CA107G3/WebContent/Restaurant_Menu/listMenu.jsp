@@ -153,18 +153,33 @@ body {
  <div class="profile-img"><img id="p${rmVO.menu_no}" src="<%= request.getContextPath()%>/ShowImg.do?menu_no='${rmVO.menu_no}'"/></div>
  
  </div>     
-  <div class="col-7"> 
-  <h3>${rmVO.menu_name}<span>$${rmVO.menu_price}</span></h3>
-   <span>${rmVO.menu_text}</span>
-   <div class="btn-group align-self-end align-items-end" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-secondary pic" id="xx${rmVO.menu_no}">換圖</button>
-      <button type="button" class="btn btn-secondary edit">編輯</button>
-      <button type="button" class="btn btn-secondary updown">下架</button>
-    </div>
 
+<fieldset  class="col-8" disabled id="dis${rmVO.menu_no}">
+ 
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+ 
+      <input type="text" class="form-control input-group-text" aria-label="Username" aria-describedby="basic-addon1" value="${rmVO.menu_name}">
+  </div>
+  <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon2" value="${rmVO.menu_price}">
 </div>
-      
 
+   
+   <textarea class="form-control" id="exampleFormControlTextarea1" rows="6">${rmVO.menu_text}</textarea>
+  
+
+
+
+</fieldset>
+
+<div class="col-12 d-flex d-flex justify-content-end">
+       <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary pic" id="xx${rmVO.menu_no}">換圖</button>
+      <button type="button" class="btn btn-secondary edit" id="yy${rmVO.menu_no}">編輯</button>
+      <button type="button" class="btn btn-secondary updown" id="zz${rmVO.menu_no}">下架</button>
+    </div>
+</div>
 </c:forEach>
 
 
@@ -218,6 +233,50 @@ $("#xx${rmVO.menu_no}").click(async function(event) {
 
 
 </script>
+
+<script type="text/javascript">
+  
+$("#yy${rmVO.menu_no}").click(function() {
+	
+	if($("#yy${rmVO.menu_no}").text() == '編輯'){		
+		$("#yy${rmVO.menu_no}").text('完成')
+		$("#yy${rmVO.menu_no}").css("background-color","green");
+		$("#dis${rmVO.menu_no}").removeAttr('disabled');
+
+
+	} else {
+		$("#yy${rmVO.menu_no}").text('編輯')
+		$("#yy${rmVO.menu_no}").css("background-color","#6c757d");
+		$("#dis${rmVO.menu_no}").attr('disabled', 'disabled')
+
+	}
+  
+})
+
+
+</script>
+
+
+<script type="text/javascript">
+  
+$("#zz${rmVO.menu_no}").click(function() {
+  
+  if($("#zz${rmVO.menu_no}").text() == '下架'){   
+    $("#zz${rmVO.menu_no}").text('上架')
+    $("#zz${rmVO.menu_no}").css("background-color","red");
+    $("#p${rmVO.menu_no}").css("opacity",0.2);
+//   alert( $("#zz${rmVO.menu_no}").text() );
+  } else {
+    $("#zz${rmVO.menu_no}").text('下架')
+    $("#zz${rmVO.menu_no}").css("background-color","#6c757d");
+     $("#p${rmVO.menu_no}").css("opacity",1);  
+  }
+  
+})
+
+
+</script>
+
 
 </c:forEach>
 <!-- 秀圖的JS裝置 -->
