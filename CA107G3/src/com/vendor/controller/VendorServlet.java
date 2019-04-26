@@ -277,7 +277,7 @@ public class VendorServlet extends HttpServlet {
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			String requestURL = req.getParameter("requestURL");
+			
 
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
@@ -367,9 +367,11 @@ public class VendorServlet extends HttpServlet {
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 //				req.setAttribute("vVO", vVO); // 資料庫update成功後,正確的的VO物件,存入req
 //				req.setAttribute("vlist", vlist);
-				String url = requestURL;
-//				String url = "/Vendor/listAll.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listChoosed.jsp
+//				String url = req.getParameter("requestURL");
+				
+				String url = "/Vendor/Vendor.do?action=upVendor";
+				System.out.println(url);
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
