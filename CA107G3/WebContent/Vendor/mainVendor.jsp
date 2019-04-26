@@ -223,7 +223,7 @@ to {
 			登出
 			</button></form>
 	</nav>
-<h1>我沒不見才正確-沒品經理</h1>
+<h1>我是經理搶功勞囉!!</h1>
 	<div class="container">
 		<div class="row">
 		

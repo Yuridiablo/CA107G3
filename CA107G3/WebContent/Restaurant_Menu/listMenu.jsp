@@ -109,8 +109,6 @@ body {
 		<select name="menu_stat">
 		　<option value="1">上架</option>
 		　<option value="2" selected>下架</option>
-		　<option value="3">審核中</option>
-		　<option value="4">黑名單</option>
 		</select>
 		</td>
 	</tr>
@@ -160,13 +158,13 @@ body {
 <div class="input-group mb-3">
   <div class="input-group-prepend">
  
-      <input type="text" class="form-control input-group-text" aria-label="Username" aria-describedby="basic-addon1" value="${rmVO.menu_name}">
+      <input type="text" class="form-control input-group-text" aria-label="Username" aria-describedby="basic-addon1" value="${rmVO.menu_name}" id="name${rmVO.menu_no}">
   </div>
-  <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon2" value="${rmVO.menu_price}">
+  <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon2" value="${rmVO.menu_price}" id="price${rmVO.menu_no}">
 </div>
 
    
-   <textarea class="form-control" id="exampleFormControlTextarea1" rows="6">${rmVO.menu_text}</textarea>
+   <textarea class="form-control" id="txt${rmVO.menu_no}" rows="6">${rmVO.menu_text}</textarea>
   
 
 
@@ -177,7 +175,13 @@ body {
        <div class="btn-group" role="group" aria-label="Basic example">
       <button type="button" class="btn btn-secondary pic" id="xx${rmVO.menu_no}">換圖</button>
       <button type="button" class="btn btn-secondary edit" id="yy${rmVO.menu_no}">編輯</button>
+      <c:if test="${rmVO.menu_stat == 1}">
       <button type="button" class="btn btn-secondary updown" id="zz${rmVO.menu_no}">下架</button>
+      </c:if>
+       <c:if test="${rmVO.menu_stat == 2}">
+      <button type="button" class="btn btn-secondary updown" id="zz${rmVO.menu_no}">上架</button>
+      </c:if>
+      
     </div>
 </div>
 </c:forEach>
@@ -242,12 +246,27 @@ $("#yy${rmVO.menu_no}").click(function() {
 		$("#yy${rmVO.menu_no}").text('完成')
 		$("#yy${rmVO.menu_no}").css("background-color","green");
 		$("#dis${rmVO.menu_no}").removeAttr('disabled');
+		$("#name${rmVO.menu_no}").focus();
+
+	
 
 
 	} else {
 		$("#yy${rmVO.menu_no}").text('編輯')
 		$("#yy${rmVO.menu_no}").css("background-color","#6c757d");
-		$("#dis${rmVO.menu_no}").attr('disabled', 'disabled')
+		$("#dis${rmVO.menu_no}").attr('disabled', 'disabled');
+			$.ajax({
+	    		url: "<%=request.getContextPath()%>/Restaurant_Menu/Restaurant_Menu.do",
+	            type : 'post',
+				data: { action: 'ajaxUp', menu_no:'${rmVO.menu_no}',
+					 menu_name: $("#name${rmVO.menu_no}").val(), 
+					 menu_price: $("#price${rmVO.menu_no}").val(),
+					 menu_text: $("#txt${rmVO.menu_no}").val()},
+				dataType: 'json',
+				async : false,//同步請求
+				cache : false,//不快取頁面
+				
+	    	})
 
 	}
   
@@ -263,13 +282,35 @@ $("#zz${rmVO.menu_no}").click(function() {
   
   if($("#zz${rmVO.menu_no}").text() == '下架'){   
     $("#zz${rmVO.menu_no}").text('上架')
-    $("#zz${rmVO.menu_no}").css("background-color","red");
+    $("#zz${rmVO.menu_no}").css("background-color","#FF5722");
     $("#p${rmVO.menu_no}").css("opacity",0.2);
+      		$.ajax({
+	    		url: "<%=request.getContextPath()%>/Restaurant_Menu/Restaurant_Menu.do",
+	            type : 'post',
+				data: { action: 'ajaxStatu', 
+				menu_no:'${rmVO.menu_no}',
+				menu_stat: 2},
+				dataType: 'json',
+				async : false,//同步請求
+				cache : false,//不快取頁面
+				
+	    	})
 //   alert( $("#zz${rmVO.menu_no}").text() );
   } else {
     $("#zz${rmVO.menu_no}").text('下架')
     $("#zz${rmVO.menu_no}").css("background-color","#6c757d");
-     $("#p${rmVO.menu_no}").css("opacity",1);  
+    $("#p${rmVO.menu_no}").css("opacity",1);  
+     		$.ajax({
+	    		url: "<%=request.getContextPath()%>/Restaurant_Menu/Restaurant_Menu.do",
+	            type : 'post',
+				data: { action: 'ajaxStatu', 
+				menu_no:'${rmVO.menu_no}',
+				menu_stat: 1},
+				dataType: 'json',
+				async : false,//同步請求
+				cache : false,//不快取頁面
+				
+	    	})
   }
   
 })
@@ -277,8 +318,27 @@ $("#zz${rmVO.menu_no}").click(function() {
 
 </script>
 
+<script type="text/javascript">
+
+	$( document ).ready(function() {
+
+		if($('#zz${rmVO.menu_no}').text() == '上架'){
+
+			$('#zz${rmVO.menu_no}').css("background-color","#FF5722");
+			$("#p${rmVO.menu_no}").css("opacity",0.2);
+		}
+       
+    })
+
+</script>
+
+
 
 </c:forEach>
+
+
+
+
 <!-- 秀圖的JS裝置 -->
 <script type="text/javascript">
 	function changePic(e) {		

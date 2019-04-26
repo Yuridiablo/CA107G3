@@ -27,6 +27,12 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 			"UPDATE RESTAURANT_MENU set MENU_NAME = ?, MENU_PRICE = ?, MENU_PIC = ?, MENU_STAT = ?, MENU_TEXT=? where menu_no = ?";
 	private static final String UPDATE_PIC = 
 			"UPDATE RESTAURANT_MENU SET MENU_PIC = ? WHERE menu_no=?";
+	
+	private static final String UPDATE_3INFO = 
+			"UPDATE RESTAURANT_MENU set MENU_NAME = ?, MENU_PRICE = ?, MENU_TEXT=? where menu_no = ?";
+	private static final String UPDATE_STATU = 
+			"UPDATE RESTAURANT_MENU set MENU_STAT = ? where menu_no = ?";
+	
 	private static final String DELETE = 
 			"DELETE FROM RESTAURANT_MENU where menu_no = ?";
 	private static final String GET_ONE_STMT = 
@@ -152,6 +158,88 @@ public class Restaurant_MenuJDBCDAO implements Restaurant_MenuDAO_interface {
 			}
 		}
 		return rs;
+	}
+
+	@Override
+	public void up3info(Restaurant_MenuVO Restaurant_MenuVO) {
+		// TODO Auto-generated method stub
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				
+				try {
+					Class.forName(driver);
+					con = DriverManager.getConnection(url, userid, passwd);
+					pstmt = con.prepareStatement(UPDATE_3INFO);
+					
+
+					pstmt.setString(1, Restaurant_MenuVO.getMenu_name());
+					pstmt.setString(2, Restaurant_MenuVO.getMenu_price());
+					pstmt.setString(3, Restaurant_MenuVO.getMenu_text());
+					pstmt.setString(4,Restaurant_MenuVO.getMenu_no());
+					
+					pstmt.executeUpdate();
+					
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (SQLException se) {
+					
+				} finally {
+					if (pstmt != null) {
+						try {
+							pstmt.close();
+						} catch (SQLException se) {
+							se.printStackTrace();
+						}
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+		
+	}
+
+	@Override
+	public void upStatu(Restaurant_MenuVO Restaurant_MenuVO) {
+		// TODO Auto-generated method stub
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				
+				try {
+					Class.forName(driver);
+					con = DriverManager.getConnection(url, userid, passwd);
+					pstmt = con.prepareStatement(UPDATE_STATU);
+					
+
+					pstmt.setInt(1, Restaurant_MenuVO.getMenu_stat());
+					pstmt.setString(2,Restaurant_MenuVO.getMenu_no());
+					
+					pstmt.executeUpdate();
+					
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (SQLException se) {
+					
+				} finally {
+					if (pstmt != null) {
+						try {
+							pstmt.close();
+						} catch (SQLException se) {
+							se.printStackTrace();
+						}
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+		
 	}
 
 	@Override

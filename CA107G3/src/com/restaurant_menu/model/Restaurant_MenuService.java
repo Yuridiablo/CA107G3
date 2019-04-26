@@ -57,6 +57,26 @@ public class Restaurant_MenuService {
 		return rmVO;
 	}
 	
+	public Restaurant_MenuVO up3info(String menu_name, String menu_price, String menu_text, String menu_no) {
+		Restaurant_MenuVO rmVO = new Restaurant_MenuVO();
+		rmVO.setMenu_name(menu_name);
+		rmVO.setMenu_price(menu_price);
+		rmVO.setMenu_text(menu_text);
+		rmVO.setMenu_no(menu_no);
+		
+		dao.up3info(rmVO);
+		return rmVO;
+	}
+	
+	public Restaurant_MenuVO upStatu(Integer menu_stat, String menu_no) {
+		Restaurant_MenuVO rmVO = new Restaurant_MenuVO();
+		rmVO.setMenu_stat(menu_stat);
+		rmVO.setMenu_no(menu_no);
+		
+		dao.upStatu(rmVO);
+		return rmVO;
+	}
+	
 	public Restaurant_MenuVO findByPK(String menu_no) {
 		return dao.findByPK(menu_no);
 	}

@@ -420,6 +420,76 @@ public class Restaurant_MenuServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		if ("ajaxUp".equals(action)) {
+			System.out.println("啟動ajax編輯區");
+
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				
+				String menu_no = req.getParameter("menu_no");
+				String menu_name = req.getParameter("menu_name");
+				String menu_text = req.getParameter("menu_text");
+				String menu_price = req.getParameter("menu_price");
+				
+				Restaurant_MenuVO rmVO = new Restaurant_MenuVO();
+				
+				System.out.println(menu_no);
+				System.out.println(menu_name);
+				System.out.println(menu_text);
+				System.out.println(menu_price);
+			
+				rmVO.setMenu_no(menu_no);
+				rmVO.setMenu_name(menu_name);
+				rmVO.setMenu_text(menu_text);
+				rmVO.setMenu_price(menu_price);
+				Restaurant_MenuService rmSvc = new Restaurant_MenuService();
+				rmVO = rmSvc.up3info(menu_name, menu_price, menu_text, menu_no);
+
+//				/*************************** 2.開始查詢資料 ****************************************/
+
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+//				String url = "/Restaurant_Menu/listAllMenus.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+//				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if ("ajaxStatu".equals(action)) {
+			System.out.println("ajax狀態區");
+
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				
+				String menu_no = req.getParameter("menu_no");
+				Integer menu_stat = Integer.parseInt(req.getParameter("menu_stat"));
+				Restaurant_MenuVO rmVO = new Restaurant_MenuVO();
+				
+				rmVO.setMenu_no(menu_no);
+				rmVO.setMenu_stat(menu_stat);
+				
+				System.out.println(menu_stat);
+				
+				Restaurant_MenuService rmSvc = new Restaurant_MenuService();
+				
+				rmVO = rmSvc.upStatu(menu_stat, menu_no);
+
+//				/*************************** 2.開始查詢資料 ****************************************/
+
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+//				String url = "/Restaurant_Menu/listAllMenus.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+//				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
