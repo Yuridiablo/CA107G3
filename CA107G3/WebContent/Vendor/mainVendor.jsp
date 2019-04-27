@@ -91,7 +91,7 @@ body {
 	margin-bottom: 5px;
 }
 
-.btn-primary {
+.nav-link .btn-primary {
 	background-color: orange;
 	border-color: orange;
 	margin-top: 10%;

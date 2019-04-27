@@ -196,10 +196,10 @@ to {
 	<c:if test="${rrVO.cmnt_no == cVO.cmnt_no}">
 	
 <div class="card">
-  <div class="card-header">
+  <div class="card-header d-flex justify-content-between">
     回應編號${rrVO.cmnt_no}
     <c:if test="${not empty rrVO.res_text}">
-    <a href="#" class="btn btn-primary disabled" role="button" <%= "aria-disabled='true'" %>>發表回應</a>
+    <a href="#" class="btn btn-success disabled" role="button" <%= "aria-disabled='true'" %>>發表回應</a>
  </c:if>  
     
   </div>
