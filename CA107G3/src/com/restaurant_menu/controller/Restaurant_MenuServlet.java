@@ -167,7 +167,8 @@ public class Restaurant_MenuServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("rmVO", rmVO); // 含有輸入格式錯誤的VO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/Restaurant_Menu/addMenu.jsp");
+					String url = "/Vendor/Vendor.do?action=listMenu";
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -489,7 +490,9 @@ public class Restaurant_MenuServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}	
+		
+		
 	}
 
 }

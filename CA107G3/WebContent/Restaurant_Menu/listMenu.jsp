@@ -90,13 +90,14 @@ body {
 <!-- 		<td>廠商編號:</td> -->
 <%-- 		<td><input type="TEXT" name="vendor_no" size="45" value="${rmVO.vendor_no}" /></td> --%>
 <!-- 	</tr> -->
+
 	<tr>
 		<td>品名:</td>
 		<td><input type="TEXT" name="menu_name" size="45"	value="${rmVO.menu_name}" /></td>
 	</tr>
 	<tr>
 		<td>圖片:</td>
-		<td><input type="file" name="menu_pic" onchange="changePic(event)"></td>
+		<td><input type="file" name="menu_pic" id="menu_pic" onchange="changePic(event)"></td>
 	</tr>
 	<tr>
 		<td>價格:</td>
@@ -122,8 +123,22 @@ body {
 <input type="hidden" name="vendor_no" value="${vendor_no}">
 <%-- <input type="hidden" name="menu_no" value="${rmVO.menu_no}"> --%>
 <input type="submit" value="送出"></FORM>
+
 <img src="" alt="" id="upimg">
-              
+              <c:if test="${not empty errorMsgs}">
+	<font style="color:red">請修正以下錯誤:</font>
+	<ul>
+		<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+		</c:forEach>
+	</ul>
+	<script>
+    $(window).on('load',function(){
+        $('#menuCenter').modal('show');
+    });
+</script>
+	
+</c:if>
               
               
 <!-- =========================================BODY結束========================================== -->
