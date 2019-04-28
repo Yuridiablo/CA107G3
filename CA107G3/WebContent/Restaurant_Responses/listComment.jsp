@@ -190,17 +190,23 @@ to {
 <!-- 	    <button type="button" class="btn btn-success">提款</button> -->
 <!-- 	  </a> -->
 	  
-	<c:forEach var="rrVO" items="${rrSvc.all}">
-	<c:forEach var="cVO" items="${cSvc.getOneVendor(vVO.vendor_no)}">
+
+<%-- 		<c:if test="${not empty rrVO}"> --%>
+	<c:forEach var="cVO" items="${clist}">
+	<c:forEach var="rrVO" items="${rrlist}">
+<%-- 	<c:if test="${vVO.vendor_no == cVO.vendor_no}"> --%>
+<%-- 	<c:if test="${rrSvc.findPk( cmnt_no ) == cVO.cmnt_no}"> --%>
 	
-	<c:if test="${rrVO.cmnt_no == cVO.cmnt_no}">
+
+		<c:if test="${rrVO.cmnt_no == cVO.cmnt_no}">
+	
 	
 <div class="card">
   <div class="card-header d-flex justify-content-between">
-    回應編號${rrVO.cmnt_no}
-    <c:if test="${not empty rrVO.res_text}">
+    回應編號${cVO.cmnt_no}
+   	<c:if test="${cVO.cmnt_no == rrVO.cmnt_no}"> 
     <a href="#" class="btn btn-success disabled" role="button" <%= "aria-disabled='true'" %>>發表回應</a>
- </c:if>  
+ 	</c:if>  
     
   </div>
   
@@ -214,7 +220,9 @@ to {
   
   <div class="media-body">
     <h5 class="mt-0">我的回應</h5>
+    <c:if test="${rrVO.cmnt_no == cVO.cmnt_no}"> 
    <c:out value="${rrVO.res_text}" default="尚無回應" />
+   </c:if>
   </div>
 </div>
 
@@ -230,10 +238,18 @@ to {
 	  
 <%-- 	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a> --%>
 <%-- 	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a> --%>
+	  	
+	  	</c:if>
+<%-- 	  	</c:if> --%>
+
+		  </c:forEach>
 	
-	  </c:if>
+<%-- 	  </c:if> --%>
+<%-- 	  </c:if> --%>
+	  
 	  </c:forEach>
-	</c:forEach>
+	
+
   <!-- <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a> -->
 </div>
 

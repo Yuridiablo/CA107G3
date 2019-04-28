@@ -20,13 +20,17 @@ public class Restaurant_ResponsesService {
 	}
 	
 	public Restaurant_ResponsesVO findPk(String cmnt_no) {
-		Restaurant_ResponsesVO rrVO = new Restaurant_ResponsesVO();
-		rrVO.setCmnt_no(cmnt_no);
-		return rrVO;
+		
+		return dao.findPK(cmnt_no);
 	}
 	
 	public List<Restaurant_ResponsesVO> getAll(){
 		return dao.getAll();
+		 
+	}
+	
+	public List<Restaurant_ResponsesVO> getOneVendor(String vendor_no){
+		return dao.getOneVendor(vendor_no);
 		 
 	}
 	

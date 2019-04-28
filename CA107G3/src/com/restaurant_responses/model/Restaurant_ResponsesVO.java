@@ -14,6 +14,7 @@ public class Restaurant_ResponsesVO implements Serializable{
 	private String cmnt_no;
 	private String res_text;
 	private Date res_time;
+	private String vendor_no;
 	
 	public Restaurant_ResponsesVO() {
 		super();
@@ -51,6 +52,13 @@ public class Restaurant_ResponsesVO implements Serializable{
 	public void setRes_time(Date res_time) {
 		this.res_time = res_time;
 	}
-	
+
+	public String getVendor_no() {
+		return vendor_no;
+	}
+
+	public void setVendor_no(String vendor_no) {
+		this.vendor_no = vendor_no;
+	}
 	
 }

@@ -3,6 +3,7 @@ package com.vendor.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -20,8 +21,12 @@ import javax.servlet.http.Part;
 
 import org.json.JSONObject;
 
+import com.comments.model.CommentsService;
+import com.comments.model.CommentsVO;
 import com.restaurant_menu.model.Restaurant_MenuService;
 import com.restaurant_menu.model.Restaurant_MenuVO;
+import com.restaurant_responses.model.Restaurant_ResponsesService;
+import com.restaurant_responses.model.Restaurant_ResponsesVO;
 import com.vendor.model.*;
 
 //@WebServlet("/VendorServlet")
@@ -44,7 +49,7 @@ public class VendorServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		HttpSession se = req.getSession();
 		JSONObject obj = new JSONObject();
-		System.out.println(req.getParameter("file"));
+		//System.out.println(req.getParameter("file"));
 
 		// 登入
 		if ("login".equals(action)) {
@@ -116,7 +121,7 @@ public class VendorServlet extends HttpServlet {
 
 			}
 		}
-		System.out.println("----WW!---");
+		//System.out.println("----WW!---");
 		//註冊
 		if ("insert".equals(action)) {
 			
@@ -522,9 +527,28 @@ public class VendorServlet extends HttpServlet {
 				String xxx = "good2";
 				try {
 					/*************************** 1.接收請求參數 ****************************************/
+					VendorVO vVO = (VendorVO) se.getAttribute("vVO");
+					String vendor_no = vVO.getVendor_no();
+					CommentsService cSvc = new CommentsService();
 					
-					req.setAttribute("rrlist", xxx);
-					System.out.println("有跑listComment");
+					List<CommentsVO> clist = cSvc.getOneVendor(vendor_no);
+					Restaurant_ResponsesService rrSvc = new Restaurant_ResponsesService();
+					List<Restaurant_ResponsesVO> rrlist = new ArrayList<>();
+					
+				
+					for (CommentsVO cVO : clist) {
+						
+					Restaurant_ResponsesVO rrVO = new Restaurant_ResponsesVO();
+					String aaa = cVO.getCmnt_no();
+					System.out.println(aaa);
+					rrVO = (Restaurant_ResponsesVO)rrSvc.findPk(aaa);			
+					rrlist.add(rrVO); 					
+					
+					}
+							
+					req.setAttribute("rrlist", rrlist);
+					req.setAttribute("clist", clist);
+				
 		
 					/*************************** 2.開始查詢資料 ****************************************/
 			
