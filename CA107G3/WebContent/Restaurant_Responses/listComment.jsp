@@ -192,27 +192,23 @@ to {
 	  
 
 <%-- 		<c:if test="${not empty rrVO}"> --%>
-	<c:forEach var="cVO" items="${clist}">
-	<c:forEach var="rrVO" items="${rrlist}">
-<%-- 	<c:if test="${vVO.vendor_no == cVO.vendor_no}"> --%>
-<%-- 	<c:if test="${rrSvc.findPk( cmnt_no ) == cVO.cmnt_no}"> --%>
-	
+	<c:forEach var="rrMap" items="${rrMap}">
 
-		<c:if test="${rrVO.cmnt_no == cVO.cmnt_no}">
-	
-	
 <div class="card">
   <div class="card-header d-flex justify-content-between">
-    回應編號${cVO.cmnt_no}
-   	<c:if test="${cVO.cmnt_no == rrVO.cmnt_no}"> 
-    <a href="#" class="btn btn-success disabled" role="button" <%= "aria-disabled='true'" %>>發表回應</a>
+    <span>回應編號${rrMap.key.cmnt_no}</span>
+    <span><fmt:formatDate value="${rrMap.key.time}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+   	<c:if test="${rrMap.key.cmnt_no == rrMap.value.cmnt_no}"> 
+    <a href="#" class="btn btn-secondary disabled" role="button" <%= "aria-disabled='true'" %>>發表回應</a>
  	</c:if>  
-    
+    <c:if test="${empty rrMap.value.cmnt_no}"> 
+    <a href="#" class="btn btn-success" role="button" >發表回應</a>
+ 	</c:if>  
   </div>
   
   <div class="card-body">
-    <h5 class="card-title">評分：${cVO.score}</h5>
-    <p class="card-text">${cVO.cmnt}</p>
+    <h5 class="card-title">評分：${rrMap.key.score}</h5>
+    <p class="card-text">${rrMap.key.cmnt}</p>
     
     
     
@@ -220,9 +216,9 @@ to {
   
   <div class="media-body">
     <h5 class="mt-0">我的回應</h5>
-    <c:if test="${rrVO.cmnt_no == cVO.cmnt_no}"> 
-   <c:out value="${rrVO.res_text}" default="尚無回應" />
-   </c:if>
+
+   <c:out value="${rrMap.value.res_text}" default="尚無回應" />
+<div><fmt:formatDate value="${rrMap.value.res_time}" pattern="yyyy-MM-dd"/></div>
   </div>
 </div>
 
@@ -230,22 +226,12 @@ to {
     
   </div>
 </div>
-<%-- 	<h3>${cVO.cmnt_no}</h3> --%>
-<%-- 	${rrSvc.findPk(cVO.cmnt_no)} --%>
-<%-- 	${rrSvc.findByPk(cVO.vendor_no).getCmnt_no} --%>
-	  
 	  
 	  
 <%-- 	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a> --%>
 <%-- 	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a> --%>
 	  	
-	  	</c:if>
-<%-- 	  	</c:if> --%>
 
-		  </c:forEach>
-	
-<%-- 	  </c:if> --%>
-<%-- 	  </c:if> --%>
 	  
 	  </c:forEach>
 	

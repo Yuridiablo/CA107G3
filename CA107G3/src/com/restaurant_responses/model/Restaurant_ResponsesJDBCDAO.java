@@ -21,7 +21,7 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 
 	private static final String INSERT_STMT =
 //			('MWL'||LPAD(to_char(MEMBER_WALLET_LIST_SEQ.NEXTVAL), 7, '0'),'M000001',sysdate,'5566',1,null,'20190330-000001'
-			"INSERT INTO Restaurant_Responses (res_no,cmnt_no,res_text,res_time) VALUES ('RR'||LPAD(to_char(RESTAURANT_RESPONSES_SEQ.NEXTVAL), 8, '0'),?,?,CURRENT_TIMESTAMP,?)";
+			"INSERT INTO Restaurant_Responses (res_no,cmnt_no,res_text,res_time) VALUES ('RR'||LPAD(to_char(RESTAURANT_RESPONSES_SEQ.NEXTVAL), 8, '0'),?,?,CURRENT_TIMESTAMP)";
 	private static final String UPDATE_STMT = "UPDATE Restaurant_Responses set res_text=? where res_no = ?";
 	private static final String DELETE = "DELETE FROM Restaurant_Responses where res_no = ?";
 	private static final String GET_ONE_STMT = "SELECT * FROM Restaurant_Responses where cmnt_no = ?";
@@ -42,7 +42,6 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 
 			pstmt.setString(1, Restaurant_ResponsesVO.getCmnt_no());
 			pstmt.setString(2, Restaurant_ResponsesVO.getRes_text());
-			pstmt.setString(3, Restaurant_ResponsesVO.getVendor_no());
 
 			pstmt.executeUpdate();
 
@@ -131,7 +130,6 @@ public class Restaurant_ResponsesJDBCDAO implements Restaurant_ResponsesDAO_inte
 				rrVO.setCmnt_no(rs.getString("cmnt_no"));
 				rrVO.setRes_text(rs.getString("res_text"));
 				rrVO.setRes_time(rs.getDate("res_time"));
-				rrVO.setVendor_no(rs.getString("vendor_no"));
 				
 				list.add(rrVO); // Store the row in the list
 			}

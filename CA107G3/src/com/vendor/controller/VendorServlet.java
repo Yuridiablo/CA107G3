@@ -6,8 +6,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -534,6 +536,7 @@ public class VendorServlet extends HttpServlet {
 					List<CommentsVO> clist = cSvc.getOneVendor(vendor_no);
 					Restaurant_ResponsesService rrSvc = new Restaurant_ResponsesService();
 					List<Restaurant_ResponsesVO> rrlist = new ArrayList<>();
+					Map<CommentsVO,Restaurant_ResponsesVO> rrMap = new LinkedHashMap<>();
 					
 				
 					for (CommentsVO cVO : clist) {
@@ -543,11 +546,15 @@ public class VendorServlet extends HttpServlet {
 					System.out.println(aaa);
 					rrVO = (Restaurant_ResponsesVO)rrSvc.findPk(aaa);			
 					rrlist.add(rrVO); 					
+					rrMap.put(cVO, rrVO);
 					
 					}
-							
+							System.out.println(rrlist);
+							System.out.println(clist);
+							System.out.println(rrMap);
 					req.setAttribute("rrlist", rrlist);
 					req.setAttribute("clist", clist);
+					req.setAttribute("rrMap", rrMap);
 				
 		
 					/*************************** 2.開始查詢資料 ****************************************/
