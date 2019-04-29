@@ -173,34 +173,70 @@ to {
 </style>
 </head>
 <!-- ============================================================================= -->
-
-<body>
-	<!-- Navbar -->
-	
-<div class="container">
-<h1>帳戶餘額</h1>
-		<div class="row">
-		
 				<!-- ===============================編輯區 開始====================================== -->
-	
+<body>
+<div class="col-6">
+	<h1>交易明細</h1>
+</div>
 
-	
-	<div class="list-group">
-	  <a href="#" class="list-group-item list-group-item-action active money">
-	    $${vVO.v_wallet}
-	    <button type="button" class="btn btn-success">提款</button>
-	  </a>
-	  
-	<c:forEach var="rtlVO" items="${rtlSvc.getOneVendor(vVO.vendor_no)}">
-	
-	  
-	  
-	  
-	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a>
-	
+  
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">時間</th>
+      <th scope="col">明細編號</th>
+      <th scope="col">訂單編號</th>
+      <th scope="col">收入</th>
+      <th scope="col">提款</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+  <c:forEach var="rtlVO" items="${rtlSvc.getOneVendor(vVO.vendor_no)}">
+<!--   交易金額格式化 -->
+	<fmt:parseNumber var = "i" type = "number" value = "${rtlVO.amount}" />
+
+	<tr>
+      <th scope="row">1</th>
+      <td><fmt:formatDate value="${rtlVO.pay_date}" pattern="yyyy-MM-dd HH:MM:SS"/></td>
+      <td>${rtlVO.trst_no}</td>
+      <td><c:out value="${rtlVO.ord_no}" default="-" /></td>
+      <c:if test="${i > 0}">
+      <td><c:out value="${i}" /></td>
+      <td>-</td>
+      </c:if>
+      <c:if test="${i < 0}">
+      <td>-</td>
+      <td><c:out value="${-i}" /></td>
+      </c:if>
+     
+    </tr>
 	  
 	</c:forEach>
-  
+    
+   
+  </tbody>
+</table>
+
+	
+	<!-- Navbar -->
+		<h1 class="container d-flex justify-content-end">帳戶餘額</h1>
+<div class="container d-flex justify-content-end">
+
+		<div class="row">
+		
+
+
+<!-- 	錢包餘額格式化 -->
+	<fmt:parseNumber var = "v_wallet" type = "number" value = "${vVO.v_wallet}" />
+	<div class="list-group">
+	  <a href="#" class="list-group-item list-group-item-action active money">
+	    $${v_wallet}
+	   
+	  </a> <button type="button" class="btn btn-success btn-lg">提款</button>
+	  
+	
   <!-- <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a> -->
 </div>
 
@@ -214,9 +250,7 @@ to {
 
 
 
-<div class="col-6">
-	<h1>交易明細</h1>
-</div>
+
 
 
 

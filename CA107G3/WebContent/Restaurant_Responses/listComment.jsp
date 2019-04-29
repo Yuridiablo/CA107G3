@@ -184,12 +184,7 @@ to {
 				<!-- ===============================編輯區 開始====================================== -->
 	
 
-	<div class="list-group">
-<!-- 	  <a href="#" class="list-group-item list-group-item-action active"> -->
-<!-- 	    $${vVO.v_wallet} -->
-<!-- 	    <button type="button" class="btn btn-success">提款</button> -->
-<!-- 	  </a> -->
-	  
+	<div class="list-group">  
 
 <%-- 		<c:if test="${not empty rrVO}"> --%>
 	<c:forEach var="rrMap" items="${rrMap}">

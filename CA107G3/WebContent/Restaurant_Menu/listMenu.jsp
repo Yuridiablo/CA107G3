@@ -32,6 +32,21 @@ body {
 .col-4, .col-6{
  margin-top:1%;
 }
+
+#modal_submit{
+margin-top:10px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#upimg{
+margin-top:10px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 </style>
 
 
@@ -70,26 +85,8 @@ body {
 
 </table>
 
-<%-- <c:if test="${not empty errorMsgs}"> --%>
-<!-- 	<font style="color:red">請修正以下錯誤:</font> -->
-<!-- 	<ul> -->
-<%-- 		<c:forEach var="message" items="${errorMsgs}"> --%>
-<%-- 			<li style="color:red">${message}</li> --%>
-<%-- 		</c:forEach> --%>
-<!-- 	</ul> -->
-<%-- </c:if> --%>
-<%-- 錯誤表列 --%>
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Restaurant_Menu/Restaurant_Menu.do" name="form1" enctype="multipart/form-data" >
 <table>
-<!-- 	<tr> -->
-<!-- 		<td>品項編號:<font color=red><b>*</b></font></td> -->
-<%-- 		<td>${rmVO.menu_no}</td> --%>
-<!-- 	</tr> -->
-
-<!-- 	<tr> -->
-<!-- 		<td>廠商編號:</td> -->
-<%-- 		<td><input type="TEXT" name="vendor_no" size="45" value="${rmVO.vendor_no}" /></td> --%>
-<!-- 	</tr> -->
 
 	<tr>
 		<td>品名:</td>
@@ -122,7 +119,8 @@ body {
 <input type="hidden" name="action" value="insertOneFood">
 <input type="hidden" name="vendor_no" value="${vendor_no}">
 <%-- <input type="hidden" name="menu_no" value="${rmVO.menu_no}"> --%>
-<input type="submit" value="送出"></FORM>
+<input type="submit" value="送出" id="modal_submit">
+</FORM>
 
 <img src="" alt="" id="upimg">
               <c:if test="${not empty errorMsgs}">
