@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.vendor.model.VendorVO;
+
 
 //@WebServlet("/RES_Transaction_ListServlet")
 public class RES_Transaction_ListServlet extends HttpServlet {
@@ -27,7 +29,7 @@ public class RES_Transaction_ListServlet extends HttpServlet {
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		HttpSession se = req.getSession();
+		
 		
 		
 		
@@ -35,12 +37,49 @@ public class RES_Transaction_ListServlet extends HttpServlet {
 
 		
 		if ("logout".equals(action)) {
-							
+			
+			HttpSession se = req.getSession();
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				
 				se.invalidate();
 				
+	
+				/*************************** 2.開始查詢資料 ****************************************/
+		
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				String url = req.getContextPath() + "/Vendor/V_frontPage.jsp";
+				res.sendRedirect(url);
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+//				successView.forward(req, res);
+	
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		
+		}
+		
+		if ("withdrawal".equals(action)) {
+		
+			HttpSession se = req.getSession();
+			
+			
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				VendorVO vVO = (VendorVO) se.getAttribute("vVO");
+				String vendor_no = vVO.getVendor_no();
+				String v_wallet = vVO.getV_wallet();
+				
+				String withdrawal = req.getParameter("withdrawal");
+				Integer.parseInt(v_wallet);
+				Integer.parseInt(withdrawal);
+			
+				String balance = String.valueOf(Integer.parseInt(v_wallet) -  Integer.parseInt(withdrawal));
+				//餘額
+				System.out.println(balance);
+				System.out.println(req.getParameter("v_wallet"));
 	
 				/*************************** 2.開始查詢資料 ****************************************/
 		

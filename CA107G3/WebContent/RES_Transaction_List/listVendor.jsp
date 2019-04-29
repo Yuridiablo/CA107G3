@@ -144,6 +144,17 @@ img {
 	max-width: 500px;
 }
 
+
+.swal2-range input {
+width:100%;
+}
+
+.swal2-range output{
+width:50%;
+}
+
+
+
 @keyframes full {from { left:-280px;
 	
 }
@@ -221,7 +232,7 @@ to {
 
 	
 	<!-- Navbar -->
-		<h1 class="container d-flex justify-content-end">帳戶餘額</h1>
+		<h1 class="container d-flex justify-content-end">帳戶餘額<button type="button" class="btn btn-success btn-lg" id="withdrawal">提款</button></h1>
 <div class="container d-flex justify-content-end">
 
 		<div class="row">
@@ -231,11 +242,18 @@ to {
 <!-- 	錢包餘額格式化 -->
 	<fmt:parseNumber var = "v_wallet" type = "number" value = "${vVO.v_wallet}" />
 	<div class="list-group">
+	
+<!-- 	那顆轉轉 -->
+	<button class="btn btn-primary" type="button" disabled>
+	  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+	  <span class="sr-only"></span>
+	  等待撥款中
+	</button>
+	  
 	  <a href="#" class="list-group-item list-group-item-action active money">
 	    $${v_wallet}
-	   
-	  </a> <button type="button" class="btn btn-success btn-lg">提款</button>
-	  
+	  </a> 
+
 	
   <!-- <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a> -->
 </div>
@@ -298,6 +316,43 @@ to {
 
 
     </script>
+
+
+
+<script>
+
+$("#withdrawal").click(function(){
+
+	Swal.fire({
+	  title: '輸入提款金額',
+	  input: 'range',
+	  inputAttributes: {
+	    min: 0,
+	    max: '${vVO.v_wallet}',
+	    step: 1
+	  },
+	  inputValue: '${vVO.v_wallet}'
+	}).then(function(inputValue){
+		
+		$.ajax({
+    		url: "<%=request.getContextPath()%>/RES_Transaction_List/RES_Transaction_List.do",
+            type : 'post',
+			data: { action : 'withdrawal', withdrawal : inputValue.value , v_wallet : 2 } ,
+			dataType: 'json',
+			async : false,//同步請求
+			cache : false,//不快取頁面
+			
+    	})
+		
+
+			
+    	})
+	
+})
+
+
+</script>
+
 
 </body>
 

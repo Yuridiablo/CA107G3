@@ -49,12 +49,14 @@ public class VendorServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		HttpSession se = req.getSession();
+		
 		JSONObject obj = new JSONObject();
 		//System.out.println(req.getParameter("file"));
 
 		// 登入
 		if ("login".equals(action)) {
+			HttpSession se = req.getSession();
+			
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
@@ -126,6 +128,7 @@ public class VendorServlet extends HttpServlet {
 		//System.out.println("----WW!---");
 		//註冊
 		if ("insert".equals(action)) {
+			HttpSession se = req.getSession();
 			
 			boolean newAcc = false;
 			List<String> errorMsgs = new LinkedList<String>();
@@ -279,6 +282,7 @@ public class VendorServlet extends HttpServlet {
 		
 		//更改店家資料
 		if ("Update".equals(action)) {
+			HttpSession se = req.getSession();
 			System.out.println("更新的頭");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -392,11 +396,11 @@ public class VendorServlet extends HttpServlet {
 		
 			if ("logout".equals(action)) {
 			System.out.println("成功登出");
-			
+			HttpSession se = req.getSession();
 				
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
-				
+	
 				se.invalidate();
 				System.out.println(se.toString());
 				
@@ -420,7 +424,7 @@ public class VendorServlet extends HttpServlet {
 			
 			if ("upPic".equals(action)) {
 				System.out.println("進入了UP");
-				
+				HttpSession se = req.getSession();
 					
 				try {
 					/*************************** 1.接收請求參數 ****************************************/
@@ -461,7 +465,7 @@ public class VendorServlet extends HttpServlet {
 			
 			if ("upAd".equals(action)) {
 				System.out.println("進入了Ad");
-				
+				HttpSession se = req.getSession();
 					
 				try {
 					/*************************** 1.接收請求參數 ****************************************/
@@ -525,6 +529,7 @@ public class VendorServlet extends HttpServlet {
 			}
 			
 		if ("listComment".equals(action)) {
+				HttpSession se = req.getSession();
 				
 				String xxx = "good2";
 				try {
@@ -598,7 +603,7 @@ public class VendorServlet extends HttpServlet {
 		}
 		
 		if ("listMenu".equals(action)) {
-			
+			HttpSession se = req.getSession();
 			
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
