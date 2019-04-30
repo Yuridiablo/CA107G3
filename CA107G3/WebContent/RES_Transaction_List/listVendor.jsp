@@ -153,6 +153,10 @@ width:100%;
 width:50%;
 }
 
+#waitmoney{
+visibility : hidden;
+border-radius: 5px 5px 0 0;
+}
 
 
 @keyframes full {from { left:-280px;
@@ -204,13 +208,13 @@ to {
   </thead>
   <tbody>
   
-  <c:forEach var="rtlVO" items="${rtlSvc.getOneVendor(vVO.vendor_no)}">
+  <c:forEach var="rtlVO" items="${rtlSvc.getOneVendor(vVO.vendor_no)}" varStatus="status">
 <!--   交易金額格式化 -->
 	<fmt:parseNumber var = "i" type = "number" value = "${rtlVO.amount}" />
-
+	<c:if test="${rtlVO.v_wallet != 3}">
 	<tr>
-      <th scope="row">1</th>
-      <td><fmt:formatDate value="${rtlVO.pay_date}" pattern="yyyy-MM-dd HH:MM:SS"/></td>
+      <th scope="row">${ status.index + 1}</th>
+      <td><fmt:formatDate value="${rtlVO.pay_date}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
       <td>${rtlVO.trst_no}</td>
       <td><c:out value="${rtlVO.ord_no}" default="-" /></td>
       <c:if test="${i > 0}">
@@ -223,7 +227,7 @@ to {
       </c:if>
      
     </tr>
-	  
+	 </c:if> 
 	</c:forEach>
     
    
@@ -237,39 +241,25 @@ to {
 
 		<div class="row">
 		
-
-
 <!-- 	錢包餘額格式化 -->
 	<fmt:parseNumber var = "v_wallet" type = "number" value = "${vVO.v_wallet}" />
 	<div class="list-group">
 	
 <!-- 	那顆轉轉 -->
-	<button class="btn btn-primary" type="button" disabled>
+	<button class="btn btn-primary" type="button" disabled id="waitmoney">
 	  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 	  <span class="sr-only"></span>
-	  等待撥款中
+	  <span id="waitres"></span>
+	 <span>等待撥款中</span>
 	</button>
-	  
-	  <a href="#" class="list-group-item list-group-item-action active money">
+	 
+	  <a href="#" class="list-group-item list-group-item-action active money" id="balance">
 	    $${v_wallet}
-	  </a> 
-
+	  </a>
+ 
 	
   <!-- <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a> -->
 </div>
-
-		
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -327,9 +317,9 @@ $("#withdrawal").click(function(){
 	  title: '輸入提款金額',
 	  input: 'range',
 	  inputAttributes: {
-	    min: 0,
+	    min: 10000,
 	    max: '${vVO.v_wallet}',
-	    step: 1
+	    step: 1000
 	  },
 	  inputValue: '${vVO.v_wallet}'
 	}).then(function(inputValue){
@@ -337,22 +327,44 @@ $("#withdrawal").click(function(){
 		$.ajax({
     		url: "<%=request.getContextPath()%>/RES_Transaction_List/RES_Transaction_List.do",
             type : 'post',
-			data: { action : 'withdrawal', withdrawal : inputValue.value , v_wallet : 2 } ,
+			data: { action : 'withdrawal', withdrawal : inputValue.value , v_statu : 3 } ,
 			dataType: 'json',
 			async : false,//同步請求
 			cache : false,//不快取頁面
+			success: function(res){
+				$('#waitmoney').css('visibility','visible');
+				$('#waitres').text('$' + res.withdrawal);
+				$('#balance').text('$' + res.balance);
+				$('#withdrawal').attr('disabled', true);
+				
+				console.log(res);
+// 				$('#answer').text(res.answer);
+// 				$('#image').attr('src', res.image).css('display', 'block');
+				
+			},
 			
     	})
-		
-
-			
-    	})
+   	})
 	
 })
 
-
 </script>
 
+<c:if test="${ not empty rtlVO3.v_wallet }">
+<script type="text/javascript">
+
+	$( document ).ready(function() {
+			
+			$('#waitmoney').css('visibility','visible');
+			$('#waitres').text('$'+ ${ -rtlVO3.amount });
+			$('#balance').text('$'+ ${ rtlVO3.amount + v_wallet});
+			$('#withdrawal').attr('disabled', true);			
+		
+       
+    })
+
+</script>
+</c:if>
 
 </body>
 

@@ -19,7 +19,8 @@ public interface RES_Transaction_ListDAO_Interface {
     
     //查一筆明細 應該用不到
     public RES_Transaction_ListVO findByPrimaryKey(String trst_no);
-    
+
+     
     //列出全部明細(管理端)
     public List<RES_Transaction_ListVO> getAll();
     

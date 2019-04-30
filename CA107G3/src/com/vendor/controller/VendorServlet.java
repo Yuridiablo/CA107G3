@@ -29,6 +29,8 @@ import com.restaurant_menu.model.Restaurant_MenuService;
 import com.restaurant_menu.model.Restaurant_MenuVO;
 import com.restaurant_responses.model.Restaurant_ResponsesService;
 import com.restaurant_responses.model.Restaurant_ResponsesVO;
+import com.restaurant_transaction_list.model.RES_Transaction_ListService;
+import com.restaurant_transaction_list.model.RES_Transaction_ListVO;
 import com.vendor.model.*;
 
 //@WebServlet("/VendorServlet")
@@ -506,13 +508,27 @@ public class VendorServlet extends HttpServlet {
 			
 			if ("listVendor".equals(action)) {
 				
+				HttpSession se = req.getSession();
+				VendorVO vVO = (VendorVO)se.getAttribute("vVO");
+				String vendor_no = vVO.getVendor_no();
 				String xxx = "good";
 				try {
 					/*************************** 1.接收請求參數 ****************************************/
 					
 					req.setAttribute("rtllist", xxx);
 					System.out.println("有跑listVendor");
-		
+					RES_Transaction_ListVO rtlVO3 =  new RES_Transaction_ListVO();
+					RES_Transaction_ListService rtlSvc = new RES_Transaction_ListService();
+					List<RES_Transaction_ListVO> rtllist = new ArrayList<>();
+					rtllist = rtlSvc.getOneVendor(vendor_no);
+					for (RES_Transaction_ListVO rtlVO : rtllist) {
+						if( rtlVO.getV_wallet() == 3 )
+							rtlVO3 = rtlVO;	
+						
+					}
+					
+					req.setAttribute("rtlVO3", rtlVO3);
+					System.out.println(rtlVO3.getV_wallet());					
 					/*************************** 2.開始查詢資料 ****************************************/
 			
 					/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/

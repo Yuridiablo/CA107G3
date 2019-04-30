@@ -12,7 +12,7 @@ public class RES_Transaction_ListService {
 		dao = new RES_Transaction_ListDAO();
 	}
 
-	public RES_Transaction_ListVO addList(String vendor_no, Double amount, Timestamp pay_date,
+	public RES_Transaction_ListVO addList(String vendor_no, Double amount,
 			String ord_no, Integer v_wallet) {
 
 		RES_Transaction_ListVO rtlVO = new RES_Transaction_ListVO();
