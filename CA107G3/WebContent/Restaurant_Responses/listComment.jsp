@@ -197,7 +197,7 @@ to {
     <a href="#" class="btn btn-secondary disabled" role="button" <%= "aria-disabled='true'" %>>發表回應</a>
  	</c:if>  
     <c:if test="${empty rrMap.value.cmnt_no}"> 
-    <a href="#" class="btn btn-success" role="button" >發表回應</a>
+    <a href="#" class="btn btn-success" role="button" id="R${rrMap.key.cmnt_no}">發表回應</a>
  	</c:if>  
   </div>
   
@@ -211,13 +211,13 @@ to {
   
   <div class="media-body">
     <h5 class="mt-0">我的回應</h5>
-
+	<span id="T${rrMap.key.cmnt_no}">
    <c:out value="${rrMap.value.res_text}" default="尚無回應" />
+   </span>
 <div><fmt:formatDate value="${rrMap.value.res_time}" pattern="yyyy-MM-dd"/></div>
   </div>
 </div>
 
- 
     
   </div>
 </div>
@@ -226,21 +226,11 @@ to {
 <%-- 	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a> --%>
 <%-- 	  <a href="#" class="list-group-item list-group-item-action">${rtlVO.trst_no}<span><fmt:formatNumber value="${rtlVO.amount}" pattern="#" type="number"/></span></a> --%>
 	  	
-
 	  
 	  </c:forEach>
 	
-
   <!-- <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a> -->
 </div>
-
-		
-
-
-
-
-
-
 
 
 
@@ -294,7 +284,23 @@ to {
 
 
     </script>
+	
+	
+	<c:forEach var="rrMap" items="${rrMap}">
+	<script>
 
+	$('#R${rrMap.key.cmnt_no}').click(function(){
+		
+		
+// 		alert('${rrMap.key.cmnt_no}');
+		$('#T${rrMap.key.cmnt_no}').text('XXXXX');
+		
+		
+	})
+	
+	</script>
+	</c:forEach>
+	
 </body>
 
 </html>
