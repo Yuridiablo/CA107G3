@@ -16,6 +16,7 @@ public class Restaurant_ResponsesService {
 		rrVO.setCmnt_no(cmnt_no);
 		rrVO.setRes_text(res_text);
 		
+		dao.insert(rrVO);
 		return rrVO;
 	}
 	

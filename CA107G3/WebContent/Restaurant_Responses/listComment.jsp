@@ -145,6 +145,15 @@ img {
 	max-width: 500px;
 }
 
+.hiddentext, .hiddenbtn{ 
+  display:none; 
+ } 
+ 
+.hiddenbtn{ 
+margin-left: 7%;
+ }  
+ 
+
 @keyframes full {from { left:-280px;
 	
 }
@@ -189,21 +198,21 @@ to {
 <%-- 		<c:if test="${not empty rrVO}"> --%>
 	<c:forEach var="rrMap" items="${rrMap}">
 
-<div class="card">
+<div class="card" style="margin-top:2%">
   <div class="card-header d-flex justify-content-between">
     <span>回應編號${rrMap.key.cmnt_no}</span>
     <span><fmt:formatDate value="${rrMap.key.time}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
    	<c:if test="${rrMap.key.cmnt_no == rrMap.value.cmnt_no}"> 
-    <a href="#" class="btn btn-secondary disabled" role="button" <%= "aria-disabled='true'" %>>發表回應</a>
+    <button type="button" class="btn btn-secondary" disabled <%= "aria-disabled='true'" %>>發表回應</button>
  	</c:if>  
     <c:if test="${empty rrMap.value.cmnt_no}"> 
-    <a href="#" class="btn btn-success" role="button" id="R${rrMap.key.cmnt_no}">發表回應</a>
+     <button type="button" class="btn btn-success" id="R${rrMap.key.cmnt_no}">發表回應</button>
  	</c:if>  
   </div>
   
   <div class="card-body">
     <h5 class="card-title">評分：${rrMap.key.score}</h5>
-    <p class="card-text">${rrMap.key.cmnt}</p>
+    <p class="card-text" style="word-break: break-all">${rrMap.key.cmnt}</p>
     
     
     
@@ -211,9 +220,11 @@ to {
   
   <div class="media-body">
     <h5 class="mt-0">我的回應</h5>
-	<span id="T${rrMap.key.cmnt_no}">
+    <textarea class="form-control hiddentext col-10" id="txt${rrMap.key.cmnt_no}" rows="2"></textarea>
+    <button type="button" class="btn btn-info hiddenbtn col-1" id="b${rrMap.key.cmnt_no}">送出</button>
+	<div id="T${rrMap.key.cmnt_no}" style="word-break: break-all">
    <c:out value="${rrMap.value.res_text}" default="尚無回應" />
-   </span>
+   </div>
 <div><fmt:formatDate value="${rrMap.value.res_time}" pattern="yyyy-MM-dd"/></div>
   </div>
 </div>
@@ -291,12 +302,47 @@ to {
 
 	$('#R${rrMap.key.cmnt_no}').click(function(){
 		
-		
 // 		alert('${rrMap.key.cmnt_no}');
-		$('#T${rrMap.key.cmnt_no}').text('XXXXX');
+		$('#T${rrMap.key.cmnt_no}').hide();
+		$('#txt${rrMap.key.cmnt_no}').show(500);
+		$('#b${rrMap.key.cmnt_no}').show(500);
+		$('#txt${rrMap.key.cmnt_no}').focus();
 		
 		
 	})
+	
+ 	
+	$('#b${rrMap.key.cmnt_no}').mousedown(function(){
+		
+		
+		$('#T${rrMap.key.cmnt_no}').text($("#txt${rrMap.key.cmnt_no}").val());
+		$('#txt${rrMap.key.cmnt_no}').hide();
+		$('#b${rrMap.key.cmnt_no}').hide();
+		$('#R${rrMap.key.cmnt_no}').attr('disabled', 'disabled');
+		$.ajax({
+    		url: "<%=request.getContextPath()%>/Restaurant_Responses/Restaurant_Responses.do",
+            type : 'post',
+			data: { 
+				action: 'ajaxInsert', 
+				cmnt_no:'${rrMap.key.cmnt_no}',
+				res_text: $("#txt${rrMap.key.cmnt_no}").val() 
+			},
+			dataType: 'json',
+			async : false,//同步請求
+			cache : false,//不快取頁面
+			
+    	})
+		
+	})
+	
+		$('#txt${rrMap.key.cmnt_no}').blur(function(){
+		
+		$('#T${rrMap.key.cmnt_no}').show(300);
+		$('#txt${rrMap.key.cmnt_no}').hide(300);
+		$('#b${rrMap.key.cmnt_no}').hide(300);
+		
+		
+ 	})
 	
 	</script>
 	</c:forEach>

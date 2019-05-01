@@ -60,7 +60,7 @@ margin-top:10px;
   <div class="row">
     <div class="col-12">
 <%-- <button type="button" class="btn btn-warning justify-content-end" onclick="location.href='<%=request.getContextPath()%>/Restaurant_Menu/addMenu.jsp'">新增菜色</button> --%>
-<button type="button" class="btn btn-warning justify-content-end" data-toggle="modal" data-target="#menuCenter">新增菜色</button>
+<button type="button" class="btn btn-warning justify-content-end btn-lg" data-toggle="modal" data-target="#menuCenter" style="margin:2%">新增菜色</button>
 </div>
 </div>
 </div>
@@ -185,7 +185,7 @@ margin-top:10px;
 </fieldset>
 
 <div class="col-12 d-flex d-flex justify-content-end">
-       <div class="btn-group" role="group" aria-label="Basic example">
+       <div class="btn-group" role="group" aria-label="Basic example"style="margin-bottom:2%" >
       <button type="button" class="btn btn-secondary pic" id="xx${rmVO.menu_no}">換圖</button>
       <button type="button" class="btn btn-secondary edit" id="yy${rmVO.menu_no}">編輯</button>
       <c:if test="${rmVO.menu_stat == 1}">
