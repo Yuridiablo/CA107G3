@@ -32,13 +32,16 @@
     <link rel="stylesheet" type="text/css" href="../front-end/css/style.css">
 </head>
 <style type="text/css">
-    .resultpic{
-        max-width: 400px;
-        height: 250px;
-        object-fit: cover;
+   
+.featured-place-wrap img{
+ width: 30%;
 
-    }
+ object-fit: cover;
+}
 
+.featured-responsive .img-fluid{
+ height: 200px;
+}
 
 </style>
 
@@ -145,10 +148,9 @@
                         <div class="col-12 featured-responsive">
                             <div class="featured-place-wrap">
                                <div class="d-flex">
-                                   
                                     
-                                     <img src="images/featured4.jpg" class="img-fluid resultpic" alt="#">
-                                     <span class="featured-rating-green">9.5</span>
+                                     <img src="images/photo2.jpg" class="img-fluid resultpic" alt="#">
+                                     <span class="featured-rating-green">4.5</span>
                                     <div class="featured-title-box">
                                         <h6>Pizza - Cicis</h6>
                                         <p>Restaurant </p> <span>• </span>
@@ -185,7 +187,7 @@
                     <div class="map-fix">
                         <!-- data-toggle="affix" -->
                         <!-- Google map will appear here! Edit the Latitude, Longitude and Zoom Level below using data-attr-*  -->
-                        <div id="map" data-lat="40.674" data-lon="-73.945" data-zoom="14"></div>
+                        <div id="map" data-lat="24.969" data-lon="121.191" data-zoom="14"></div>
                     </div>
                 </div>
             </div>
@@ -236,8 +238,9 @@
             });
         }
     </script>
+    
     <!-- Map JS (Please change the API key below. Read documentation for more info) -->
-    <script src="https://maps.googleapis.com/maps/api/js?callback=myMap&key=AIzaSyDMTUkJAmi1ahsx9uCGSgmcSmqDTBF9ygg"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=myMap&key=AIzaSyBYZhprf58VI160spKuA98fVS9AcSeVuVg"></script>
 </body>
 
 </html>
