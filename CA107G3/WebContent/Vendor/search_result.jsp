@@ -44,7 +44,7 @@
 }
 
 .featured-responsive .img-fluid {
-    height: 210px;
+    height: 240px;
     width: 300px;
     object-fit: cover;
     margin-top: 2%;

@@ -667,6 +667,9 @@ public class VendorServlet extends HttpServlet {
 				
 				List<VendorVO> searchlist = vSvc.search(v_name);
 				List<VendorVO> alllist = vSvc.getAll();
+				searchlist.stream()
+					.filter(v -> v.getV_name().equals("鼎泰豐"))
+					.forEach(v -> v.setV_wallet("3000"));
 				
 //				List<CommentsVO> oneComment = cSvc.getOneVendor(vendor_no);
 				
