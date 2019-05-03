@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -555,6 +556,7 @@ public class VendorServlet extends HttpServlet {
 					CommentsService cSvc = new CommentsService();
 					
 					List<CommentsVO> clist = cSvc.getOneVendor(vendor_no);
+					Collections.reverse(clist);
 					Restaurant_ResponsesService rrSvc = new Restaurant_ResponsesService();
 					List<Restaurant_ResponsesVO> rrlist = new ArrayList<>();
 					Map<CommentsVO,Restaurant_ResponsesVO> rrMap = new LinkedHashMap<>();
@@ -572,9 +574,8 @@ public class VendorServlet extends HttpServlet {
 					}
 					
 					
-							System.out.println(rrlist);
-							System.out.println(clist);
-							System.out.println(rrMap);
+							
+							System.out.println("餐廳回應評論" + rrMap);
 					req.setAttribute("rrlist", rrlist);
 					req.setAttribute("clist", clist);
 					req.setAttribute("rrMap", rrMap);
