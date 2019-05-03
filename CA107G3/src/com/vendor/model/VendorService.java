@@ -77,4 +77,8 @@ public class VendorService {
 	public List<VendorVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public List<VendorVO> search(String v_name){
+		return dao.search(v_name);
+	}
 }

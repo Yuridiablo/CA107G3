@@ -651,6 +651,45 @@ public class VendorServlet extends HttpServlet {
 			}
 		
 		}
+		
+		if ("search".equals(action)) {
+			
+			System.out.println("開始查詢");
+			String v_name = req.getParameter("v_name");
+			
+			System.out.println(v_name);
+			VendorService vSvc = new VendorService();
+			CommentsService cSvc = new CommentsService();
+			
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				
+				List<VendorVO> searchlist = vSvc.search(v_name);
+				List<VendorVO> alllist = vSvc.getAll();
+				
+//				List<CommentsVO> oneComment = cSvc.getOneVendor(vendor_no);
+				
+				System.out.println(searchlist);
+				req.setAttribute("searchlist", searchlist);
+				req.setAttribute("alllist", alllist);
+	
+			
+				
+								
+				/*************************** 2.開始查詢資料 ****************************************/
+		
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				String url = "/Vendor/search_result.jsp";
+//				res.sendRedirect(url);
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+				successView.forward(req, res);
+	
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		}
 	}
 
 }

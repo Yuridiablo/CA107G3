@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page import="com.vendor.model.*"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,13 +64,16 @@
                     <div class="row detail-filter-wrap">
                         <div class="col-md-7 featured-responsive">
                             <div class="detail-filter-text">
+                            <form  METHOD="post" ACTION="<%=request.getContextPath()%>/Vendor/Vendor.do" >
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="輸入條件.." aria-label="Recipient's username" aria-describedby="button-addon2">
+                                    <input type="text" class="form-control" placeholder="輸入條件.." aria-label="Recipient's username" aria-describedby="button-addon2" name="v_name" value="${vVO.v_name}">
                                     <div class="input-group-append">
-                                        <button class="btn btn-warning" type="button" id="button-addon2"><span class="icon-magnifier search-icon">再次搜尋</button>
-                                        <p>34 個符合條件的結果 <span>於N間餐廳</span></p>
+                                    <input type="hidden" name="action" value="search">
+                                        <button class="btn btn-warning" type="submit" id="button-addon2"><span class="icon-magnifier search-icon"></span>再次搜尋</button>
+                                        <p>${fn:length(searchlist)}個符合條件的結果 <span>於${fn:length(alllist)}間餐廳</span></p>
                                     </div>
                                 </div>
+                                </form>
                             </div>
                         </div>
                         <div class="col-md-5 featured-responsive">
@@ -127,26 +136,30 @@
                             </nav>
                         </div>
                     </div>
+
+<c:forEach var="vVO" items="${searchlist}">
+
+                    
                     <div class="container-fluid onerest">
                         <div class="col-12 featured-responsive ">
                             <div class="featured-place-wrap">
                                 <div class="d-flex">
-                                    <img src="images/photo2.jpg" class="img-fluid resultpic" alt="#">
-                                    <span class="featured-rating-green">4.5</span>
+                                <img  class="img-fluid resultpic" alt="#" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${vVO.vendor_no}'&pic=1">
+                                                                        <span class="featured-rating-green">4.5</span>
                                     <div class="featured-title-box">
-                                        <h5>鼎泰豐鼎泰豐鼎泰豐</h5>
-                                        <p>中式餐廳 </p> <span>• </span>
+                                        <h5>${vVO.v_name}</h5>
+                                        <p>${vVO.v_type} </p> <span>• </span>
                                         <p>3 評論</p> <span> • </span>
                                         <p><span>$$$</span>$$</p>
                                         <ul>
                                             <li><span class="icon-location-pin"></span>
-                                                <p>台北市信義區101大樓</p>
+                                                <span>${vVO.v_ad_code}${vVO.v_address1}${vVO.v_address2}${vVO.v_address3}</span>
                                             </li>
                                             <li><span class="icon-screen-smartphone"></span>
-                                                <p>02-12345678</p>
+                                                <p>${vVO.v_n_code}-${vVO.v_tel}</p>
                                             </li>
                                             <li><span class="icon-info"></span>
-                                                <p>座位數：60</p>
+                                                <p>座位數：${vVO.v_tables}</p>
                                             </li>
                                         </ul>
                                         <div class="bottom-icons">
@@ -157,6 +170,7 @@
                                     </div>
                                     <div class="col-5">
                                         <div class="media">
+                                        
                                             <img src="images/4809.jpg" class="mr-3" alt="...">
                                             <div class="media-body">
                                                 <h5 class="mt-0">我沒鼻子都覺得香</h5>
@@ -169,48 +183,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container-fluid onerest">
-                        <div class="col-12 featured-responsive ">
-                            <div class="featured-place-wrap">
-                                <div class="d-flex">
-                                    <img src="images/photo2.jpg" class="img-fluid resultpic" alt="#">
-                                    <span class="featured-rating-green">4.5</span>
-                                    <div class="featured-title-box">
-                                        <h5>鼎泰豐鼎泰豐鼎泰豐</h5>
-                                        <p>中式餐廳 </p> <span>• </span>
-                                        <p>3 評論</p> <span> • </span>
-                                        <p><span>$$$</span>$$</p>
-                                        <ul>
-                                            <li><span class="icon-location-pin"></span>
-                                                <p>台北市信義區101大樓</p>
-                                            </li>
-                                            <li><span class="icon-screen-smartphone"></span>
-                                                <p>02-12345678</p>
-                                            </li>
-                                            <li><span class="icon-info"></span>
-                                                <p>座位數：60</p>
-                                            </li>
-                                        </ul>
-                                        <div class="bottom-icons">
-                                            <div class="closed-now">休息中</div>
-                                            <span class="ti-heart"></span>
-                                            <span class="ti-share"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-5">
-                                        <div class="media">
-                                            <img src="images/4809.jpg" class="mr-3" alt="...">
-                                            <div class="media-body">
-                                                <h5 class="mt-0">我沒鼻子都覺得香</h5>
-                                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante s in faucibus.
-                                            </div>
-                                        </div>
-                                        <div>評分</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  
+</c:forEach>
+
+
                     <div class="col-md-5 responsive-wrap map-wrap">
                         <div class="map-fix">
                             <!-- data-toggle="affix" -->
@@ -220,6 +196,8 @@
                     </div>
                 </div>
             </div>
+            </div>
+           
     </section>
     <!--//END DETAIL -->
     <!-- jQuery, Bootstrap JS. -->

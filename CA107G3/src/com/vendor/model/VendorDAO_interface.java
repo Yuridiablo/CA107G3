@@ -39,5 +39,8 @@ public interface VendorDAO_interface {
 	
 
 	public List<VendorVO> getAll();
+	
+	
+	public List<VendorVO> search(String v_name);
 
 }
