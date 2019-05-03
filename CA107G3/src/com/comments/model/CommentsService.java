@@ -31,7 +31,7 @@ public class CommentsService {
 		commentsVO.setCmnt_status(cmnt_status);
 		dao.update(commentsVO);
 		return commentsVO;
-	}
+	} 
 
 	public void deleteComments(String cmnt_no) {
 		dao.delete(cmnt_no);
