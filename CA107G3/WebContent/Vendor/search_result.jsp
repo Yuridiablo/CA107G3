@@ -26,7 +26,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- 以下是 自訂的東西 -->
-    <!-- 線條樣式 -->
+   
     <!-- 線條樣式 -->
     <link rel="stylesheet" type="text/css" href="../front-end/css/simple-line-icons.css">
     <!-- Icon資源池 -->
@@ -35,8 +35,15 @@
     <link rel="stylesheet" type="text/css" href="../front-end/css/set1.css">
     <!-- 自訂 CSS主檔 -->
     <link rel="stylesheet" type="text/css" href="../front-end/css/style.css">
+     <!-- 星星圖庫來源樣式 -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../front-end/css/starrr.css">
 </head>
 <style type="text/css">
+body{
+font-family:"微軟正黑體";
+}
+
 .featured-place-wrap img {
     width: 30%;
 
@@ -47,11 +54,32 @@
     height: 240px;
     width: 300px;
     object-fit: cover;
-    margin-top: 2%;
+    margin-top: 1%;
 }
 
 .featured-place-wrap .media {
     margin: 30px 0 10px 0
+}
+
+.memshow{
+	height:64px!important;
+	width:64px!important;
+	object-fit: fill;
+}
+
+.featured-title-box{
+	width:35%;
+	height:30%;
+
+}
+.featured-place-wrap a{
+	display: inline;
+	cursor: default;
+}
+
+.starbox{
+    padding: 20px;
+    box-sizing: border-box;
 }
 </style>
 
@@ -66,7 +94,7 @@
                             <div class="detail-filter-text">
                             <form  METHOD="post" ACTION="<%=request.getContextPath()%>/Vendor/Vendor.do" >
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="輸入條件.." aria-label="Recipient's username" aria-describedby="button-addon2" name="v_name" value="${vVO.v_name}">
+                                    <input type="text" class="form-control" placeholder="輸入條件.." aria-label="Recipient's username" aria-describedby="button-addon2" name="v_name" >
                                     <div class="input-group-append">
                                     <input type="hidden" name="action" value="search">
                                         <button class="btn btn-warning" type="submit" id="button-addon2"><span class="icon-magnifier search-icon"></span>再次搜尋</button>
@@ -85,6 +113,7 @@
                                         <option value="4">4</option>
                                         <option value="3">3</option>
                                         <option value="2">2</option>
+                                        <option value="2">1</option>
                                     </select>
                                 </form>
                                 <form class="filter-dropdown">
@@ -171,14 +200,17 @@
                                     </div>
                                     <div class="col-5">
                                         <div class="media">
-                                        
-                                            <img src="images/4809.jpg" class="mr-3" alt="...">
+                                        	
+                                           <img src="<%= request.getContextPath()%>/ShowImg.do?mem_no='${sMap.value[4]}'" class="mr-3 memshow" alt="..."> 
+                                          
                                             <div class="media-body">
                                                 <h5 class="mt-0">我沒鼻子都覺得香</h5>
                                                 ${sMap.value[2]}
                                             </div>
                                         </div>
-                                        <div>評分：${sMap.value[3]}</div>
+                                        <c:if test="${ not empty sMap.value[3] }">
+                                        <div class="starbox"><span style="font-size:20px">評分：</span><div class='starrr showstar' id="s${sMap.value[5]}"></div></div>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +219,7 @@
   
 </c:forEach>
 
-
+ 
 
 
                     <div class="col-md-5 responsive-wrap map-wrap">
@@ -207,6 +239,8 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="../front-end/js/jquery-3.3.1.min.js"></script>
     <script src="../front-end/js/popper.min.js"></script>
+	<!-- 星星 -->
+    <script src="../front-end/js/starrr.js"></script>
     <!-- 貓頭鷹 -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
@@ -240,6 +274,18 @@
         });
     }
     </script>
+<c:forEach var="sMap" items="${searchMap}">    
+    <script type="text/javascript">
+    $('#s${sMap.value[5]}').starrr({
+    	
+    	max: 5,
+    	rating:${sMap.value[3]},
+    	readOnly: true
+        
+      });
+    
+    </script>
+</c:forEach>
     <!-- Map JS (Please change the API key below. Read documentation for more info) -->
     <script src="https://maps.googleapis.com/maps/api/js?callback=myMap&key=AIzaSyBYZhprf58VI160spKuA98fVS9AcSeVuVg"></script>
 </body>

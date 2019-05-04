@@ -30,6 +30,10 @@ import org.json.JSONObject;
 
 import com.comments.model.CommentsService;
 import com.comments.model.CommentsVO;
+import com.member.model.MemberService;
+import com.member.model.MemberVO;
+import com.ord.model.OrdService;
+import com.ord.model.OrdVO;
 import com.restaurant_menu.model.Restaurant_MenuService;
 import com.restaurant_menu.model.Restaurant_MenuVO;
 import com.restaurant_responses.model.Restaurant_ResponsesService;
@@ -665,6 +669,8 @@ public class VendorServlet extends HttpServlet {
 			System.out.println(v_name);
 			VendorService vSvc = new VendorService();
 			CommentsService cSvc = new CommentsService();
+			OrdService oSvc = new OrdService();
+			MemberService mSvc = new MemberService();
 		
 			
 			try {
@@ -707,7 +713,7 @@ public class VendorServlet extends HttpServlet {
 					infoString.add("0");
 				}
 				
-				// [ 0 是 平均評價 1是總評論數         2是評論內容 3是評論分數]
+				// [ 0 是 平均評價 1是總評論數         2是評論內容 3是評論分數 4是會員編號(照片用) 5是評論編號]
 				Optional<CommentsVO> comm = allComList.stream()
 						.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
 						.reduce((first, second) -> second);
@@ -716,9 +722,10 @@ public class VendorServlet extends HttpServlet {
 				if (comm.isPresent()) {
 					infoString.add(comm.map(v -> v.getCmnt()).get());
 					infoString.add(comm.map(v -> v.getScore()).get().toString());
-		
-					
-					
+					OrdVO oVO = oSvc.getOneOrd(comm.get().getOrd_no());
+					MemberVO mVO = mSvc.getOneMember(oVO.getMem_no());
+					infoString.add(mVO.getMem_no());
+					infoString.add(comm.map(v -> v.getCmnt_no()).get());
 					
 				} else {
 					infoString.add("尚無評論！");
