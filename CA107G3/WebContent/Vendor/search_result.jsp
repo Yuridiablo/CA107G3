@@ -137,29 +137,30 @@
                         </div>
                     </div>
 
-<c:forEach var="vVO" items="${searchlist}">
+
+<c:forEach var="sMap" items="${searchMap}">
 
                     
                     <div class="container-fluid onerest">
                         <div class="col-12 featured-responsive ">
                             <div class="featured-place-wrap">
                                 <div class="d-flex">
-                                <img  class="img-fluid resultpic" alt="#" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${vVO.vendor_no}'&pic=1">
-                                                                        <span class="featured-rating-green">4.5</span>
+                                <img  class="img-fluid resultpic" alt="#" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${sMap.key.vendor_no}'&pic=1">
+                                                                        <span class="featured-rating-green">${sMap.value[0]}</span>
                                     <div class="featured-title-box">
-                                        <h5>${vVO.v_name}</h5>
-                                        <p>${vVO.v_type} </p> <span>• </span>
-                                        <p>3 評論</p> <span> • </span>
+                                        <h5>${sMap.key.v_name}</h5>
+                                        <p>${sMap.key.v_type} </p> <span>• </span>
+                                        <p>${sMap.value[1]} 評論</p> <span> • </span>
                                         <p><span>$$$</span>$$</p>
                                         <ul>
                                             <li><span class="icon-location-pin"></span>
-                                                <span>${vVO.v_ad_code}${vVO.v_address1}${vVO.v_address2}${vVO.v_address3}</span>
+                                                <span>${sMap.key.v_ad_code}${sMap.key.v_address1}${sMap.key.v_address2}${sMap.key.v_address3}</span>
                                             </li>
                                             <li><span class="icon-screen-smartphone"></span>
-                                                <p>${vVO.v_n_code}-${vVO.v_tel}</p>
+                                                <p>${sMap.key.v_n_code}-${sMap.key.v_tel}</p>
                                             </li>
                                             <li><span class="icon-info"></span>
-                                                <p>座位數：${vVO.v_tables}</p>
+                                                <p>座位數：${sMap.key.v_tables}</p>
                                             </li>
                                         </ul>
                                         <div class="bottom-icons">
@@ -174,10 +175,10 @@
                                             <img src="images/4809.jpg" class="mr-3" alt="...">
                                             <div class="media-body">
                                                 <h5 class="mt-0">我沒鼻子都覺得香</h5>
-                                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante s in faucibus.
+                                                ${sMap.value[2]}
                                             </div>
                                         </div>
-                                        <div>評分</div>
+                                        <div>評分：${sMap.value[3]}</div>
                                     </div>
                                 </div>
                             </div>
@@ -185,6 +186,8 @@
                     </div>
   
 </c:forEach>
+
+
 
 
                     <div class="col-md-5 responsive-wrap map-wrap">

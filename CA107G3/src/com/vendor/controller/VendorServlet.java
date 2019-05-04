@@ -11,6 +11,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.stream.Stream;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -661,21 +665,76 @@ public class VendorServlet extends HttpServlet {
 			System.out.println(v_name);
 			VendorService vSvc = new VendorService();
 			CommentsService cSvc = new CommentsService();
+		
 			
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				
 				List<VendorVO> searchlist = vSvc.search(v_name);
 				List<VendorVO> alllist = vSvc.getAll();
-				searchlist.stream()
-					.filter(v -> v.getV_name().equals("鼎泰豐"))
-					.forEach(v -> v.setV_wallet("3000"));
+				List<CommentsVO> allComList = cSvc.getAll();
+				
+				
+				//廠商大打包
+				Map<VendorVO, ArrayList<String>> searchMap = new LinkedHashMap<>();
+				
+				
+				for (VendorVO vVO : searchlist) {
+				
+				ArrayList<String> infoString = new ArrayList<>();
+				
+				OptionalDouble avgscore = allComList.stream()
+					.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
+					.mapToDouble(v -> v.getScore())
+					.average();
+
+				long sumcomm = allComList.stream()
+						.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
+						.count();
+						
+						
+						
+				
+				if (avgscore.isPresent()) {
+					
+					String result = String.format("%.1f", avgscore.getAsDouble());
+					infoString.add(result);
+					infoString.add(String.valueOf(sumcomm));
+					
+					
+				} else {
+					infoString.add("0");
+					infoString.add("0");
+				}
+				
+				// [ 0 是 平均評價 1是總評論數         2是評論內容 3是評論分數]
+				Optional<CommentsVO> comm = allComList.stream()
+						.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
+						.reduce((first, second) -> second);
+						
+				
+				if (comm.isPresent()) {
+					infoString.add(comm.map(v -> v.getCmnt()).get());
+					infoString.add(comm.map(v -> v.getScore()).get().toString());
+		
+					
+					
+					
+				} else {
+					infoString.add("尚無評論！");
+				}
+				
+				searchMap.put(vVO, infoString);
+				System.out.println("平均分數：" + infoString.get(0));
+				System.out.println("平均分數：" + infoString.get(1));
+					
+				}
 				
 //				List<CommentsVO> oneComment = cSvc.getOneVendor(vendor_no);
 				
-				System.out.println(searchlist);
 				req.setAttribute("searchlist", searchlist);
 				req.setAttribute("alllist", alllist);
+				req.setAttribute("searchMap", searchMap);
 	
 			
 				
