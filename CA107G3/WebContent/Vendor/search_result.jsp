@@ -249,45 +249,177 @@ font-family:"微軟正黑體";
         $(".map-fix").toggle();
     });
     </script>
-    <script>
-    // Want to customize colors? go to snazzymaps.com
-    function myMap() {
-        var maplat = $('#map').data('lat');
-        var maplon = $('#map').data('lon');
-        var mapzoom = $('#map').data('zoom');
-        // Styles a map in night mode.
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: maplat,
-                lng: maplon
-            },
-            zoom: mapzoom,
-            scrollwheel: false
-        });
-        var marker = new google.maps.Marker({
-            position: {
-                lat: maplat,
-                lng: maplon
-            },
-            map: map,
-            title: 'We are here!'
-        });
-    }
+    
+    
+   <script>
+
+      var map;
+      var service;
+      var infowindow;
+
+      function initMap() {
+        var tibami = new google.maps.LatLng(24.9678012, 151.195);
+
+        infowindow = new google.maps.InfoWindow();
+
+        map = new google.maps.Map(
+            document.getElementById('map'), {center: tibami, zoom: 15});
+
+        searched();
+  
+      }
+      
+    
     </script>
+    
+     
+		    <script>
+		    
+
+		    function searched(){
+<c:forEach var="sMap" items="${searchMap}">  
+		  	  var request${sMap.key.vendor_no} = {
+		  	          query: '${sMap.key.v_address1}${sMap.key.v_address2}${sMap.key.v_address3}',
+		  	          fields: ['name', 'geometry'],
+		  	        };
+		
+		  	        service = new google.maps.places.PlacesService(map);
+		
+		  	        service.findPlaceFromQuery(request${sMap.key.vendor_no}, function(results, status) {
+		  	          if (status === google.maps.places.PlacesServiceStatus.OK) {
+		  	            for (var i = 0; i < results.length; i++) {
+		  	              createMarker${sMap.key.vendor_no}(results[i]);
+		  	            }
+		
+		  	            map.setCenter(results[0].geometry.location);
+		  	          }
+		  	        });
+		  	        
+		  	
+		    }
+		    
+		
+		    function createMarker${sMap.key.vendor_no}(place) {
+		      var marker${sMap.key.vendor_no} = new google.maps.Marker({
+		    	
+		    	title: '${sMap.key.v_name}',
+		        position: place.geometry.location,
+		        draggable: true,
+		        animation: google.maps.Animation.DROP
+		        
+		      });
+		
+		      google.maps.event.addListener(marker${sMap.key.vendor_no}, 'click', function() {
+		        infowindow.setContent('${sMap.key.v_name}');
+		        infowindow.open(map, this);
+		      });
+		      marker${sMap.key.vendor_no}.addListener('click', toggleBounce);
+		      marker${sMap.key.vendor_no}.setMap(map);
+		      
+		      function toggleBounce() {
+			        if (marker${sMap.key.vendor_no}.getAnimation() !== null) {
+			          marker${sMap.key.vendor_no}.setAnimation(null);
+			        } else {
+			          marker${sMap.key.vendor_no}.setAnimation(google.maps.Animation.BOUNCE);
+			        }
+			      }
+</c:forEach> 
+ 
+ yourplace();
+ 
+		    }
+
+		    </script>
+
+			<script type="text/javascript">
+			
+			function yourplace(){
+				
+				infoWindow = new google.maps.InfoWindow;
+
+		        // Try HTML5 geolocation.
+		        if (navigator.geolocation) {
+		          navigator.geolocation.getCurrentPosition(function(position) {
+		            var pos = {
+		              lat: position.coords.latitude,
+		              lng: position.coords.longitude
+		            };
+
+		            var marker = new google.maps.Marker({
+	                    position: pos,
+	                    icon: {
+	                        path: google.maps.SymbolPath.CIRCLE,
+	                        fillColor: '#0000b3',
+	                        fillOpacity: 1,
+	                        strokeColor: '#FFFFFF',
+	                        strokeWeight: 2,
+	                        scale: 10
+	                     },
+	                    map: map
+	                });
+		            
+		            setInterval(function() {
+			        	   if (marker.getVisible()) {
+			        	      marker.setVisible(false);
+			        	   } else {
+			        	      marker.setVisible(true);
+			        	   }
+			        	}, 800);
+		            
+		            infoWindow.open(map);
+		            map.setCenter(pos);
+		            
+		            
+		            var sunCircle = {
+
+		                    strokeColor: "#4CAF50",
+		                    strokeOpacity: 0.8,
+		                    strokeWeight: 2,
+		                    fillColor: "#4CAF50",
+		                    fillOpacity: 0.25,
+		                    map: map,
+		                    center: pos,
+		                    radius: 15000 // in meters
+
+		                };
+
+		                cityCircle = new google.maps.Circle(sunCircle);
+
+		                cityCircle.bindTo('center', marker, 'position');
+		            
+		            
+		          }, function() {
+		            handleLocationError(true, infoWindow, map.getCenter());
+		          });
+		        } else {
+		          // Browser doesn't support Geolocation
+		          handleLocationError(false, infoWindow, map.getCenter());
+		        }
+				
+		        
+			}
+			
+			
+			
+			</script>
+
+
 <c:forEach var="sMap" items="${searchMap}">    
     <script type="text/javascript">
     $('#s${sMap.value[5]}').starrr({
     	
     	max: 5,
     	rating:${sMap.value[3]},
-    	readOnly: true
+    	readOnly: true,
+    	emptyClass: 'fa fa-star-o',
+        fullClass: 'fa fa-star'
         
       });
     
     </script>
 </c:forEach>
     <!-- Map JS (Please change the API key below. Read documentation for more info) -->
-    <script src="https://maps.googleapis.com/maps/api/js?callback=myMap&key=AIzaSyBYZhprf58VI160spKuA98fVS9AcSeVuVg"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYZhprf58VI160spKuA98fVS9AcSeVuVg&libraries=places&callback=initMap" async defer></script>
 </body>
 
 </html>
