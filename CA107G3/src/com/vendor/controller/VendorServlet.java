@@ -665,13 +665,14 @@ public class VendorServlet extends HttpServlet {
 			
 			System.out.println("開始查詢");
 			String v_name = req.getParameter("v_name");
-			
-			System.out.println(v_name);
+
+			System.out.println(v_name + "我在這");
 			VendorService vSvc = new VendorService();
 			CommentsService cSvc = new CommentsService();
 			OrdService oSvc = new OrdService();
 			MemberService mSvc = new MemberService();
-		
+			String scoreWant = req.getParameter("scoreSelect");
+			
 			
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
@@ -731,9 +732,15 @@ public class VendorServlet extends HttpServlet {
 					infoString.add("尚無評論！");
 				}
 				
-				searchMap.put(vVO, infoString);
+				if(Double.parseDouble(infoString.get(0)) >= Double.parseDouble(scoreWant)) {
+					searchMap.put(vVO, infoString);
+				}
+				
+				
+				
+				
 				System.out.println("平均分數：" + infoString.get(0));
-				System.out.println("平均分數：" + infoString.get(1));
+				System.out.println("總評論篇數：" + infoString.get(1));
 					
 				}
 				

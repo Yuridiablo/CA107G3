@@ -94,11 +94,12 @@ font-family:"微軟正黑體";
                             <div class="detail-filter-text">
                             <form  METHOD="post" ACTION="<%=request.getContextPath()%>/Vendor/Vendor.do" >
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="輸入條件.." aria-label="Recipient's username" aria-describedby="button-addon2" name="v_name" >
+                                    <input type="text" class="form-control" placeholder="輸入條件.." aria-label="Recipient's username" aria-describedby="button-addon2" name="v_name" id="text_vendor" >
                                     <div class="input-group-append">
                                     <input type="hidden" name="action" value="search">
+                                    <input type="hidden" name="scoreSelect" value="0">
                                         <button class="btn btn-warning" type="submit" id="button-addon2"><span class="icon-magnifier search-icon"></span>再次搜尋</button>
-                                        <p>${fn:length(searchlist)}個符合條件的結果 <span>於${fn:length(alllist)}間餐廳</span></p>
+                                        <p>${fn:length(searchMap)}個符合條件的結果 <span>於${fn:length(alllist)}間餐廳</span></p>
                                     </div>
                                 </div>
                                 </form>
@@ -107,22 +108,24 @@ font-family:"微軟正黑體";
                         <div class="col-md-5 featured-responsive">
                             <div class="detail-filter">
                                 <p>變更條件</p>
-                                <form class="filter-dropdown">
-                                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+                                <form class="filter-dropdown"  METHOD="post" ACTION="<%=request.getContextPath()%>/Vendor/Vendor.do">
+                                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" name="scoreSelect" id="scoreSelect">
                                         <option selected>評分高於</option>
                                         <option value="4">4</option>
                                         <option value="3">3</option>
                                         <option value="2">2</option>
                                         <option value="2">1</option>
                                     </select>
+                                    <input type="hidden" name="action" value="search">
+                                    <input type="hidden" name="v_name" id="outerTxt" value="${param.v_name}">
                                 </form>
                                 <form class="filter-dropdown">
-                                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect1">
+                                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="rangeSelect">
                                         <option selected>距離我</option>
                                         <option value="1">5公里</option>
                                         <option value="2">10公里</option>
-                                        <option value="3">30公里</option>
-                                        <option value="4">30公里以上</option>
+                                        <option value="6">30公里</option>
+                                        <option value="12">30公里以上</option>
                                     </select>
                                 </form>
                                 <div class="map-responsive-wrap">
@@ -263,7 +266,7 @@ font-family:"微軟正黑體";
         infowindow = new google.maps.InfoWindow();
 
         map = new google.maps.Map(
-            document.getElementById('map'), {center: tibami, zoom: 15});
+            document.getElementById('map'), {center: tibami, zoom: 13});
 
         searched();
   
@@ -304,8 +307,9 @@ font-family:"微軟正黑體";
 		    	
 		    	title: '${sMap.key.v_name}',
 		        position: place.geometry.location,
-		        draggable: true,
+		        draggable: false,
 		        animation: google.maps.Animation.DROP
+		        
 		        
 		      });
 		
@@ -336,7 +340,7 @@ font-family:"微軟正黑體";
 			function yourplace(){
 				
 				infoWindow = new google.maps.InfoWindow;
-
+			    var test = null;
 		        // Try HTML5 geolocation.
 		        if (navigator.geolocation) {
 		          navigator.geolocation.getCurrentPosition(function(position) {
@@ -346,6 +350,7 @@ font-family:"微軟正黑體";
 		            };
 
 		            var marker = new google.maps.Marker({
+		            	draggable: true,
 	                    position: pos,
 	                    icon: {
 	                        path: google.maps.SymbolPath.CIRCLE,
@@ -359,17 +364,20 @@ font-family:"微軟正黑體";
 	                });
 		            
 		            setInterval(function() {
-			        	   if (marker.getVisible()) {
-			        	      marker.setVisible(false);
+			        	   if (marker.getOpacity() == 1) {
+			        	      marker.setOpacity(0);
 			        	   } else {
-			        	      marker.setVisible(true);
+			        	      marker.setOpacity(1);
 			        	   }
-			        	}, 800);
+			        	}, 700);
 		            
 		            infoWindow.open(map);
 		            map.setCenter(pos);
 		            
+		           
 		            
+		            function circlesize(radius) {   
+		            		
 		            var sunCircle = {
 
 		                    strokeColor: "#4CAF50",
@@ -379,13 +387,31 @@ font-family:"微軟正黑體";
 		                    fillOpacity: 0.25,
 		                    map: map,
 		                    center: pos,
-		                    radius: 15000 // in meters
-
+		                    radius: radius // in meters
+		          
 		                };
-
-		                cityCircle = new google.maps.Circle(sunCircle);
-
-		                cityCircle.bindTo('center', marker, 'position');
+		            if (test != null){
+		            	test.setMap(null);
+		            }
+		            
+		            cityCircle = new google.maps.Circle(sunCircle);
+		            test =cityCircle;
+		        
+	                cityCircle.bindTo('center', marker, 'position');
+	                
+	                google.maps.event.addListener(marker, 'dragend', function() {
+	                    updateMarkerStateTxt('Drag ended');
+	                });
+	              }
+		      
+		        	$('#rangeSelect').change(function(){
+		        	
+		        		 
+						  var rrr = $('#rangeSelect').val();
+						  circlesize(rrr*5000);
+						  circle.setMap(null);
+					}); 
+					      
 		            
 		            
 		          }, function() {
@@ -402,7 +428,18 @@ font-family:"微軟正黑體";
 			
 			
 			</script>
-
+			
+			<script>
+			$(function() {
+			    $('#scoreSelect').change(function() {
+			    	
+			    	
+			    	this.form.submit();
+			    });
+			});
+			
+			</script>
+			
 
 <c:forEach var="sMap" items="${searchMap}">    
     <script type="text/javascript">
