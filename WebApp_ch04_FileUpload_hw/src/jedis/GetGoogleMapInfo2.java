@@ -6,6 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,9 +17,10 @@ import org.json.JSONObject;
 
 import redis.clients.jedis.Jedis;
 
-public class GetGoogleMapInfo {
+public class GetGoogleMapInfo2 {
 
-	public static final String MY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=24.967742,121.1895113&radius=5000&type=restaurant&nguage=zh-TW&key=AIzaSyBYZhprf58VI160spKuA98fVS9AcSeVuVg";
+//	public static final String MY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=24.967742,121.1895113&radius=10000&type=restaurant&language=zh-tw&key=AIzaSyBYZhprf58VI160spKuA98fVS9AcSeVuVg";
+	public static final String MY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=24.67742,121.105113&radius=10000&type=restaurant&language=zh-tw&key=AIzaSyBYZhprf58VI160spKuA98fVS9AcSeVuVg";
 
 	public static void main(String[] args) throws IOException, JSONException {
 		StringBuilder sb = new StringBuilder();
@@ -47,7 +52,9 @@ public class GetGoogleMapInfo {
 		for (int i = 0 ; i < jArray.length(); i++) {
 			String keys = "rest:";
 			JSONObject data = jArray.getJSONObject(i);  
-			String name = data.getString("name");
+			String v_name = data.getString("name");
+			List<String> lll = new ArrayList<>();
+			Map<String, List<String>> map = new HashMap<>();
 			
 			JSONObject jObj2 = data.getJSONObject("geometry");
 			JSONObject jObj3 = jObj2.getJSONObject("location");
@@ -57,9 +64,10 @@ public class GetGoogleMapInfo {
 			Boolean open = jObjHour.getBoolean("open_now");
 //			Integer zip = data.getInt("user_ratings_total");
 			String add = data.getString("vicinity");
+			String id = data.getString("id");
 			
 			Double rating = data.getDouble("rating");			
-			System.out.println("店名：" + name);
+			System.out.println("店名：" + v_name);
 			System.out.println("經度：" + lat);
 			System.out.println("緯度：" + lng);
 			System.out.println("分數：" + rating);
@@ -67,16 +75,25 @@ public class GetGoogleMapInfo {
 			System.out.println("地址：" + add);
 			System.out.println("-------------");
 			
+			lll.add(lat.toString());
+			lll.add(lng.toString());
+			lll.add(rating.toString());
+			lll.add(add);
+			
+			map.put(v_name, lll);
+			
 			Jedis jed = new Jedis("localhost", 6379);
 			jed.auth("123456");
 //			jed.flushDB();
-			jed.hset(keys + i, "name", name);
-			jed.hset(keys + i, "lat", lat.toString());
-			jed.hset(keys + i, "lng", lng.toString());
-			jed.hset(keys + i, "rating", rating.toString());
-			jed.hset(keys + i, "add", add);
+			jed.hset("v_name", id, v_name);
+			jed.hset("v_add", id, add);
+			jed.hset("v_score", id, rating.toString());
+			jed.hset("v_lat", id, lat.toString());
+			jed.hset("v_lng", id, lng.toString());
+//			jed.set("v_name", v_name);
 			
-			System.out.println(jed.hget("rest:6", "add"));
+			
+			System.out.println(jed.hset("v_add", id, add));
 			
 			System.out.println(jed.hgetAll("rest:5"));
 			jed.close();

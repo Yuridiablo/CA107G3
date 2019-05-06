@@ -714,7 +714,7 @@ public class VendorServlet extends HttpServlet {
 					infoString.add("0");
 				}
 				
-				// [ 0 是 平均評價 1是總評論數         2是評論內容 3是評論分數 4是會員編號(照片用) 5是評論編號]
+				// [ 0 是 平均評價 1是總評論數         2是評論內容 3是評論分數 4是會員編號(照片用) 5是評論編號 6是切出來的標題]
 				Optional<CommentsVO> comm = allComList.stream()
 						.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
 						.reduce((first, second) -> second);
@@ -727,6 +727,13 @@ public class VendorServlet extends HttpServlet {
 					MemberVO mVO = mSvc.getOneMember(oVO.getMem_no());
 					infoString.add(mVO.getMem_no());
 					infoString.add(comm.map(v -> v.getCmnt_no()).get());
+					
+					String forSub = comm.map(v -> v.getCmnt()).get();
+					//切出標題用文字
+					int cut = forSub.indexOf("，", 0);
+					String title = forSub.substring(0,cut);
+					infoString.add(title);
+					
 					
 				} else {
 					infoString.add("尚無評論！");

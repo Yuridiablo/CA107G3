@@ -1,7 +1,10 @@
 package tools;
 
 import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -38,6 +41,7 @@ public class ShowImg extends HttpServlet {
 		String picName = null;
 		String SQL = null;
 		
+		
 		//抓菜單的圖
 		if (req.getParameter("menu_no") != null) {
 			picName = "MENU_PIC";
@@ -62,7 +66,7 @@ public class ShowImg extends HttpServlet {
 			picName = "MEM_PIC";
 			SQL = "SELECT MEM_PIC FROM MEMBER WHERE MEM_NO = " + req.getParameter("mem_no");
 		}
-
+		
 		try {
 			Statement stmt = con.createStatement();
 			
@@ -71,7 +75,7 @@ public class ShowImg extends HttpServlet {
 			ResultSet rs = stmt.executeQuery(SQL);
 
 			if (rs.next()) {
-
+				
 				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream(picName));
 				byte[] buf = new byte[4 * 1024]; // 4K buffer
 				int len;
@@ -86,7 +90,7 @@ public class ShowImg extends HttpServlet {
 			rs.close();
 			stmt.close();
 		} catch (Exception e) {
-			System.out.println(e);
+			System.err.println(e);
 		}
 	}
 

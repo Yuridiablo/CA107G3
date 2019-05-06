@@ -33,8 +33,6 @@
     <servlet-name>RES_Transaction_ListServlet</servlet-name>
     <url-pattern>/RES_Transaction_List/RES_Transaction_List.do</url-pattern>
   </servlet-mapping>
-  
-  
   <servlet>
     <servlet-name>Restaurant_ResponsesServlet</servlet-name>
     <servlet-class>com.restaurant_responses.controller.Restaurant_ResponsesServlet</servlet-class>
@@ -43,8 +41,6 @@
     <servlet-name>Restaurant_ResponsesServlet</servlet-name>
     <url-pattern>/Restaurant_Responses/Restaurant_Responses.do</url-pattern>
   </servlet-mapping>
-  
-  
   <servlet>
     <servlet-name>ShowImg</servlet-name>
     <servlet-class>tools.ShowImg</servlet-class>
@@ -53,5 +49,4 @@
     <servlet-name>ShowImg</servlet-name>
     <url-pattern>/ShowImg.do</url-pattern>
   </servlet-mapping>
-  
 </web-app>

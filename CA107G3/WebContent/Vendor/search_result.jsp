@@ -135,21 +135,7 @@ font-family:"微軟正黑體";
                         </div>
                     </div>
                     <div class="row detail-checkbox-wrap">
-                        <div class="col-6">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                <label class="form-check-label" for="inlineCheckbox1">營業中</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                                <label class="form-check-label" for="inlineCheckbox2">有停車位</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled>
-                                <label class="form-check-label" for="inlineCheckbox3">disabled</label>
-                            </div>
-                            核取方塊的位置
-                        </div>
+                 
                         <div class="col-12">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
@@ -196,7 +182,7 @@ font-family:"微軟正黑體";
                                             </li>
                                         </ul>
                                         <div class="bottom-icons">
-                                            <div class="closed-now">休息中</div>
+                                            <div class="open-now">營業中</div>
                                             <span class="ti-heart"></span>
                                             <span class="ti-share"></span>
                                         </div>
@@ -207,7 +193,7 @@ font-family:"微軟正黑體";
                                            <img src="<%= request.getContextPath()%>/ShowImg.do?mem_no='${sMap.value[4]}'" class="mr-3 memshow" alt="..."> 
                                           
                                             <div class="media-body">
-                                                <h5 class="mt-0">我沒鼻子都覺得香</h5>
+                                                <h5 class="mt-0"> ${sMap.value[6]}</h5>
                                                 ${sMap.value[2]}
                                             </div>
                                         </div>
@@ -266,7 +252,7 @@ font-family:"微軟正黑體";
         infowindow = new google.maps.InfoWindow();
 
         map = new google.maps.Map(
-            document.getElementById('map'), {center: tibami, zoom: 13});
+            document.getElementById('map'), {center: tibami, zoom: 10});
 
         searched();
   
@@ -313,12 +299,24 @@ font-family:"微軟正黑體";
 		        
 		      });
 		
+		   
+		      
 		      google.maps.event.addListener(marker${sMap.key.vendor_no}, 'click', function() {
-		        infowindow.setContent('${sMap.key.v_name}');
+		        
+		    	infowindow.setContent('${sMap.key.v_name}');
 		        infowindow.open(map, this);
+		      
 		      });
+		      
+		     
+		      
 		      marker${sMap.key.vendor_no}.addListener('click', toggleBounce);
 		      marker${sMap.key.vendor_no}.setMap(map);
+		      
+		      marker${sMap.key.vendor_no}.addListener('click', function() {
+		          map.setZoom(13);
+		          map.setCenter(marker${sMap.key.vendor_no}.getPosition());
+		        });
 		      
 		      function toggleBounce() {
 			        if (marker${sMap.key.vendor_no}.getAnimation() !== null) {
@@ -400,7 +398,18 @@ font-family:"微軟正黑體";
 	                cityCircle.bindTo('center', marker, 'position');
 	                
 	                google.maps.event.addListener(marker, 'dragend', function() {
-	                    updateMarkerStateTxt('Drag ended');
+	                	console.log(position)
+	                	$.ajax({
+	        	    		url: "<%=request.getContextPath()%>/MySearch",
+	        	            type : 'post',
+	        				data: { action: 'ajaxStatu', 
+	        				menu_no:'${rmVO.menu_no}',
+	        				menu_stat: 1},
+	        				dataType: 'json',
+	        				async : false,//同步請求
+	        				cache : false,//不快取頁面
+	        				
+	        	    	})
 	                });
 	              }
 		      
