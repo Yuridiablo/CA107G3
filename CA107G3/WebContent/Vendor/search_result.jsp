@@ -160,7 +160,7 @@ font-family:"微軟正黑體";
 
                     
                     <div class="container-fluid onerest">
-                        <div class="col-12 featured-responsive ">
+                        <div class="col-12 featured-responsive" id="big${sMap.key.vendor_no}">
                             <div class="featured-place-wrap">
                                 <div class="d-flex">
                                 <img  class="img-fluid resultpic" alt="#" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${sMap.key.vendor_no}'&pic=1">
@@ -301,16 +301,14 @@ font-family:"微軟正黑體";
 		
 		   
 		      
-		      google.maps.event.addListener(marker${sMap.key.vendor_no}, 'click', function() {
-		        
-		    	infowindow.setContent('${sMap.key.v_name}');
-		        infowindow.open(map, this);
-		      
-		      });
+// 		      google.maps.event.addListener(marker${sMap.key.vendor_no}, 'click', function() {
+// 		    	infowindow.setContent('${sMap.key.v_name}');
+// 		        infowindow.open(map, this);	      
+// 		      });
 		      
 		     
 		      
-		      marker${sMap.key.vendor_no}.addListener('click', toggleBounce);
+		    
 		      marker${sMap.key.vendor_no}.setMap(map);
 		      
 		      marker${sMap.key.vendor_no}.addListener('click', function() {
@@ -318,13 +316,20 @@ font-family:"微軟正黑體";
 		          map.setCenter(marker${sMap.key.vendor_no}.getPosition());
 		        });
 		      
-		      function toggleBounce() {
-			        if (marker${sMap.key.vendor_no}.getAnimation() !== null) {
-			          marker${sMap.key.vendor_no}.setAnimation(null);
-			        } else {
-			          marker${sMap.key.vendor_no}.setAnimation(google.maps.Animation.BOUNCE);
-			        }
-			      }
+
+		      
+		      $('#big${sMap.key.vendor_no}').mouseover(function(){
+		      	console.log(marker${sMap.key.vendor_no});
+		      	map.setZoom(10);
+		        map.setCenter(marker${sMap.key.vendor_no}.getPosition());
+		        marker${sMap.key.vendor_no}.setAnimation(google.maps.Animation.BOUNCE);
+		      });
+		      
+		      $('#big${sMap.key.vendor_no}').mouseleave(function(){
+			      	console.log(marker${sMap.key.vendor_no});
+			      	
+			      	 marker${sMap.key.vendor_no}.setAnimation(null);
+			      });
 </c:forEach> 
  
  yourplace();
@@ -461,6 +466,8 @@ font-family:"微軟正黑體";
         fullClass: 'fa fa-star'
         
       });
+    
+
     
     </script>
 </c:forEach>
