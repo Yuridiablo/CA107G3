@@ -11,6 +11,5 @@
 	<classpathentry kind="lib" path="C:/MyLib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="C:/MyLib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="C:/MyLib/jsp-api.jar"/>
-	<classpathentry kind="lib" path="C:/MyLib/gson-2.8.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

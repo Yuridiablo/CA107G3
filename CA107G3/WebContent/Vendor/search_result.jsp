@@ -81,6 +81,12 @@ font-family:"微軟正黑體";
     padding: 20px;
     box-sizing: border-box;
 }
+
+.nickname{
+	background-color: #FF5722;
+	color: #fff;
+    display:inline-block;
+}
 </style>
 
 <body>
@@ -193,7 +199,7 @@ font-family:"微軟正黑體";
                                            <img src="<%= request.getContextPath()%>/ShowImg.do?mem_no='${sMap.value[4]}'" class="mr-3 memshow" alt="..."> 
                                           
                                             <div class="media-body">
-                                                <h5 class="mt-0"> ${sMap.value[6]}</h5>
+                                                <div class="nickname">${sMap.value[7]}</div><h5 class="mt-0"> ${sMap.value[6]}</h5>
                                                 ${sMap.value[2]}
                                             </div>
                                         </div>
@@ -403,7 +409,17 @@ font-family:"微軟正黑體";
 	                cityCircle.bindTo('center', marker, 'position');
 	                
 	                google.maps.event.addListener(marker, 'dragend', function() {
-	                	console.log(position)
+	                	
+                	    //	抓取新的中心點
+	                	var position = marker.getPosition()
+	                	var lat = position.lat()
+	                	var lng = position.lng()
+	                	
+	                	console.log(position);
+	                	console.log(lat);
+	                	console.log(lng);
+	                	
+	                	
 	                	$.ajax({
 	        	    		url: "<%=request.getContextPath()%>/MySearch",
 	        	            type : 'post',
