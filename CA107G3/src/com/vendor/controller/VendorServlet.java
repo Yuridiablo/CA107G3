@@ -124,7 +124,7 @@ public class VendorServlet extends HttpServlet {
 				
 				se.setAttribute("v_account", req.getParameter("v_account"));
 				se.setAttribute("vVO", vVO);
-
+				
 				String url = "/Vendor/mainVendor.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
@@ -688,86 +688,87 @@ public class VendorServlet extends HttpServlet {
 				
 				for (VendorVO vVO : searchlist) {
 				
-				ArrayList<String> infoString = new ArrayList<>();
-				
-				OptionalDouble avgscore = allComList.stream()
-					.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
-					.mapToDouble(v -> v.getScore())
-					.average();
-
-				long sumcomm = allComList.stream()
+				if (vVO.getV_status().equals("1")) {	
+					ArrayList<String> infoString = new ArrayList<>();
+					
+					OptionalDouble avgscore = allComList.stream()
 						.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
-						.count();
+						.mapToDouble(v -> v.getScore())
+						.average();
+	
+					long sumcomm = allComList.stream()
+							.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
+							.count();
+							
+							
+							
+					
+					if (avgscore.isPresent()) {
+						
+						String result = String.format("%.1f", avgscore.getAsDouble());
+						// 0 1 
+						infoString.add(result);
+						infoString.add(String.valueOf(sumcomm));
+						
+						
+					} else {
+						infoString.add("0");
+						infoString.add("0");
+					}
+					
+					/*    字串集合用途
+					   [ 0 	平均評價 
+						 1	總評論數         
+						 2	評論內容
+						 3	評論分數    
+						 4	會員編號(照片用)   
+						 5	評論編號          
+						 6	切出來的標題 ]
+						 7	會員暱稱
+					*/
+					Optional<CommentsVO> comm = allComList.stream()
+							.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
+							.reduce((first, second) -> second);
+							
+					
+					if (comm.isPresent()) {
+						// 2 3
+						infoString.add(comm.map(v -> v.getCmnt()).get());
+						infoString.add(comm.map(v -> v.getScore()).get().toString());
+						OrdVO oVO = oSvc.getOneOrd(comm.get().getOrd_no());
+						MemberVO mVO = mSvc.getOneMember(oVO.getMem_no());
+						infoString.add(mVO.getMem_no());
+						
+						// 4 5
+						infoString.add(comm.map(v -> v.getCmnt_no()).get());
+						
+						String forSub = comm.map(v -> v.getCmnt()).get();
+						//切出標題用文字
+						int cut = forSub.indexOf("，", 0);
+						String title = forSub.substring(0,cut);
+						// 6
+						infoString.add(title);
+						// 7
+						infoString.add(mVO.getMem_nickname());
 						
 						
 						
-				
-				if (avgscore.isPresent()) {
+					} else {
+						infoString.add("尚無評論！");
+					}
 					
-					String result = String.format("%.1f", avgscore.getAsDouble());
-					// 0 1 
-					infoString.add(result);
-					infoString.add(String.valueOf(sumcomm));
+					if(Double.parseDouble(infoString.get(0)) >= Double.parseDouble(scoreWant)) {
+						searchMap.put(vVO, infoString);
+					}
 					
 					
-				} else {
-					infoString.add("0");
-					infoString.add("0");
-				}
-				
-				/*    字串集合用途
-				   [ 0 	平均評價 
-					 1	總評論數         
-					 2	評論內容
-					 3	評論分數    
-					 4	會員編號(照片用)   
-					 5	評論編號          
-					 6	切出來的標題 ]
-					 7	會員暱稱
-				*/
-				Optional<CommentsVO> comm = allComList.stream()
-						.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
-						.reduce((first, second) -> second);
+					
+					
+					System.out.println("平均分數：" + infoString.get(0));
+					System.out.println("總評論篇數：" + infoString.get(1));
 						
-				
-				if (comm.isPresent()) {
-					// 2 3
-					infoString.add(comm.map(v -> v.getCmnt()).get());
-					infoString.add(comm.map(v -> v.getScore()).get().toString());
-					OrdVO oVO = oSvc.getOneOrd(comm.get().getOrd_no());
-					MemberVO mVO = mSvc.getOneMember(oVO.getMem_no());
-					infoString.add(mVO.getMem_no());
-					
-					// 4 5
-					infoString.add(comm.map(v -> v.getCmnt_no()).get());
-					
-					String forSub = comm.map(v -> v.getCmnt()).get();
-					//切出標題用文字
-					int cut = forSub.indexOf("，", 0);
-					String title = forSub.substring(0,cut);
-					// 6
-					infoString.add(title);
-					// 7
-					infoString.add(mVO.getMem_nickname());
-					
-					
-					
-				} else {
-					infoString.add("尚無評論！");
+					}
 				}
-				
-				if(Double.parseDouble(infoString.get(0)) >= Double.parseDouble(scoreWant)) {
-					searchMap.put(vVO, infoString);
-				}
-				
-				
-				
-				
-				System.out.println("平均分數：" + infoString.get(0));
-				System.out.println("總評論篇數：" + infoString.get(1));
-					
-				}
-				
 //				List<CommentsVO> oneComment = cSvc.getOneVendor(vendor_no);
 				
 				req.setAttribute("searchlist", searchlist);

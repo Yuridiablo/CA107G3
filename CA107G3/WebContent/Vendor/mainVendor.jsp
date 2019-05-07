@@ -200,7 +200,16 @@ to {
 			data-target="#collapsibleNavbar" id="btnSidenav">
 			<span class="navbar-toggler-icon"></span>
 		</button>
+		
+		<c:if test="${vVO.v_status == 1}">
 		<spqn class="navbar-brand resTitle">${vVO.v_name}，您好！</spqn>
+		</c:if>
+		<c:if test="${vVO.v_status == 2}">
+		<spqn class="navbar-brand resTitle"><span style="color:orange">[審核中]</span>${vVO.v_name}，您好！</spqn>
+		</c:if>
+		<c:if test="${vVO.v_status == 3}">
+		<spqn class="navbar-brand resTitle"><span style="color:red">[停權中]</span>${vVO.v_name}，您好！</spqn>
+		</c:if>
 		<span class="navbar-brand">Seek Food Table</span>
 	</nav>
 	<!-- Side Nav -->

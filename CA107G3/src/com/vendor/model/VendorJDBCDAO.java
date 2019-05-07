@@ -17,7 +17,7 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 
 	// SQL
 	private static final String INSERT_STMT = "INSERT INTO VENDOR VALUES ('V'||LPAD(to_char(VENDOR_SEQ.NEXTVAL), 6, '0'),?,?,?,?,?,?,?,?,?,?,?,0,0,0,?,?,?,?,NULL,NULL,?)";
-	private static final String CREAT_STMT = "INSERT INTO VENDOR VALUES ('V'||LPAD(to_char(VENDOR_SEQ.NEXTVAL), 6, '0'),?,?,?,?,?,?,?,?,?,0,?,0,0,0,0,0,0,0,?,NULL,0,0,'','')";
+	private static final String CREAT_STMT = "INSERT INTO VENDOR VALUES ('V'||LPAD(to_char(VENDOR_SEQ.NEXTVAL), 6, '0'),?,?,?,?,?,?,?,?,?,0,?,0,0,0,0,0,0,0,?,NULL,'2',0,'','')";
 //	private static final String UPDATE = "UPDATE VENDOR SET V_PWD = ?, V_TEL = ?, V_N_CODE = ?, V_AD_CODE = ?, V_ADDRESS1 = ?, V_ADDRESS2 = ?, V_ADDRESS3 = ?, V_WALLET = ?, V_NAME = ?, V_START_TIME = ?, V_END_TIME = ?, V_DAY = ?, V_TURN_TIME = ?, V_STATUS = ? WHERE V_ACCOUNT=?";
 	private static final String UPDATE = "UPDATE VENDOR SET v_type = ?, v_start_time = ?, v_end_time = ?, v_day = ?, v_tables = ?, v_text = ? WHERE vendor_no=?";
 	private static final String UPDATE_PIC = "UPDATE VENDOR SET v_pic = ? WHERE vendor_no=?";
