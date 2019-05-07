@@ -705,6 +705,7 @@ public class VendorServlet extends HttpServlet {
 				if (avgscore.isPresent()) {
 					
 					String result = String.format("%.1f", avgscore.getAsDouble());
+					// 0 1 
 					infoString.add(result);
 					infoString.add(String.valueOf(sumcomm));
 					
@@ -714,25 +715,41 @@ public class VendorServlet extends HttpServlet {
 					infoString.add("0");
 				}
 				
-				// [ 0 是 平均評價 1是總評論數         2是評論內容 3是評論分數 4是會員編號(照片用) 5是評論編號 6是切出來的標題]
+				/*    字串集合用途
+				   [ 0 	平均評價 
+					 1	總評論數         
+					 2	評論內容
+					 3	評論分數    
+					 4	會員編號(照片用)   
+					 5	評論編號          
+					 6	切出來的標題 ]
+					 7	會員暱稱
+				*/
 				Optional<CommentsVO> comm = allComList.stream()
 						.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
 						.reduce((first, second) -> second);
 						
 				
 				if (comm.isPresent()) {
+					// 2 3
 					infoString.add(comm.map(v -> v.getCmnt()).get());
 					infoString.add(comm.map(v -> v.getScore()).get().toString());
 					OrdVO oVO = oSvc.getOneOrd(comm.get().getOrd_no());
 					MemberVO mVO = mSvc.getOneMember(oVO.getMem_no());
 					infoString.add(mVO.getMem_no());
+					
+					// 4 5
 					infoString.add(comm.map(v -> v.getCmnt_no()).get());
 					
 					String forSub = comm.map(v -> v.getCmnt()).get();
 					//切出標題用文字
 					int cut = forSub.indexOf("，", 0);
 					String title = forSub.substring(0,cut);
+					// 6
 					infoString.add(title);
+					// 7
+					infoString.add(mVO.getMem_nickname());
+					
 					
 					
 				} else {
@@ -756,12 +773,11 @@ public class VendorServlet extends HttpServlet {
 				req.setAttribute("searchlist", searchlist);
 				req.setAttribute("alllist", alllist);
 				req.setAttribute("searchMap", searchMap);
-	
-			
-				
 								
 				/*************************** 2.開始查詢資料 ****************************************/
 		
+				
+				
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				String url = "/Vendor/search_result.jsp";
 //				res.sendRedirect(url);
