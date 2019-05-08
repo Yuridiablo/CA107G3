@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.RequestDispatcher;
@@ -746,8 +748,11 @@ public class VendorServlet extends HttpServlet {
 				/*************************** 1.接收請求參數 ****************************************/
 				
 				List<VendorVO> searchlist = vSvc.search(v_name);
-				List<VendorVO> alllist = vSvc.getAll();
+				List<VendorVO> alllist = vSvc.getAll().stream().filter(v -> v.getV_status().equals("1")).collect(Collectors.toList());
 				List<CommentsVO> allComList = cSvc.getAll();
+				
+			
+					
 				
 				
 				//廠商大打包
@@ -767,8 +772,6 @@ public class VendorServlet extends HttpServlet {
 					long sumcomm = allComList.stream()
 							.filter(v -> v.getVendor_no().equals(vVO.getVendor_no()))
 							.count();
-							
-							
 							
 					
 					if (avgscore.isPresent()) {

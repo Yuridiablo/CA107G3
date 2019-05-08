@@ -94,7 +94,7 @@ margin-top:10px;
 	</tr>
 	<tr>
 		<td>圖片:</td>
-		<td><input type="file" name="menu_pic" id="menu_pic" onchange="changePic(event)"></td>
+		<td><input type="file" name="menu_pic" id="menu_pic" onchange="changePic(event)" ></td>
 	</tr>
 	<tr>
 		<td>價格:</td>
@@ -161,7 +161,7 @@ margin-top:10px;
 
 <div class="col-4">
 
- <div class="profile-img"><img id="p${rmVO.menu_no}" src="<%= request.getContextPath()%>/ShowImg.do?menu_no='${rmVO.menu_no}'"/></div>
+ <div class="profile-img"><img id="p${rmVO.menu_no}" src="<%= request.getContextPath()%>/ShowImg.do?menu_no='${rmVO.menu_no}'" onerror="this.src='../front-end/images/SeeKFoodA.png'"/></div>
  
  </div>     
 

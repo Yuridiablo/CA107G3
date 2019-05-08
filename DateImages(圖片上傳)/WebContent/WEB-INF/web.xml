@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
+  <display-name>DateImages</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  
+  	<servlet>
+		<servlet-name>upImage</servlet-name>
+		<servlet-class>Test.upImage</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>upImage</servlet-name>
+		<url-pattern>/Test/upImage.do</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>outImage</servlet-name>
+		<servlet-class>Test.outImage</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>outImage</servlet-name>
+		<url-pattern>/Test/outImage.do</url-pattern>
+	</servlet-mapping>
+</web-app>

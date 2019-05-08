@@ -263,7 +263,7 @@ to {
 						<button id="V_PIC">更換形象</button>
 					</div>
 				</div>
-				<img id="pic1" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${vVO.vendor_no}'&pic=1">
+				<img id="pic1" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${vVO.vendor_no}'&pic=1" onerror="this.src='../front-end/images/SeeKFoodA.png'">
 <!-- 				<img id="pic1" src="https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder"> -->
 				<div class="form-row">
 					<div class="col-3 col-form-label">
@@ -273,7 +273,7 @@ to {
 						<button id="V_AD">更換宣傳</button>
 					</div>
 				</div>
-				<img id="ad1" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${vVO.vendor_no}'&ad=1">
+				<img id="ad1" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${vVO.vendor_no}'&ad=1" onerror="this.src='../front-end/images/SeeKFoodA.png'">
 <!-- 				<img id="ad1" src="https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder"> -->
 			</div>
 

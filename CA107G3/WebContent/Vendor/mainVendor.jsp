@@ -202,15 +202,17 @@ to {
 		</button>
 		
 		<c:if test="${vVO.v_status == 1}">
-		<spqn class="navbar-brand resTitle">${vVO.v_name}，您好！</spqn>
+		<span class="navbar-brand resTitle">${vVO.v_name}，您好！</span>
 		</c:if>
 		<c:if test="${vVO.v_status == 2}">
-		<spqn class="navbar-brand resTitle"><span style="color:orange">[審核中]</span>${vVO.v_name}，您好！</spqn>
+		<span class="navbar-brand resTitle"><span style="color:orange">[審核中]</span>${vVO.v_name}，您好！</span>
 		</c:if>
 		<c:if test="${vVO.v_status == 3}">
-		<spqn class="navbar-brand resTitle"><span style="color:red">[停權中]</span>${vVO.v_name}，您好！</spqn>
+		<span class="navbar-brand resTitle">${vVO.v_name}，您好！</span>
 		</c:if>
-		<span class="navbar-brand">Seek Food Table</span>
+		<span class="navbar-brand">Seek Food Table<a class="btn btn-danger" role="botton" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=logout">登出</a></span>
+		
+
 	</nav>
 	<!-- Side Nav -->
 	<div id="sidenavOverlay"></div>
@@ -227,11 +229,7 @@ to {
 		<a class="nav-link text-white p-3" href="#">候位者驗證</a>
 		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=listComment">測試-提款驗證</a>
 		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=listStatus">測試-審核驗證</a>
-			<form class="needs-validation" novalidate METHOD="post" ACTION="Vendor.do" name="form1">
-			<input type="hidden" name="action"	value="logout">
-			<button type="submit" class="btn btn-primary">
-			登出
-			</button></form>
+			
 	</nav>
 <h1>include主頁</h1>
 	<div class="container">

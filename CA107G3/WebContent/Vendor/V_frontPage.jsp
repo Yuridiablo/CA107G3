@@ -167,7 +167,7 @@ font-size:30px;
 		
 		
 		
-		<spqn class="navbar-brand resTitle">歡迎使用餐廳管理畫面</spqn>
+		<span class="navbar-brand resTitle">歡迎使用餐廳管理畫面</span>
 		<span class="navbar-brand">Seek Food Table</span>
 	</nav>
 	<!-- Side Nav -->
