@@ -22,7 +22,7 @@ public interface VendorDAO_interface {
 	public void detail(VendorVO vendorVO);
 	
 	//修改審核狀態碼
-	public void check(VendorVO vendorVO);
+	public void upStatus(VendorVO vendorVO);
 	
 	//修改開放訂位狀態
 	public void waitOnOff(VendorVO vendorVO);

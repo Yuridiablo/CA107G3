@@ -81,4 +81,12 @@ public class VendorService {
 	public List<VendorVO> search(String v_name){
 		return dao.search(v_name);
 	}
+	
+	public void upStatus(String v_status,String vendor_no) {
+		VendorVO vVO = new VendorVO();
+		vVO.setV_status(v_status);
+		vVO.setVendor_no(vendor_no);
+		
+		dao.upStatus(vVO);
+	}
 }

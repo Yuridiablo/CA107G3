@@ -169,7 +169,7 @@ font-family:"微軟正黑體";
                         <div class="col-12 featured-responsive" id="big${sMap.key.vendor_no}">
                             <div class="featured-place-wrap">
                                 <div class="d-flex">
-                                <img  class="img-fluid resultpic" alt="#" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${sMap.key.vendor_no}'&pic=1">
+                                <img  class="img-fluid resultpic" onerror="this.src='../front-end/images/SeeKFoodA.png'" alt="#" src="<%= request.getContextPath()%>/ShowImg.do?vendor_no='${sMap.key.vendor_no}'&pic=1">
                                                                         <span class="featured-rating-green">${sMap.value[0]}</span>
                                     <div class="featured-title-box">
                                         <h5>${sMap.key.v_name}</h5>
@@ -196,7 +196,7 @@ font-family:"微軟正黑體";
                                     <div class="col-5">
                                         <div class="media">
                                         	
-                                           <img src="<%= request.getContextPath()%>/ShowImg.do?mem_no='${sMap.value[4]}'" class="mr-3 memshow" alt="..."> 
+                                           <img src="<%= request.getContextPath()%>/ShowImg.do?mem_no='${sMap.value[4]}'" class="mr-3 memshow" onerror="this.src='../front-end/images/SeeKFoodA.png'" alt="..."> 
                                           
                                             <div class="media-body">
                                                 <div class="nickname">${sMap.value[7]}</div><h5 class="mt-0"> ${sMap.value[6]}</h5>

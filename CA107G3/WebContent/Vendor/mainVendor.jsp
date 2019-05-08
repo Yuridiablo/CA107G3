@@ -225,6 +225,8 @@ to {
 		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=listComment">回應管理</a>
 		<a class="nav-link text-white p-3" href="#">訂位者驗證</a>
 		<a class="nav-link text-white p-3" href="#">候位者驗證</a>
+		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=listComment">測試-提款驗證</a>
+		<a class="nav-link text-white p-3" href="<%=request.getContextPath()%>/Vendor/Vendor.do?action=listStatus">測試-審核驗證</a>
 			<form class="needs-validation" novalidate METHOD="post" ACTION="Vendor.do" name="form1">
 			<input type="hidden" name="action"	value="logout">
 			<button type="submit" class="btn btn-primary">
@@ -254,6 +256,13 @@ to {
 <c:if test="${not empty rmlist || not empty newStore}">
 <jsp:include page="/Restaurant_Menu/listMenu.jsp" />
 </c:if>
+
+<c:if test="${not empty vlistConfirm}">
+<jsp:include page="/employeePage/confirmVendor.jsp" />
+</c:if>
+
+
+
 </div>
 
 

@@ -20,6 +20,7 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 	private static final String CREAT_STMT = "INSERT INTO VENDOR VALUES ('V'||LPAD(to_char(VENDOR_SEQ.NEXTVAL), 6, '0'),?,?,?,?,?,?,?,?,?,0,?,0,0,0,0,0,0,0,?,NULL,'2',0,'','')";
 //	private static final String UPDATE = "UPDATE VENDOR SET V_PWD = ?, V_TEL = ?, V_N_CODE = ?, V_AD_CODE = ?, V_ADDRESS1 = ?, V_ADDRESS2 = ?, V_ADDRESS3 = ?, V_WALLET = ?, V_NAME = ?, V_START_TIME = ?, V_END_TIME = ?, V_DAY = ?, V_TURN_TIME = ?, V_STATUS = ? WHERE V_ACCOUNT=?";
 	private static final String UPDATE = "UPDATE VENDOR SET v_type = ?, v_start_time = ?, v_end_time = ?, v_day = ?, v_tables = ?, v_text = ? WHERE vendor_no=?";
+	private static final String UPDATE_STATU = "UPDATE VENDOR SET v_status = ? WHERE vendor_no=?";
 	private static final String UPDATE_PIC = "UPDATE VENDOR SET v_pic = ? WHERE vendor_no=?";
 	private static final String UPDATE_AD = "UPDATE VENDOR SET v_ad = ? WHERE vendor_no=?";
 	private static final String DELETE = "DELETE FROM Vendor WHERE vendor_no =?";
@@ -513,58 +514,46 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 		return vlist;
 	}
 
-	public static void main(String[] args) {
-		VendorDAO_interface vDAO = new VendorJDBCDAO();
+	// 修改狀態碼
+	@Override
+	public void upStatus(VendorVO vVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		System.out.println(vVO.getV_status());
 		
-		//新增
-		VendorVO vVO = new VendorVO();
+		try {
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(UPDATE_STATU);
+			
+
+			pstmt.setString(1, vVO.getV_status());
+			pstmt.setString(2, vVO.getVendor_no());
+			
+			pstmt.executeUpdate();
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException se) {
+			
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
-		vVO.setV_account("xxxzzzcc");
-		vVO.setV_pwd("000000");
-		vVO.setV_mail("yourmom@gmail.com");
-		vVO.setV_tel("11223344");
-		vVO.setV_n_code("02");
-		vVO.setV_ad_code("300");
-		vVO.setV_address1("台北市");
-		vVO.setV_address2("信義區");
-		vVO.setV_address3("中正路10號");
-		vVO.setV_name("墨賞鐵板燒");
-		vVO.setV_pic(null);
-		
-//		vVO.setVendor_no("V000003");
-//		rm.setMenu_name("宇宙大燒賣");
-//		rm.setMenu_price("2050");
-// 		rm.setMenu_pic(null);
-// 		rm.setMenu_stat(1);		
-// 		rm.setMenu_text("居然包了一整頭豬在裡面啊");		
- 		
-		vDAO.create(vVO);	
-
-		// 單筆查詢
-		// System.out.println(vDAO.findByPrimaryKey("V000005"));
-
-		// 查詢全部
-//		 List<VendorVO> vlist = new ArrayList<>();
-//		 vlist = vDAO.getAll();
-//		 for (VendorVO v : vlist) {
-//		 System.out.println(v);
-//		 }
-
-		// 新增
-		// VendorVo v2 = new VendorVo("leg0543088", "leg0543088",
-		// "leg0543088@gmail.com", "2165788", "08", "881", "高雄市8",
-		// "前金區8", "新田路2078號", "159843152381", "辣癮食尚麻辣火鍋8", "1300", "1700", "0101010",
-		// "6", "4");
-		//
-		// vDAO.insert(v2);
-
-		// 刪除
-		// vDAO.delete("V000006");
-
-		// 更新
-//		VendorVO v3 = new VendorVO("leg0543088", "leg0543089", "2165789", "09", "666", "高雄9市", "前金9區", "新田路278號",
-//				"15984312381", "火鍋8", "1309", "1709", "0101011", "3", "5");
-//		vDAO.update(v3);
 	}
 
 	@Override
@@ -574,15 +563,64 @@ public class VendorJDBCDAO implements VendorDAO_interface {
 	}
 
 	@Override
-	public void check(VendorVO vendorVO) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void waitOnOff(VendorVO vendorVO) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	public static void main(String[] args) {
+			VendorDAO_interface vDAO = new VendorJDBCDAO();
+			
+			//新增
+			VendorVO vVO = new VendorVO();
+			
+			vVO.setV_account("xxxzzzcc");
+			vVO.setV_pwd("000000");
+			vVO.setV_mail("yourmom@gmail.com");
+			vVO.setV_tel("11223344");
+			vVO.setV_n_code("02");
+			vVO.setV_ad_code("300");
+			vVO.setV_address1("台北市");
+			vVO.setV_address2("信義區");
+			vVO.setV_address3("中正路10號");
+			vVO.setV_name("墨賞鐵板燒");
+			vVO.setV_pic(null);
+			
+	//		vVO.setVendor_no("V000003");
+	//		rm.setMenu_name("宇宙大燒賣");
+	//		rm.setMenu_price("2050");
+	// 		rm.setMenu_pic(null);
+	// 		rm.setMenu_stat(1);		
+	// 		rm.setMenu_text("居然包了一整頭豬在裡面啊");		
+	 		
+			vDAO.create(vVO);	
+	
+			// 單筆查詢
+			// System.out.println(vDAO.findByPrimaryKey("V000005"));
+	
+			// 查詢全部
+	//		 List<VendorVO> vlist = new ArrayList<>();
+	//		 vlist = vDAO.getAll();
+	//		 for (VendorVO v : vlist) {
+	//		 System.out.println(v);
+	//		 }
+	
+			// 新增
+			// VendorVo v2 = new VendorVo("leg0543088", "leg0543088",
+			// "leg0543088@gmail.com", "2165788", "08", "881", "高雄市8",
+			// "前金區8", "新田路2078號", "159843152381", "辣癮食尚麻辣火鍋8", "1300", "1700", "0101010",
+			// "6", "4");
+			//
+			// vDAO.insert(v2);
+	
+			// 刪除
+			// vDAO.delete("V000006");
+	
+			// 更新
+	//		VendorVO v3 = new VendorVO("leg0543088", "leg0543089", "2165789", "09", "666", "高雄9市", "前金9區", "新田路278號",
+	//				"15984312381", "火鍋8", "1309", "1709", "0101011", "3", "5");
+	//		vDAO.update(v3);
+		}
 
 }

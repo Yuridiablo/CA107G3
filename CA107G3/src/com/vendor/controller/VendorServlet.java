@@ -3,6 +3,7 @@ package com.vendor.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -205,7 +206,8 @@ public class VendorServlet extends HttpServlet {
 							for (int length = 0; (length = in.read(v_pic)) > 0;)
 								output.write(v_pic, 0, length);
 						} else {
-							errorMsgs.add("圖片請勿空白");
+							System.out.println("提醒：該廠商註冊時沒有選擇圖片");
+//							errorMsgs.add("圖片請勿空白");
 
 						}
 					}
@@ -226,7 +228,7 @@ public class VendorServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("vVO", vVO); // 含有輸入格式錯誤的VO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/Restaurant_Menu/addMenu.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/Vendor/addVendor.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -603,6 +605,72 @@ public class VendorServlet extends HttpServlet {
 				}
 			
 			}
+		
+		if ("listStatus".equals(action)) {
+
+			
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+//				VendorVO vVO = (VendorVO) se.getAttribute("vVO");
+				VendorService vSvc = new VendorService();
+				
+				List<VendorVO> vlistConfirm = vSvc.getAll();
+				
+				req.setAttribute("vlistConfirm", vlistConfirm);
+			
+				/*************************** 2.開始查詢資料 ****************************************/
+		
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				// 要改成員工主頁面
+				String url = "/Vendor/mainVendor.jsp";
+//				res.sendRedirect(url);
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+				successView.forward(req, res);
+	
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		}
+		
+		if ("ajaxUpStatus".equals(action)) {
+//			HttpSession se = req.getSession();
+		
+			String vendor_no = req.getParameter("vendor_no");
+			String v_status = req.getParameter("status");
+			JSONObject jobj = new JSONObject();
+			
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+//				VendorVO vVO = (VendorVO) se.getAttribute("vVO");
+				VendorService vSvc = new VendorService();
+				vSvc.upStatus(v_status, vendor_no);
+				
+				jobj.accumulate("ok", "已同意申請");
+				jobj.accumulate("notok", "已婉拒申請");
+				/*************************** 2.開始查詢資料 ****************************************/
+				res.setContentType("text/plain");
+				res.setCharacterEncoding("UTF-8");
+				
+				PrintWriter out = res.getWriter();
+				out.write(jobj.toString());
+				out.flush();
+				out.close();
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				// 要改成員工主頁面
+//				String url = "/Vendor/mainVendor.jsp";
+//				res.sendRedirect(url);
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+//				successView.forward(req, res);
+	
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		}
+		
 		
 		
 		if ("upVendor".equals(action)) {

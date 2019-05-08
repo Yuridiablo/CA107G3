@@ -77,6 +77,8 @@ public class ShowImg extends HttpServlet {
 			if (rs.next()) {
 				
 				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream(picName));
+			
+				
 				byte[] buf = new byte[4 * 1024]; // 4K buffer
 				int len;
 				while ((len = in.read(buf)) != -1) {
